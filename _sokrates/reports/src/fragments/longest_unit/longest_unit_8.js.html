@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">function()</h3>
+<p style="margin-top: 4px">in <i>config/passport.js [9:27]</i></p>
+<ul>
+    <li><b>16</b> lines of code</li>
+    <li><b>4</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+  function(username, password, done) {
+    User.findOne({ email: username }, function (err, user) {
+      if (err) { return done(err); }
+      // Return if user not found in database
+      if (!user) {
+        return done(null, false, {
+          message: 'User not found'
+        });
+      }
+      // Return if password is wrong
+      if (!user.validPassword(password)) {
+        return done(null, false, {
+          message: 'Password is wrong'
+        });
+      }
+      // If credentials are correct, return the user object
+      return done(null, user);
+    });
+  }
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

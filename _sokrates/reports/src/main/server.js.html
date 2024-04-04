@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title>server.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">server.js (<b>73</b> lines of code) (<a href="server.js">raw</a>):</h3>
+<div id="editor">const express = require('express'),
+     path = require('path'),
+    
+    bodyParser = require('body-parser'),
+    cors = require('cors'),
+    mongoose = require('mongoose'),
+    config = require('./DB');
+    var passport = require('passport');
+    const app = require('express')();
+    //const https = require('https');
+    //const fs = require('fs');
+    app.use(express.static(path.join(__dirname, '/')));
+    const port = process.env.PORT || 4000;
+   
+    mongoose.Promise = global.Promise;
+    mongoose.connect(config.DB, { useNewUrlParser: true, useUnifiedTopology: true }).then(
+        () =&gt; {console.log('Database is connected') },
+        err =&gt; { console.log('Can not connect to the database'+ err)}
+        );
+
+     
+        require('./models/Affaire');
+        require('./models/Utilisateur');
+        require('./models/Stock');
+        require('./models/Service');
+        require('./models/Levele');      
+      require('./models/Projet');
+        require('./models/Activiter');
+        require('./models/User');
+       
+        require('./models/Passport');
+        require('./models/Relation');
+        require('./models/Pointage');
+        require('./models/Agrega');
+        require('./models/Vaccination');
+        require('./models/Commande');
+        require('./models/Distributeur');
+        require('./models/Produit');
+        require('./models/Favorie');
+         require('./models/Carte');
+        require('./models/Commande');
+        require('./models/client');
+        require('./models/Transporte');
+        require('./models/Zone');
+        require('./models/Categorie');
+        require('./models/pays');
+        require('./models/region');
+        require('./models/commune');
+        require('./models/Camion');
+        require('./models/Position');
+          const categorieRoutes = require('./routes/categorie.route');
+        const userRoutes = require('./routes/user.route');
+       
+        const projetRoutes = require('./routes/projet.route');
+        const pointageRoutes = require('./routes/pointage.route');
+        const produitRoutes = require('./routes/produit.route');
+        const zoneRoutes = require('./routes/zone.route');
+        const commandeRoutes = require('./routes/commande.route');
+
+    app.use(function (err, req, res, next) {
+        if (err.name === 'UnauthorizedError') {
+            res.status(401);
+            res.json({&quot;message&quot; : err.name + &quot;: &quot; + err.message});
+        }
+    });
+
+    app.use(bodyParser.json());
+    app.use(cors());
+    app.use('/users', userRoutes);
+    app.use('/chantiers', projetRoutes);
+ 
+  
+    app.use('/pointages', pointageRoutes);
+    app.use('/categories', categorieRoutes); 
+    app.use('/produits', produitRoutes);
+    app.use('/zones', zoneRoutes);
+    app.use('/commandes', commandeRoutes);
+    require('./config/passport');
+    // const dotenv = require(&quot;dotenv&quot;);
+    require(&quot;dotenv&quot;).config();
+    app.use(passport.initialize());
+
+    
+   // const http = require('http').Server(app);
+    //const io = require('socket.io')(http);
+    
+    
+
+    const server = app.listen(port, function(){
+     console.log('Listening on port ' + port);
+     var io = require('socket.io').listen(server);
+     app.set('io', io);
+    });  //SEERVEUR VPS
+    
+    
+    //Add the below statement to your controller code
+   
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

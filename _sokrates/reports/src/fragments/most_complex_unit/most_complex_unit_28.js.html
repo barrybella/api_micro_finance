@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>module.exports.updateStatutCommande = function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">module.exports.updateStatutCommande = function()</h3>
+<p style="margin-top: 4px">in <i>controllers/statutProduitCommande.js [94:100]</i></p>
+<ul>
+    <li><b>5</b> lines of code</li>
+    <li><b>1</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+module.exports.updateStatutCommande = function(req, res){
+  StatutCommand.updateOne({_id: req.body.id}, {...req.body}, {_id: req.body.id})
+  .then(()=&gt; res.status(200).json({message: &quot;Le statut a &eacute;t&eacute; modifi&eacute; avec succes&quot;}))
+  .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

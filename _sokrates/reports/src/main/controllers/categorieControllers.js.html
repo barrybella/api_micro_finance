@@ -1,0 +1,332 @@
+<html>
+<head>
+    <title>controllers/categorieControllers.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/categorieControllers.js (<b>240</b> lines of code) (<a href="categorieControllers.js">raw</a>):</h3>
+<div id="editor">var Produit = require('../models/Agrega');
+var Categorie = require('../models/Categorie');
+const Vaccination = require('../models/Vaccination');
+const Blog = require('../models/Bloge');
+const Passport = require('../models/Passport');
+
+
+
+
+
+module.exports.getPaginatedPassport = async function(req, res){
+
+    const { page = req.params.page, limit = 5} = req.query;
+  
+    try{
+        const options={
+            page: page,
+            limit: limit
+        }
+       
+        // let produit = await Produit.find({&quot;delete&quot;: 0, &quot;distributeur_id&quot;: req.params.user_id}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+        const produit = await Passport.paginate({&quot;delete&quot;: 0}, options);
+        console.log(&quot;barry&quot;,produit)
+        if (produit) {
+            return res.status(200).json(produit);
+             }
+            else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.addPassport = async function(req, res){
+    console.log(&quot;bella&quot;,req.body);
+    try{
+      
+        let passport = Passport.insertMany(req.body);
+       console.log(&quot;data&quot;,passport);
+         if (passport) {
+            return res.status(200).json(passport);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getPaginatedCategorie = async function(req, res){
+    const { page = req.params.page, limit = 10 } = req.query;
+    console.log(req.params.page)
+    try{
+      const categorie = await Categorie.paginate({&quot;delete&quot;: 0}, { page, limit });
+        // let categorie = await Categorie.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1});
+         if (categorie) {
+
+           
+      return res.status(200).json(categorie);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+module.exports.addBlog = async function(req, res){
+  try{
+      let categorie = Blog.insertMany(req.body);
+           console.log(&quot;groupe&quot;,req.body);
+       if (categorie) {
+
+          return res.status(200).json(categorie);
+      } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+  } catch (error) {
+      return res.status(500).send(new Error('Server Error...'))
+  }
+}
+
+module.exports.updateBlog = async function(req, res){
+  let id = req.params.id;
+   try{
+       let categorie = await Blog.find({&quot;_id&quot;: id});
+
+       categorie[0].titre = req.body.titre;
+       categorie[0].description = req.body.description;
+       categorie[0].image = req.body.image;
+      categorie[0].distributeur_id = req.body.distributeur_id;
+
+       categorie[0].save();
+
+       if  (categorie[0]) {
+           return res.status(200).json(categorie[0]);
+       } else {
+           return res.status(404).send(new Error('Erreur 404...'))
+       }
+   } catch (error) {
+       return res.status(500).send(new Error('Server Error...'))
+   }
+}
+
+
+module.exports.getBlogById = async function(req, res){
+   let id =req.params.id;   
+ try{
+ //       let id =req.params.id;
+        
+        let categorie = await Blog.find({&quot;_id&quot;: id}).sort({&quot;createdAt&quot;: -1});
+         if (categorie) {
+
+           console.log(&quot;donnee&quot;,categorie);
+      return res.status(200).json(categorie);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.deleteBlog = async function(req, res){
+  id = req.params.id;
+  try{
+      let categorie = await Blog.remove({&quot;_id&quot;: id});
+
+      
+
+      if (categorie) {
+          return res.status(200).json(categorie);
+      } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+  } catch (error) {
+      return res.status(500).send(new Error('Server Error...'))
+  }
+}
+module.exports.getBlog = async function(req, res){
+  try{
+
+
+      let categorie = await Blog.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1});
+       if (categorie) {
+
+         console.log(&quot;donnee&quot;,categorie);
+    return res.status(200).json(categorie);
+           } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+  } catch (error) {
+      return res.status(500).send(new Error('Server Error...'))
+  }
+}
+
+
+
+
+
+
+
+
+
+
+module.exports.addCategorie = async function(req, res){
+    try{
+        let categorie = Categorie.insertMany(req.body);
+             console.log(&quot;groupe&quot;,req.body);
+         if (categorie) {
+            return res.status(200).json(categorie);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.updateCategorie = async function(req, res){
+    let id = req.params.id;
+     try{
+         let categorie = await Categorie.find({&quot;_id&quot;: id});
+        
+         categorie[0].nom = req.body.nom;
+         categorie[0].variation = req.body.variation;        
+         categorie[0].image = req.body.image;
+        categorie[0].distributeur_id = req.body.distributeur_id;
+         
+         categorie[0].save();
+ 
+         if  (categorie[0]) {
+             return res.status(200).json(categorie[0]);
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+
+module.exports.deleteCategorie = async function(req, res){
+    id = req.params.id;
+    try{
+        let categorie = await Categorie.find({&quot;_id&quot;: id});
+
+        categorie[0].delete = 1;
+        categorie[0].save();
+
+        if (categorie[0]) {
+            return res.status(200).json(categorie[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.getCategorie = async function(req, res){
+    try{
+        
+        
+        let categorie = await Categorie.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1});
+         if (categorie) {
+
+           console.log(&quot;donnee&quot;,categorie);
+      return res.status(200).json(categorie);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getAllCategorie = async function(req, res){
+    try{
+
+
+        let categorie = await Categorie.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1});
+         if (categorie) {
+
+           console.log(&quot;donnee&quot;,categorie);
+      return res.status(200).json(categorie);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getCategories = async function(req, res){
+    try{
+        let id =req.params.id;
+        
+        let categorie = await Categorie.find({&quot;_id&quot;: id}).sort({&quot;createdAt&quot;: -1});
+         if (categorie) {
+
+           console.log(&quot;donnee&quot;,categorie);
+      return res.status(200).json(categorie[0]);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.echantillon = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0});
+          produit[0].echantillon = 1;
+          produit[0].save();
+         if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.Activechantillon = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0});
+        produit[0].echantillon = 0;
+        produit[0].save();
+         if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

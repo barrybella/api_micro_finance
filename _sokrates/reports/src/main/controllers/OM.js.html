@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>controllers/OM.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/OM.js (<b>39</b> lines of code) (<a href="OM.js">raw</a>):</h3>
+<div id="editor">module.exports = (orangeApiOptions)=&gt;{
+    return new Promise((resolve)=&gt;{
+         const request = require('request');
+       const getToken = require('./TokenOM.js')(orangeApiOptions.authorization_header);
+             getToken.then((response)=&gt;{
+               const headers = {
+                 'Authorization': `Bearer ${response}`,
+                 'Content-Type': 'application/json',
+                 'Accept': 'application/json'};
+
+             
+               const body = { 
+                merchant_key : `${orangeApiOptions.merchant_key}`, 
+                  currency : `${orangeApiOptions.currency}`,
+                  order_id:`${orangeApiOptions.order_id}`,
+                  amount:`${orangeApiOptions.amount}`,
+                  return_url:`${orangeApiOptions.return_url}`,
+                  cancel_url:`${orangeApiOptions.cancel_url}`,
+                  notif_url:`${orangeApiOptions.notif_url}`,
+                  lang:`${orangeApiOptions.lang}`,
+                 reference:`${orangeApiOptions.reference}`
+           
+           };   
+               const options = {
+               //   uri: `https://api.orange.com/orange-money-webpay/cm/v1/webpayment/${orangeApiOptions.marchant_key}&amp;${orangeApiOptions.currency}&amp;${orangeApiOptions.order_id}&amp;${orangeApiOptions.amount}&amp;${orangeApiOptions.currency}&amp;${orangeApiOptions.return_url}&amp;${orangeApiOptions.cancel_url}&amp;${orangeApiOptions.notif_url}&amp;${orangeApiOptions.lang}&amp;${orangeApiOptions.reference}`,
+                 uri: 'https://api.orange.com/orange-money-webpay/gn/v1/webpayment',
+                  method: 'POST',
+                  headers: headers,
+                  body: JSON.stringify(body)};
+
+                  
+               const sendSmsRequest = request(options, (error, response, body)=&gt; {
+                 if (!error &amp;&amp; response.statusCode == 201) {
+                   //resolve({payement:'payement effectuer '});
+                   console.log(body)
+                   //return response.JSON.stringify(body);
+                   return  response(body);
+                 }else {
+                   resolve({payement:response.statusCode});
+                   console.log(body);
+                 }
+               });
+             }).catch((error)=&gt;{ 
+               console.log(error.body);
+             });
+    });
+  }</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

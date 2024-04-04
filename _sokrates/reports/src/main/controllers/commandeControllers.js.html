@@ -1,0 +1,3163 @@
+<html>
+<head>
+    <title>controllers/commandeControllers.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/commandeControllers.js (<b>2,495</b> lines of code) (<a href="commandeControllers.js">raw</a>):</h3>
+<div id="editor">
+const Produit = require('../models/Agrega');
+const User = require('../models/User');
+const Mise = require('../models/Mise')
+const Stock = require('../models/Stock');
+const Carte = require('../models/Carte');
+
+
+const Position= require(&quot;../models/Position&quot;)
+
+const Commande = require('../models/Commande');
+
+module.exports.getCommandTraiteForBankitruck = async function(req, res){
+    
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            },
+            sort:{
+                createdAt: '-1'
+            }
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:1}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+ module.exports.commandeCount = async function(req, res){
+    try{
+        let commandeEncours=  await Commande.find({&quot;status&quot;:0, &quot;client_id&quot;: req.body.client_id})
+        let commandeTraitees=  await Commande.find({&quot;status&quot;:1, &quot;client_id&quot;: req.body.client_id})
+        // let nombreStock =  await Stock.count({&quot;delete&quot;:0, &quot;fournisseur_id&quot;: user_id})
+        if (commandeEncours &amp;&amp; commandeTraitees) {
+                 return res.status(200).json({commandeEncour: commandeEncours.length, commandeTraitees: commandeTraitees.length});
+            } 
+             else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.paginatedCommandeAttenteForBankitruck = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            },
+            sort: {
+                createdAt: '-1'
+            }
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:0}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+
+module.exports.rejeterProduit = async function(req, res){
+    let idPanier = req.params.id;
+    let valider = &quot;rejeter&quot;;
+    let idCommande = req.params.idCommande;
+   
+
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: idCommande});
+        
+        commande[0].panier.forEach(result =&gt; {
+            if(result._id == id){
+                result.approuve = valider,
+                result.save();
+            }
+           
+         });
+         commande[0].save();
+         
+   
+         let commandes = await Commande.find({&quot;status&quot;: 0,&quot;_id&quot;: idCommande}).sort({&quot;createdAt&quot;: -1});
+         console.log(&quot;commande avant&quot;,commandes);
+         commandes[0].panier.forEach(resulte =&gt; {
+          if(resulte._id == idPanier){
+              resulte.approuve = 2;
+            
+           }
+        })
+        commandes[0].save();
+        setTimeout(async () =&gt; {
+          let commande = await Commande.find({&quot;status&quot;: 0,&quot;_id&quot;: id_commande}).sort({&quot;createdAt&quot;: -1});
+             console.log(&quot;commande livrer&quot;,commande);
+             commande[0].panier.forEach(resulte =&gt; {
+              if(resulte.approuve == 0){
+                commande[0].status = 0;
+                
+               }else if(resulte.approuve == 1){
+                 commande[0].status = 0;
+                 
+                }else if(resulte.approuve == 2){
+                 commande[0].status = 1;
+                 
+                }
+               else { 
+                  commande[0].status = 1;
+               }
+            })
+            commande[0].save();
+          
+      }, 3500);
+  
+  
+
+
+
+
+
+
+
+
+
+
+         if (commande[0]) {
+           
+            return res.status(200).json( commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.validerProduit = async function(req, res){
+    let id = req.params.id;
+    let valider = &quot;valider&quot;;
+    let idCommande = req.params.idCommande;
+   
+
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: idCommande});
+        console.log(&quot;avis&quot;,req.params.id)
+        console.log(&quot;avis ii&quot;, commande)
+        commande[0].panier.forEach(result =&gt; {
+            if(result._id == id){
+                result.approuve = valider,
+                result.save();
+            }
+           
+         });
+         commande[0].save();
+         if (commande[0]) {
+           
+            return res.status(200).json( commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.updateStock = async function(req, res){
+    let id = req.params.id;
+    try{
+        let stock = await Stock.find({&quot;_id&quot;: id});
+      
+        stock[0].quantite = req.body.quantite;
+        stock[0].prix = req.body.prix;
+        stock[0].produit_id = req.body.produit_id;
+        stock[0].fournisseur_id = req.body.fournisseur_id;
+
+        stock[0].save();
+
+  
+         if (stock[0]) {
+           
+            return res.status(200).json( stock[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.StockById = async function(req, res){
+    let id = req.params.id;
+    try{
+        let stock = await Stock.find({&quot;_id&quot;: id});
+
+         if (stock) {
+            return res.status(200).json(stock);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.deleteStock = async function(req, res){
+    let id = req.params.id;
+    try{
+        let zone = await Stock.remove({&quot;_id&quot;: id});
+
+         if (zone) {
+            return res.status(200).json(zone);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+
+ module.exports.AllCommandeTraiteByCarte = async function(req, res){
+    let id = req.params.id;
+   // console.log(&quot;moi&quot;,user);
+//  let em = &quot;AD&quot;;
+     try{
+               //  let carte = await Carte.find({&quot;_id&quot;: id,&quot;active&quot;:1}).sort({&quot;createdAt&quot;: -1});
+
+         let commandes = await Commande.find({&quot;identifiant&quot;:id,&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:7}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+ console.log(commandes);
+          if (commandes) {
+
+             return res.status(200).json(commandes);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+ module.exports.AllCommandeTraiteByDistributeur = async function(req, res){
+    let id = req.params.id;
+   // console.log(&quot;moi&quot;,user);
+//  let em = &quot;AD&quot;;
+     try{
+               //  let carte = await Carte.find({&quot;_id&quot;: id,&quot;active&quot;:1}).sort({&quot;createdAt&quot;: -1});
+
+         let commandes = await Commande.find({&quot;client_id&quot;:id,&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:7}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+ console.log(commandes);
+          if (commandes) {
+
+             return res.status(200).json(commandes);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+
+
+ module.exports.AllCommandeTraiteSC = async function(req, res){
+//    let user=req.payload._id;
+   // console.log(&quot;moi&quot;,user);
+  let em = &quot;AD&quot;;
+     try{
+            //   let carte = await Carte.find({&quot;embassadeur&quot;: em}).sort({&quot;createdAt&quot;: -1});
+
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:7,&quot;identifiant&quot;:0}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+ console.log(commandes);
+          if (commandes) {
+
+             return res.status(200).json(commandes);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+ module.exports.AllCommandeTraiteAD = async function(req, res){
+//    let user=req.payload._id;
+   // console.log(&quot;moi&quot;,user);
+  let em = &quot;AD&quot;;
+     try{
+              let carte = await Carte.find({&quot;embassadeur&quot;: em}).sort({&quot;createdAt&quot;: -1});
+
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:7}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+
+         
+  
+
+
+            var tab = [];
+                         
+                   
+
+
+
+     
+ console.log(commandes);
+          if (commandes) {
+
+             return res.status(200).json(tab);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+module.exports.AllCommandeRejeter= async function(req, res){
+    let user=req.payload._id;
+    console.log(&quot;moi&quot;,user);
+     try{
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:1,&quot;rejeter&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+ 
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+module.exports.AllCommandeTel = async function(req, res){
+    let user=req.params.telephone;
+    console.log(&quot;moi&quot;,user);
+     try{
+         let commandes = await Commande.find({&quot;telephone&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+
+          if (commandes) {
+
+             return res.status(200).json(commandes);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+module.exports.allStockFournisseur = async function(req, res){
+   
+    let id = req.params.id;
+    try{
+        
+        let stock = await Stock.find({&quot;delete&quot;:0,&quot;client_id&quot;:id}).sort({&quot;createdAt&quot;: -1}).populate('produit_id').populate('client_id');
+       // console.log('bella',stock);
+         if (stock ) {
+          
+            return res.status(200).json(stock);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.deleteCommande = async function(req, res){
+    let id =req.body.id;
+    let commentaire = req.body.commentaire;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id});
+        commande[0].delete = 1;
+        commande[0].rejeter = 1;
+        commande[0].commentaire_rejeter = commentaire;
+        commande[0].save();
+         console.log(&quot;bella&quot;,commande[0]);
+         if (commande[0]) {
+            return res.status(200).json(commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.ListeCommission = async function(req, res){
+    //let id = req.params.id;
+    try{
+        
+        let options = { year: 'numeric', month: 'numeric' };
+        let today  = new Date();
+       let da = today.toLocaleDateString(&quot;fr-FR&quot;, options);
+       let commande = await Commande.find({&quot;delete&quot;:0,&quot;status_relation&quot; : 2,&quot;status&quot; : 7,&quot;date_commission&quot;:da}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate('zone_id').populate({
+        path: &quot;produit_id&quot;, 
+        populate: {
+           path: &quot;categorie_id&quot; 
+        }
+       });
+   
+         if(commande)
+         {
+           
+          return res.status(200).json(commande);
+          
+         }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.CommissionListe = async function(req, res){
+    //let id = req.params.id;
+    try{
+        
+        let options = { year: 'numeric', month: 'numeric' };
+        let today  = new Date();
+       let da = today.toLocaleDateString(&quot;fr-FR&quot;, options);
+       
+       const commande = await Commande.aggregate([
+        // Stage 1: Filter pizza order documents by pizza size
+        { 
+           $match : { delete : 0 ,status_relation : 2,status : 7,date_commission : da}
+        },
+        // Stage 2: Group remaining documents by pizza name and calculate total quantity
+        {
+           $group: { _id: &quot;$date_commission&quot;, totalCommission: { $sum: &quot;$benefice&quot; } }
+        }
+     ] );
+   
+         if(commande)
+         {
+            const yourData = JSON.stringify(commande);
+            const your = JSON.parse(yourData);
+               console.log(&quot;commande&quot;,your);
+          return res.status(200).json(your);
+          
+         }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.commission = async function(req, res){
+    //let id = req.params.id;
+    try{        
+        let options = { year: 'numeric', month: 'numeric' };
+        let today  = new Date();
+       let da = today.toLocaleDateString(&quot;fr-FR&quot;, options);
+      
+       const commande = await Commande.aggregate([
+        // Stage 1: Filter pizza order documents by pizza size
+        { 
+           $match : { delete : 0 ,status_relation : 2,status : 7}
+        },
+        // Stage 2: Group remaining documents by pizza name and calculate total quantity
+        {
+           $group: { _id: &quot;$date_commission&quot;, totalCommission: { $sum: &quot;$benefice&quot; } }
+        }
+     ] );
+   
+         if(commande)
+         {
+            const yourData = JSON.stringify(commande);
+            const your = JSON.parse(yourData);
+               console.log(&quot;commande&quot;,your);
+          return res.status(200).json(your);
+          
+         }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.redicat = async function(req, res){
+    try{
+
+        let options = { year: 'numeric', month: 'numeric' };
+        let today  = new Date();
+       let date=today.toLocaleDateString(&quot;fr-FR&quot;, options);
+
+       // let stock = Stock.insertMany(req.body);
+       let id = req.body.id;
+       let montant = req.body.montant;
+       let commande = await Commande.find({&quot;delete&quot;:0,&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1});
+       commande[0].avance_payement = commande[0].avance_payement + montant;
+       commande[0].reste_payer_fournisseur = commande[0].redicat - commande[0].avance_payement
+       commande[0].save();
+       
+    
+        if(commande[0].reste_payer_fournisseur == 0){
+            let commandes = await Commande.find({&quot;delete&quot;:0,&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1});
+             commandes[0].benefice = commandes[0].montantTotal - commande[0].redicat ;
+             commandes[0].date_commission = date;
+             commandes[0].save();
+          }
+         if (commande[0]) {
+          
+            return res.status(200).json(commande[0]);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.avanceClient = async function(req, res){
+
+   
+    try{
+        
+      // let stock = Stock.insertMany(req.body);
+       let id = req.body.id;
+       let montant = req.body.montant;
+       let commande = await Commande.find({&quot;delete&quot;:0,&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1});
+          commande[0].client_avance = commande[0].client_avance + montant;
+          commande[0].client_reste_payer = commande[0].montantTotal - commande[0].client_avance;
+          commande[0].save();
+       console.log(&quot;commande&quot;,commande[0]);
+         if (commande[0]) {
+          
+            return res.status(200).json(commande[0]);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.avance = async function(req, res){
+    try{
+       // let stock = Stock.insertMany(req.body);
+       let id = req.body.id;
+       let montant = req.body.montant;
+       let commande = await Commande.find({&quot;delete&quot;:0,&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1});
+          commande[0].avance_payement = commande[0].avance_payement + montant;
+          commande[0].reste_payer_fournisseur = commande[0].redicat - commande[0].avance_payement
+          commande[0].save();
+       
+         if (commande[0]) {
+          
+            return res.status(200).json(commande[0]);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.addAprovisonement = async function(req, res){
+    try{
+       // let stock = Stock.insertMany(req.body);
+       let id_stock = req.body.stock_id;
+       let quantite = req.body.quantite;
+       let stock = await Stock.find({&quot;delete&quot;:0,&quot;_id&quot;:id_stock}).sort({&quot;createdAt&quot;: -1}).populate('produit_id').populate('client_id');
+          stock[0].quantite = stock[0].quantite + quantite;
+          stock[0].save();
+        console.log('bella barry',req.body);
+         if (stock[0]) {
+          
+            return res.status(200).json(stock[0]);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.addStock = async function(req, res){
+    try{
+        let stock = Stock.insertMany(req.body);
+       
+        console.log('bella barry',req.body);
+         if (stock ) {
+          
+            return res.status(200).json(stock );
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.allStockDisponible = async function(req, res){
+    try{
+        
+        let stock = await Stock.find({&quot;delete&quot;:0}).sort({&quot;createdAt&quot;: -1}).populate('fournisseur_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+
+       
+       // console.log('bella',stock);
+         if (stock ) {
+          
+            return res.status(200).json(stock);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.countStock = async function(req, res){
+    let user_id= req.params.user_id
+    try{
+        let stock=  await Stock.find({&quot;delete&quot;:0, &quot;fournisseur_id&quot;: user_id})
+        console.log(&quot;le stock&quot;,stock)
+
+        // let nombreStock =  await Stock.count({&quot;delete&quot;:0, &quot;fournisseur_id&quot;: user_id})
+        if (stock) {
+            let nombreStock =  stock.length
+            console.log(&quot;nombre de stock&quot;, nombreStock)
+                 return res.status(200).json(nombreStock);
+            } 
+             else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+
+module.exports.allStockTotal = async function(req, res){
+    
+   // const { page = req.params.page, limit = 10 } = req.query;
+   
+    try{
+    //  const stocks = await Stock.paginate({}, { page, limit });
+
+        let stock = await Stock.find({&quot;delete&quot;:0}).sort({&quot;createdAt&quot;: -1}).populate('fournisseur_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+         if (stock ) {
+          
+            return res.status(200).json(stock);
+            // return res.status(200).json(stocks);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.allPaginatedStock = async function(req, res){
+    const { page = req.params.page, limit = 10 } = req.query;
+
+    let user_id = req.payload._id;
+console.log(&quot;utilisateur&quot;,user_id);
+    const options={
+        page: page,
+        limit: limit,
+        populate:{
+            path: 'fournisseur_id'
+        },
+        populate:{
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+        },
+         sort:{
+             &quot;createdAt&quot;: -1
+         }
+    }
+   
+    try{
+        let stock = await Stock.paginate({&quot;fournisseur_id&quot;:user_id}, options)
+        console.log(&quot;utilisateur&quot;,stock);
+
+         if (stock) {
+          
+            return res.status(200).json(stock);
+            // return res.status(200).json(stocks);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.allStock = async function(req, res){
+    let user_id= req.params.user_id
+   // const { page = req.params.page, limit = 10 } = req.query;
+   
+    try{
+    //  const stocks = await Stock.paginate({}, { page, limit });
+
+        let stock = await Stock.find({&quot;delete&quot;:0, &quot;user_id&quot;: user_id}).sort({&quot;createdAt&quot;: -1}).populate('fournisseur_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+         if (stock ) {
+          
+            return res.status(200).json(stock);
+            // return res.status(200).json(stocks);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.chercherUneCommandeParSaReference = async function(req, res){
+    //Declaration et suppression de tous les blancs dans la r&eacute;f&eacute;rence
+    let reference= req.body.reference.trim()
+    try{
+        // let commandes = await Commande.paginate({&quot;status&quot;:0}, options).sort({&quot;createdAt&quot;: -1})
+        let commandes = await Commande.find({&quot;refrence&quot;:reference})
+        console.log(commandes)
+        if (commandes) {
+                return res.status(200).json(commandes);
+        }
+        else {
+            commandes=[]
+            return res.status(200).json(commandes);
+            // return res.status(404).send(new Error('Erreur 404...'))
+        }
+        }
+    catch (error) {
+      return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.listeCommandeByidUser = async function(req, res){
+    var user_id = req.params.user_id;
+    try{
+        let commande = await Commande.find({&quot;user_id&quot;: user_id}).sort({&quot;createdAt&quot;: -1}).limit(1);
+
+         if (commande) {
+
+            return res.status(200).json(commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))    }
+}
+
+
+module.exports.getAllCommandeStatusDifferentZeroByUserId = async function(req, res){
+    var user_id = req.params.user_id;
+    try{
+        let commandes = await Commande.find({&quot;user_id&quot;: user_id, &quot;status&quot;: {$ne: 0}}).sort({&quot;createdAt&quot;: -1}).populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+
+         if (commandes) {
+            return res.status(200).json(commandes);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.livrerProduit = async function(req, res){
+
+    try{
+       let id_commande = req.params.id_commande;
+       let id_panier = req.params.id;
+       let commandes = await Commande.find({&quot;status&quot;: 0,&quot;_id&quot;: id_commande}).sort({&quot;createdAt&quot;: -1});
+       console.log(&quot;commande avant&quot;,commandes);
+       commandes[0].panier.forEach(resulte =&gt; {
+        if(resulte._id == id_panier){
+            resulte.status = 1;
+          
+         }
+      })
+      commandes[0].save();
+      setTimeout(async () =&gt; {
+        let commande = await Commande.find({&quot;status&quot;: 0,&quot;_id&quot;: id_commande}).sort({&quot;createdAt&quot;: -1});
+           console.log(&quot;commande livrer&quot;,commande);
+           commande[0].panier.forEach(resulte =&gt; {
+            if(resulte.status == 0){
+              commande[0].status = 0;
+              
+             }else { 
+                commande[0].status = 1;
+             }
+          })
+          commande[0].save();
+        
+    }, 3500);
+
+
+
+
+     
+         if (commandes) {
+          
+            return res.status(200).json(commandes);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.commandesTraiteesByDistributeur = async function(req, res){
+    try{
+       let userId= req.params.id
+       let commandes = await Commande.find({&quot;status&quot;: 1,&quot;user_id&quot;: userId}).sort({&quot;createdAt&quot;: -1}).populate('user_id').populate({
+        path: &quot;panier.produit_id&quot;, 
+        populate: {
+           path: &quot;categorie_id&quot; 
+        },
+        
+       }).populate ({
+           path: &quot;panier.zone_id&quot;, 
+           populate: {
+              path: &quot;commune_id&quot; 
+           }, 
+        });
+
+         if (commandes) {
+          
+            return res.status(200).json(commandes);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+module.exports.AllCommandeAttenteLivraisons = async function(req, res){
+    let id = 0;
+     try{
+         let commandes = await Commande.find({&quot;status&quot;:id}).sort({&quot;createdAt&quot;: -1}).populate('user_id').populate({
+             path: &quot;panier.produit_id&quot;, 
+             populate: {
+                path: &quot;categorie_id&quot; 
+             },
+             
+            }).populate ({
+                path: &quot;panier.zone_id&quot;, 
+                populate: {
+                   path: &quot;commune_id&quot; 
+                }, 
+             })
+             ;
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ 
+ module.exports.PaginatedCommandeAttenteDistributeurTraite = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            }
+        }
+        //  let commandes = await Commande.paginate({&quot;status&quot;:0}, options).sort({&quot;createdAt&quot;: -1})
+        let commandes = await Commande.paginate({&quot;status&quot;:1}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+  
+ }
+ module.exports.paginatedCommandeAttenteForDistributeurBank = async function(req, res){
+    
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            }
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:0,&quot;societe&quot;:req.params.id}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+ module.exports.paginatedCommandeAttenteForDistributeur = async function(req, res){
+    
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            }
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:0}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.paginatedCommandeTraiteForDistributeurBank = async function(req, res){
+    
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            }
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:1,&quot;societe&quot;:req.params.id}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.paginatedCommandeTraiteForDistributeurBanki = async function(req, res){
+    
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            }
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:1}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+ module.exports.paginatedCommandeAttenteForDistributeurBanque = async function(req, res){
+    
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'client_id'
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+                 
+            },
+            sort:{
+                createdAt: '-1'
+            },
+        }
+
+        let commandes = await Commande.paginate({&quot;status&quot;:0,&quot;user_id&quot;:req.params.id}, options)
+         console.log(&quot;barry 00 &quot;,commandes)
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+
+ 
+ module.exports.paginatedCommandeTraiteForDistributeurBanki = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            },
+            sort:{
+                'createdAt': -1
+            }
+            
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:1}, options)
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+  
+ }
+ module.exports.paginatedCommandeTraiteForDistributeur = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            },
+            sort:{
+                'createdAt': -1
+            }
+            
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:1,&quot;user_id&quot;:req.params.id}, options)
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+  
+ }
+
+ module.exports.paginatedCommandeAllTraiteForDistributeur = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            },
+            sort:{
+                'createdAt': -1
+            }
+            
+        }
+        let commandes = await Commande.paginate({&quot;status&quot;:1,&quot;user_id&quot;:req.params.id}, options)
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+  
+ }
+
+ module.exports.PaginatedAllCommandeTraiteLivraisons = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'user_id'
+            },
+            populate:{
+                path: 'panier.produit_id',
+                populate: {
+                    path: &quot;categorie_id&quot; 
+                 },
+            },
+            populate:{
+                path: 'panier.zone_id',
+                populate: {
+                    path: &quot;commune_id&quot; 
+                 },
+            }
+        }
+        //  let commandes = await Commande.paginate({&quot;status&quot;:0}, options).sort({&quot;createdAt&quot;: -1})
+        let commandes = await Commande.paginate({&quot;status&quot;:1}, options)
+         
+        if (commandes) {
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+        console.log(&quot;error&quot;, error)
+         return res.status(500).send(new Error('Server Error...'))
+     }
+  }
+ module.exports.PaginatedAllCommandeAttenteLivraisons = async function(req, res){
+  const { page = req.params.page, limit = 5} = req.query;
+  try{
+      const options={
+          page: page,
+          limit: limit,
+          populate:{
+              path: 'user_id'
+          },
+          populate:{
+              path: 'panier.produit_id',
+              populate: {
+                  path: &quot;categorie_id&quot; 
+               },
+          },
+          populate:{
+              path: 'panier.zone_id',
+              populate: {
+                  path: &quot;commune_id&quot; 
+               },
+          }
+      }
+      //  let commandes = await Commande.paginate({&quot;status&quot;:0}, options).sort({&quot;createdAt&quot;: -1})
+      let commandes = await Commande.paginate({&quot;status&quot;:0}, options)
+       
+      if (commandes) {
+           return res.status(200).json(commandes);
+           
+       } else {
+           return res.status(404).send(new Error('Erreur 404...'))
+       }
+   } catch (error) {
+      console.log(&quot;error&quot;, error)
+       return res.status(500).send(new Error('Server Error...'))
+   }
+}
+
+
+
+module.exports.AllCommandeAttenteLivraison = async function(req, res){
+    let id = req.params.id;
+ 
+     try{
+         let commandes = await Commande.find({&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1}).populate('user_id').populate({
+             path: &quot;panier.produit_id&quot;, 
+             populate: {
+                path: &quot;categorie_id&quot; 
+             }
+            })
+            .populate ({
+                path: &quot;panier.zone_id&quot;, 
+                populate: {
+                   path: &quot;commune_id&quot; 
+                }, 
+             })
+             .populate({
+                path: 'panier',
+                populate: { path:  'etape',
+                model: 'Statut' }
+             })
+             ;
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.AllCommandeAttenteDistributeurTraiteById= async function(req, res){
+    let user_id = req.params.id;
+ 
+   
+    let id = 0
+        try{
+            let commandes = await Commande.find({&quot;_id&quot;:user_id}).sort({&quot;createdAt&quot;: -1}).populate('user_id')
+                
+              
+             if (commandes) {
+              
+                return res.status(200).json(commandes);
+                
+            } else {
+                return res.status(404).send(new Error('Erreur 404...'))
+            }
+        } catch (error) {
+            return res.status(500).send(new Error('Server Error...'))
+        }
+ }
+ module.exports.AllCommandeAttenteDistributeurTraite= async function(req, res){
+    let user_id = req.params.id;
+ 
+     try{
+         let commandes = await Commande.find({&quot;status&quot;:1,&quot;user_id&quot;:user_id}).sort({&quot;createdAt&quot;: -1}).populate('user_id');
+             ;
+            
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ 
+
+module.exports.AllCommandeAttenteDistributeur = async function(req, res){
+    let user_id = req.params.id;
+ let id = 0
+     try{
+         let commandes = await Commande.find({&quot;_id&quot;:user_id}).sort({&quot;createdAt&quot;: -1}).populate('user_id')
+             
+           
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+module.exports.listeCommandeClient = async function(req, res){
+   let user=req.payload._id;
+   console.log(&quot;moi&quot;,user);
+    try{
+        let commandes = await Commande.find({&quot;delete&quot;:0,&quot;user_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate('user_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+console.log(commandes);
+         if (commandes) {
+          
+            return res.status(200).json(commandes);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.notification= async function(req, res){
+
+//    id = req.params.id;
+  //  let user=req.payload._id;
+      let notif_token = req.body.notif_token;
+      let status = req.body.status;
+    //console.log(&quot;mon id&quot;,id);
+    try{
+
+        let commande = await Commande.find({&quot;notif_token&quot;:notif_token}).populate('produit_id').populate('client_id');
+        commande[0].status_pay = status;
+        commande[0].save();
+         if(commande[0]) {
+            return res.status(200).json(commande[0]);
+
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.checkPositionStatusByCommande = async function(req, res, next){
+    let status= false
+    try{
+      Position.find({&quot;panier&quot;: req.params.id})
+             .then(position=&gt; {
+                let tab= position.filter(data=&gt;data.status==1)
+                if (tab.length == position.length) {
+                    status= true
+                }
+                res.status(200).json(status)
+             })
+             .catch(error=&gt; res.status(400).json(error))
+    
+  //        }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+  }
+
+  
+
+  module.exports.rejeterPackage = async function(req, res){
+    
+    let id_commande = req.params.commande_id;
+    try{
+  
+     let commandes = await Commande.find({&quot;status&quot;: 0,&quot;_id&quot;: id_commande}).sort({&quot;createdAt&quot;: -1});
+     console.log(&quot;commande avant&quot;,commandes);
+     commandes[0].panier.forEach(resulte =&gt; {
+     
+          resulte.approuve = 2;
+        
+       
+    })
+    commandes[0].approuve = 2;
+    commandes[0].status = 1;
+    commandes[0].save();
+ 
+    var nodemailer = require('nodemailer');
+    let societe = &quot;&quot;
+      // Create the transporter with the required configuration for Gmail
+      // change the user and pass !
+      var transporter = nodemailer.createTransport({
+          host: 'mail49.lwspanel.com',
+          port: 465,
+          secure:true,
+          pool: true,
+            tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+    },
+            // use SSL
+          auth: {
+              user: 'bella@bankitruck.com',
+              pass: '1@Innovons'
+          }
+      });
+      let user = await User.find();
+    user.forEach(result =&gt; {
+
+      
+       result.roles.forEach(results =&gt;{
+         if(results.role == 'Sadmin' ){
+          
+          // setup e-mail data                                                                                      
+   var mailOptions = {                                                                                       
+     from: '&quot;Bankitruck&quot; &lt;bella@bankitruck.com&gt;', // sender address (who sends)                          
+     to: result.email, // list of receivers (who receives)                                     
+     subject: 'Commande', // Subject line                                                                  
+     text: 'Bonjour  le dossier ' + commandes[0].refrence + ' a &eacute;t&eacute; rejet&eacute; merci de vous connecter sur \n'+ 'www.admin.bankitruck.com' // plaintext body 
+     };                                                                                                        
+                                                                                                       
+     // send mail with defined transport object                                                                
+     transporter.sendMail(mailOptions, function(error, info){                                                  
+     if(error){                                                                                            
+     return console.log(error);                                                                        
+     }                                                                                                     
+                                                                                                       
+     console.log('Message sent: ' + info.response);                                                        
+     });  
+   
+   
+       }
+      
+        })
+      
+      
+    });
+
+
+
+
+
+
+
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+        
+         return res.status(500).send(new Error('Server Error...'))
+     }
+    }
+
+  module.exports.validerPackage = async function(req, res){
+   
+    let id_commande = req.params.commande_id;
+    try{
+    let commande = await Commande.find({&quot;_id&quot;:id_commande});
+     commande[0].panier.forEach(result =&gt; {
+       
+            result.approuve = 1;
+           
+            result.save();
+           
+       
+     });
+     commande[0].approuve = 1
+     commande[0].save();
+     var nodemailer = require('nodemailer');
+     let societe = &quot;&quot;
+       // Create the transporter with the required configuration for Gmail
+       // change the user and pass !
+       var transporter = nodemailer.createTransport({
+           host: 'mail49.lwspanel.com',
+           port: 465,
+           secure:true,
+           pool: true,
+             tls: {
+     // do not fail on invalid certs
+     rejectUnauthorized: false,
+     },
+             // use SSL
+           auth: {
+               user: 'bella@bankitruck.com',
+               pass: '1@Innovons'
+           }
+       });
+       let user = await User.find();
+     user.forEach(result =&gt; {
+
+       
+        result.roles.forEach(results =&gt;{
+          if(results.role == 'Sadmin' ){
+           
+           // setup e-mail data                                                                                      
+    var mailOptions = {                                                                                       
+      from: '&quot;Bankitruck&quot; &lt;bella@bankitruck.com&gt;', // sender address (who sends)                          
+      to: result.email, // list of receivers (who receives)                                     
+      subject: 'Commande', // Subject line                                                                  
+      text: 'Bonjour  le dossier ' + commande[0].refrence + ' a &eacute;t&eacute; valid&eacute; merci de vous connecter sur \n'+ 'www.admin.bankitruck.com' // plaintext body 
+      };                                                                                                        
+                                                                                                        
+      // send mail with defined transport object                                                                
+      transporter.sendMail(mailOptions, function(error, info){                                                  
+      if(error){                                                                                            
+      return console.log(error);                                                                        
+      }                                                                                                     
+                                                                                                        
+      console.log('Message sent: ' + info.response);                                                        
+      });  
+    
+    
+        }
+       
+         })
+       
+       
+     });
+
+
+
+
+
+          if (commande) {
+           
+             return res.status(200).json(commande);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+    }
+
+
+
+
+module.exports.addLivraison= async function(req, res){
+    let id_commande = req.params.id_commande;
+    let id_panier = req.params.id_panier;
+    try{
+        // let commande = Commande.insertMany(req.body);
+          //let user=req.payload._id;
+    let commande = await Commande.find({&quot;_id&quot;:id_commande});
+            
+     
+ commande[0].panier.forEach(result =&gt; {
+        if(result._id == id_panier){
+            result.transporte_id = req.body.transporte_id;
+            //result.quantite = 12
+            //result.quantite_livrer =0
+            result.quantite = parseInt(result.quantite) - parseInt(req.body.quantite_livrer);
+            result.quantite_livrer = parseInt(result.quantite_livrer) + parseInt(req.body.quantite_livrer) ;
+            result.status = 1;
+            result.save();
+           //result.save();
+        }
+        if( result.quantite == 0)
+        {  
+            commande[0].status = 2;  
+        }else
+        {  
+            commande[0].status = 0;  
+        }
+
+
+
+       
+     });
+     
+     commande[0].save();
+
+          if (commande) {
+           
+             return res.status(200).json(commande);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+    }
+module.exports.addCommandes = async function (req, res) {
+   
+    let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+          let today  = new Date();
+         let da=today.toLocaleDateString(&quot;fr-FR&quot;, options);
+var livraison = &quot;LIVRAISON&quot;; 
+ var commande = new Commande();
+ let commandes = await Commande.find({})
+ let nbZone = commandes.length;
+ let n =&quot;CO/AG2023/00&quot;;
+ let nb = n+nbZone;
+  commande.user_id = req.body.user_id;
+  commande.montantTotal = req.body.montantTotal;
+  commande.refrence = nb;
+  commande.date_commande = da,
+  commande.societe = req.body.societe,
+  commande.agence_name = req.body.agence_name,
+  commande.agence_telephone = req.body.agence_telephone,
+  commande.client_id = req.body.client_id,
+  console.log(&quot;panier bella&quot;,req.body.panier)
+  req.body.panier.forEach(result =&gt; {
+    var object = {
+        client: result.client,
+        produit_id: result.produit_id ,
+        observationBanki : result.observationBanki ,
+        passport_id: result.passport_id ,
+        passport_libelle: result.passport ,
+        quantite:result.quantite,
+        zone:result.zone,
+        zone_id:result.zone_id,
+        categorie_libelle: result.categorie_libelle,
+        produit_libelle: result.produit_libelle,
+
+        montant: result.montant ,
+
+    };
+    commande.panier.push(object);
+ 
+ });
+ commande.save();
+ var nodemailer = require('nodemailer');
+ var transporter = nodemailer.createTransport({
+    host: 'mail49.lwspanel.com',
+    port: 465,
+    secure:true,
+    pool: true,
+      tls: {
+// do not fail on invalid certs
+rejectUnauthorized: false,
+},
+      // use SSL
+    auth: {
+        user: 'bella@bankitruck.com',
+        pass: '1@Innovons'
+    }
+});
+
+ let user = await User.find();
+ user.forEach(result =&gt; {
+
+   if(result._id == req.body.user_id) {
+
+     var mailOptions = {                                                                                       
+       from: '&quot;Bankitruck&quot; &lt;bella@bankitruck.com&gt;', // sender address (who sends)                          
+       to: result.email, // list of receivers (who receives)                                     
+       subject: 'Accus&eacute; de reception', // Subject line                                                                  
+       text: 'Bonjour nous avons re&ccedil;u votre dossier ' // plaintext body 
+       };                                                                                                        
+                                                                                                         
+       // send mail with defined transport object                                                                
+       transporter.sendMail(mailOptions, function(error, info){                                                  
+       if(error){                                                                                            
+       return console.log(error);                                                                        
+       }                                                                                                     
+                                                                                                         
+       console.log('Message sent: ' + info.response);                                                        
+       });  
+     
+
+   }
+
+
+   console.log(&quot;utilisateur barry&quot;,result.email)
+   result.roles.forEach(results =&gt;{
+     if(results.role == 'Sadmin' &amp;&amp; result._id != req.body.user_id){
+       console.log(&quot;utilisateur barry&quot;,result.email)
+      // setup e-mail data                                                                                      
+var mailOptions = {                                                                                       
+ from: '&quot;Bankitruck&quot; &lt;bella@bankitruck.com&gt;', // sender address (who sends)                          
+ to: result.email, // list of receivers (who receives)                                     
+ subject: 'Commande', // Subject line                                                                  
+ text: 'Bonjour vous avez re&ccedil;u un nouveau dossier ' // plaintext body 
+};                                                                                                        
+                                                                                                   
+ // send mail with defined transport object                                                                
+ transporter.sendMail(mailOptions, function(error, info){                                                  
+ if(error){                                                                                            
+ return console.log(error);                                                                        
+ }                                                                                                     
+                                                                                                   
+ console.log('Message sent: ' + info.response);                                                        
+ });  
+
+
+   }
+   if(results.role == 'Banque' &amp;&amp; result._id != req.body.user_id){
+     console.log(&quot;utilisateur barry&quot;,result.email)
+    // setup e-mail data                                                                                      
+var mailOptions = {                                                                                       
+from: '&quot;Bankitruck&quot; &lt;bella@bankitruck.com&gt;', // sender address (who sends)                          
+to: result.email, // list of receivers (who receives)                                     
+subject: 'Commande', // Subject line                                                                  
+text: 'Bonjour vous avez re&ccedil;u un nouveau dossier ' // plaintext body 
+};                                                                                                        
+                                                                                                 
+// send mail with defined transport object                                                                
+transporter.sendMail(mailOptions, function(error, info){                                                  
+if(error){                                                                                            
+return console.log(error);                                                                        
+}                                                                                                     
+                                                                                                 
+console.log('Message sent: ' + info.response);                                                        
+});  
+
+
+ }
+    })
+  
+  
+});
+        
+  if (commande) {
+
+
+  return res.status(200).json(commande);
+ 
+}
+
+}
+module.exports.addCommande = async function(req, res){
+
+ try{
+       let carte = await Carte.find({&quot;identifiant&quot;:req.body.identifiant,&quot;active&quot;:1});
+       let produit = await Produit.find({&quot;_id&quot;:req.body.produit_id}).populate('categorie_id');
+      let identifiant = req.body.identifiant;              
+      if(req.body.identifiant == 0){
+          let commandes = Commande.insertMany(req.body);
+               if (commandes) {
+                 
+                return res.status(200).json(commandes);
+            
+               } else {
+               return res.status(404).send(new Error('Erreur 404...'))
+                }        
+
+
+      }else if(carte[0]){
+             
+            carte[0].produit.forEach(result =&gt; {
+                
+                              
+       
+                if( produit[0].categorie_id?.nom == result.categorie_id  ){
+                   // deuxieme condition 
+                           if(carte[0].quantites_restant &gt;= req.body.quantite ){
+                               let commande = Commande.insertMany(req.body);
+                                  return res.status(200).json(commande);
+ 
+                           }else if(req.body.quantite &gt; carte[0].quantites_restant )  {
+                            
+                             return res.status(203).json({
+                    &quot;error&quot;: &quot;cette quantit&eacute; est incorrecte&quot;,
+                    &quot;status&quot;: 203
+                            });	
+                           }
+               }else if(carte[0].quantites_restant &gt;= req.body.quantite){
+       
+                         if(produit[0].categorie_id?.nom == result.categorie_id){
+             let commande = Commande.insertMany(req.body);
+            return res.status(200).json(commande);
+            }
+          }
+
+                            
+                
+             
+
+                                  
+
+               
+             });
+            
+         }else if(!carte[0]){
+              return res.status(202).json({
+                        &quot;error&quot;: &quot;carte non valide &quot;,
+                        &quot;status&quot;: 202
+                    });
+             }
+  
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+
+}
+module.exports.commandeClientById = async function(req, res){
+
+  let user=req.payload._id;    
+    try{
+       // let commande = Commande.insertMany(req.body);
+         //let user=req.payload._id;
+let commande = await Commande.find({&quot;status&quot;:1,&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;valider&quot;:0,&quot;user_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate('user_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+        console.log('bella');
+         if (commande) {
+          
+            return res.status(200).json(commande);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.listeCommande = async function(req, res){
+   let user=req.payload._id;
+   let pay='0';
+    try{
+        let commandes = await Commande.find({&quot;status&quot;: 0,&quot;status_pay&quot;:pay,&quot;delete&quot;:0,&quot;client_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+         if (commandes) {
+          
+            return res.status(200).json(commandes);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.listeComman = async function(req, res){
+   let user=req.params.id;
+   let pay='0';
+    try{
+        let commandes = await Commande.find({&quot;status&quot;: 0,&quot;status_pay&quot;:pay,&quot;delete&quot;:0,&quot;client_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+         if (commandes) {
+
+            return res.status(200).json(commandes);
+
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.listeCommandeTraite = async function(req, res){
+    let user=req.payload._id;
+     try{
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;valider&quot;:2,&quot;client_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('produit_id').populate('client_id');
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+    }
+
+module.exports.listesCommandeTraite = async function(req, res){
+    let user=req.params.id;
+     try{
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;valider&quot;:2,&quot;client_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('produit_id').populate('client_id');
+          if (commandes) {
+
+             return res.status(200).json(commandes);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+    } 
+module.exports.listeCommandeAttente = async function(req, res){
+    let user=req.payload._id;
+     try{
+         let commandes = await Commande.find({&quot;status&quot;:1,&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;valider&quot;:0,&quot;client_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+module.exports.listesCommandeAttente = async function(req, res){
+    let user=req.params.id;
+     try{
+         let commandes = await Commande.find({&quot;status&quot;:1,&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;valider&quot;:0,&quot;client_id&quot;:user}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+          if (commandes) {
+
+             return res.status(200).json(commandes);
+
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.listeCommandeFourni = async function(req, res){
+    let id=req.payload._id;
+     try{
+        let commandes = await Mise.find({&quot;client_id&quot;:id,&quot;status&quot;:7,&quot;livrer&quot;:0,&quot;delete&quot;:0}).sort({&quot;createdAt&quot;: -1}).populate({
+            path: &quot;commande_id&quot;, 
+            populate: {
+               path: &quot;produit_id&quot;,
+              populate: {
+              path: &quot;categorie_id&quot;    
+              }
+            }
+           
+         }).populate({
+            path: &quot;commande_id&quot;, 
+           
+            populate: {
+                path: &quot;product_id&quot; 
+             }
+         });
+
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.listeCommandeFourniTraite = async function(req, res){
+    let id=req.payload._id;
+     try{
+        let commandes = await Mise.find({&quot;client_id&quot;:id,&quot;livrer&quot;:5,&quot;delete&quot;:0}).sort({&quot;createdAt&quot;: -1}).populate({
+            path: &quot;commande_id&quot;, 
+            populate: {
+               path: &quot;produit_id&quot; 
+            }
+           
+         }).populate({
+            path: &quot;commande_id&quot;, 
+           
+            populate: {
+                path: &quot;product_id&quot; 
+             }
+         });
+
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.listeCommandeFournisseur = async function(req, res){
+    let id=req.payload._id;
+     try{
+        let commandes = await User.find({&quot;_id&quot;:id}).populate({
+            path: &quot;valide.commande_id&quot;, 
+            populate: {
+               path: &quot;produit_id&quot; 
+            },           
+         }).populate({
+            path: &quot;valide.commande_id&quot;, 
+           
+            populate: {
+                path: &quot;zone_id&quot; 
+             }
+         });
+
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+ module.exports.AllCommandeAttente= async function(req, res){
+    let user=req.payload._id;
+     try{
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.AllCommandeTraite= async function(req, res){
+    let user=req.payload._id;
+     try{
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:7}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+ module.exports.AllCommandeFournisseur= async function(req, res){
+    let user=req.payload._id;
+     try{
+         let commandes = await Commande.find({&quot;status_relation&quot;:2,&quot;delete&quot;:0,&quot;status&quot;:5}).sort({&quot;createdAt&quot;: -1}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+          if (commandes) {
+           
+             return res.status(200).json(commandes);
+             
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+module.exports.cancelCommande = async function(req, res){
+    id = req.params.id;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id});
+        commande[0].delete = 1;
+
+        commande[0].save();
+//console.log(&quot;bella&quot;,commande[0]);
+         if (commande[0]) {
+            return res.status(200).json(commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getCommandeById = async function(req, res){
+    let id = req.params.id;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id,&quot;delete&quot;:0}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });;
+       console.log(commande);
+         if (commande) {
+            return res.status(200).json(commande);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getCommandeByIds = async function(req, res){
+    let id = req.params.id;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id,&quot;delete&quot;:0}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+       console.log(commande);
+         if (commande) {
+            return res.status(200).json(commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.livrerCommandeManquante = async  function(req, res){
+    let commande =  await Commande.find({&quot;_id&quot;:req.body.commandeId});
+
+    commande[0].panier.forEach(resulte =&gt; {
+      if(resulte._id == req.body.produit_panier_Id){
+        resulte.status = 1;
+        resulte.save();
+       }
+    })
+    commande[0].save(({ suppressWarning: true })) 
+
+    setTimeout(async () =&gt; {
+    let laligneCommande =  await Commande.find({&quot;_id&quot;:req.body.commandeId});
+    let lePanier=  laligneCommande[0].panier
+    let panierFiltreParStatut= lePanier.filter(data=&gt; data.status==1)
+    if(lePanier.length == panierFiltreParStatut.length){
+        laligneCommande[0].status = 1
+        
+        laligneCommande[0].save()
+  }
+}, 3500);
+
+
+   
+  }
+  
+module.exports.relationCommandes = async function(req, res){
+    var id = req.body.id;
+    var montant = req.body.montant;
+    var id_commande = req.body.id_commande;
+    
+   var montant_fournisseur = req.body.montant_fournisseur;
+    var id_stock = req.body.id_stock;
+   console.log(&quot;id&quot;,id);
+   console.log(&quot;id_commande&quot;,id_commande);
+   console.log(&quot;id_stock&quot;,id_stock);
+
+  
+   try{
+    let commande = await Commande.find({&quot;_id&quot;: id_commande}).populate('produit_id').populate({
+        path: &quot;produit_id&quot;, 
+        populate: {
+           path: &quot;categorie_id&quot; 
+        }
+       });
+
+    let stock = await Stock.find({&quot;_id&quot;: id_stock});
+     stock[0].quantite =  stock[0].quantite - commande[0].quantite;
+     stock[0].save();
+    var object = {
+        client_id: id,
+        commande_id: id_commande,
+        status:7
+    };
+
+    Mise.insertMany(object);
+    //let user = await User.find({&quot;_id&quot;: id});
+   
+   
+  
+
+  
+    commande[0].redicat = montant ;
+  //  commande[0].avance_demander = montant_demander ;
+    commande[0].status = 5;
+    commande[0].montant_fournisseur = req.body.montant_fournisseur;
+    commande[0].client_reste_payer =  commande[0].montantTotal;
+    commande[0].reste_payer_fournisseur = montant;
+    commande[0].user_id = id;
+    commande[0].save();
+    //let role = &quot;Facturation&quot;
+    //let user = await User.find({&quot;role&quot;: role});
+
+  //return res.status(200).json(commande[0]);
+        if ( commande[0]) {
+            let user = await User.find({&quot;_id&quot;: id});
+            let name = user[0].name;
+            let tel = user[0].tel;
+              let types = commande[0].produit_id?.type;
+              let marques = commande[0].produit_id.categorie_id?.nom;
+            const options = {
+                authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                sender_number: tel, // Number; The number to which you are sending a message without area code
+                sender_phone: tel, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                sms_body: &quot;Bonjour Mr/Mm &quot; + name + &quot; &quot; + &quot; vous avez re&ccedil;u une commande de &quot;+ marques + &quot; &quot; +types+ &quot; veillez vous connecter dans votre compte fournisseur pour plus de details.\n&quot; + &quot;infoline : 627153434&quot; // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+              };
+              const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                    orangeSms(options)
+                    .then((responseOrangeSms)=&gt;{
+                      console.log(responseOrangeSms); 
+                    
+                    }).catch((error)=&gt;{
+                      console.log(error);
+                    });
+          return res.status(200).json(commande[0]);
+           
+          
+  
+      } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+   } catch (error) {
+       return res.status(500).send(new Error('Server Error...'))
+   }
+}
+
+module.exports.CommandeFournisseur= async function(req, res){
+    let fournisseur_id = req.params.id;
+   
+   try{
+
+       let relation = await Mise.find({&quot;client_id&quot;: fournisseur_id});
+       let commande = await Commande.find({&quot;_id&quot;:relation[0].commande_id}).populate({
+        path: &quot;produit_id&quot;,
+        populate: {
+           path: &quot;categorie_id&quot;
+        }
+       });
+      
+
+        if (commande) {
+          return res.status(200).json(commande);
+      } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+   } catch (error) {
+       return res.status(500).send(new Error('Server Error...'))
+   }
+}
+module.exports.revoqueCommandes= async function(req, res){
+    let id_commande = req.params.id;
+    let id_user = req.params.id_user;
+   console.log(&quot;id&quot;,id_commande);
+   console.log(&quot;id_user&quot;,id_user);
+
+
+   try{
+
+       let relation = await Mise.find({&quot;client_id&quot;: id_user,&quot;delete&quot;: 0,&quot;status&quot;:6});
+       let commande = await Commande.find({&quot;_id&quot;: id_commande});
+       commande[0].status = 1;
+       commande[0].save();
+       
+       relation[0].delete = 1;
+       relation[0].save();
+
+        if (relation[0]) {
+          return res.status(200).json( relation[0]);
+      } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+   } catch (error) {
+       return res.status(500).send(new Error('Server Error...'))
+   }
+}
+
+module.exports.ViewRelation = async function(req, res){
+    var id = req.params.id;
+    
+   console.log(&quot;mon id&quot;,id);
+  
+
+
+   try{
+
+      
+       let commande = await Mise.find({&quot;commande_id&quot;:id}).populate('client_id').populate('commande_id');
+    
+
+if ( commande) {
+          return res.status(200).json(commande);
+      } else {
+          return res.status(404).send(new Error('Erreur 404...'))
+      }
+   } catch (error) {
+       return res.status(500).send(new Error('Server Error...'))
+   }
+}
+module.exports.relationCommande = async function(req, res){
+     var id = req.params.id;
+     var id_commande = req.params.id_commande;
+    console.log(&quot;id&quot;,id);
+    console.log(&quot;id_commande&quot;,id_commande);
+
+
+    try{
+
+        let user = await User.find({&quot;_id&quot;: id});
+        let commande = await Commande.find({&quot;_id&quot;: req.params.id_commande});
+        commande[0].status = 5;
+        commande[0].save();
+        user[0].valide.commande_id.push(id_commande);
+        user[0].save();
+
+         if ( user[0]) {
+           return res.status(200).json(user[0]);
+       } else {
+           return res.status(404).send(new Error('Erreur 404...'))
+       }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.attenteCommande = async function(req, res){
+    id = req.params.id;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id});
+        commande[0].status = 3;
+
+        commande[0].save();
+
+         if (commande[0]) {
+            return res.status(200).json(commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.livrerCommande = async function(req, res){
+    id = req.params.id;
+//    let user=req.payload._id;
+    let status_pay =&quot;LIVRAISON&quot;;
+    console.log(&quot;mon id&quot;,id);
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+
+          let commandes = await Commande.find({&quot;_id&quot;: id}).populate('client_id').populate({
+            path: &quot;produit_id&quot;,
+            populate: {
+               path: &quot;categorie_id&quot;
+            }
+           });
+
+        if(commande[0].produit_id?.status == 1)
+       { 
+          let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+          let today  = new Date();
+         let da=today.toLocaleDateString(&quot;fr-FR&quot;, options);
+        let telephone=commande[0].telephone;
+        let nom=commande[0].nom;
+        let prenom=commande[0].prenom;
+        let quantite=commande[0].quantite;
+        let re =&quot;COOO&quot;;
+        let e = &quot;/AG/2022&quot;;
+      let command = await Commande.find({&quot;references&quot;: 0});
+         command[0].reference = command[0].reference + 1;
+         command[0].save(); 
+        commande[0].identification  = re+command[0].reference+e;
+        let type=commande[0].produit_id?.type;
+        let marque=commande[0].produit_id.categorie_id?.nom;
+        commande[0].status = 1;
+         commande[0].status_pay = status_pay;
+        commande[0].commission = quantite*2000;
+        commande[0].status_relation = 2;
+        commande[0].save();
+         options = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: telephone, // Number; The number to which you are sending a message without area code
+            sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour Mr/Mme &quot; + prenom + &quot; &quot; + nom + &quot; votre commande  &quot; + marque + &quot; &quot;+&quot; a &eacute;t&eacute; prise en charge et la livraison se fera tr&egrave;s rapidement.\n&quot;+&quot;Bankitruck, votre E-comerce d&rsquo;agregat.\n&quot;+&quot;www.bankitruck.com.\n&quot;+&quot;infoline : 627173434&quot; // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(options)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms); 
+                
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+      }else{
+          
+    var object = {
+        client_id:commande[0].produit_id?.distributeur_id ,
+        commande_id: commande[0]._id,
+        status_fournisseur:1,
+       status:7
+      
+    };
+
+
+    Mise.insertMany(object);   
+ // commande[0].redicat = montant ;
+  // commande[0].avance_demander = montant_demander ;
+    commandes[0].status = 1;
+     commandes[0].status_relation = 2;
+   // commande[0].client_reste_payer =  commande[0].montantTotal;
+ //   commande[0].reste_payer_fournisseur = montant;
+   // commande[0].user_id = id;
+    commandes[0].save();       
+
+           }
+        
+         if (commande[0]) {
+            let type=commande[0].produit_id.type;
+            let marque=commande[0].produit_id.categorie_id?.nom;
+      options = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: 610006313, // Number; The number to which you are sending a message without area code
+            sender_phone: 610006312, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour vous avez re�u une nouvelle commande veillez vous connectez sur la plateforme &quot;  // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(options)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms); 
+                
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+
+              option = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: 610006319, // Number; The number to which you are sending a message without area code
+            sender_phone: 610006312, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour vous avez recu une nouvelle commande veillez vous connectez sur la plateforme &quot;  // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(option)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+           optio = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: 610009315, // Number; The number to which you are sending a message without area code
+            sender_phone: 610006312, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour vous avez recu une nouvelle commande veillez vous connectez sur la plateforme &quot;  // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(optio)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+               opti = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: 620320003, // Number; The number to which you are sending a message without area code
+            sender_phone: 610006312, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour vous avez recu une nouvelle commande veillez vous connectez sur la plateforme &quot;  // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(opti)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+
+
+           var nodemailer = require('nodemailer');
+
+            // Create the transporter with the required configuration for Gmail
+            // change the user and pass !
+            var transporter = nodemailer.createTransport({
+                host: 'mail49.lwspanel.com',
+                port: 465,
+                secure:true,
+                pool: true,
+                  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
+                  // use SSL
+                auth: {
+                    user: 'contact@bankitruck.com',
+                    pass: '1@Innovons'
+                }
+            });
+
+// setup e-mail data                                                                                      
+  var mailOptions = {                                                                                       
+      from: '&quot;Bankitruck&quot; &lt;bella@bankitruck.com&gt;', // sender address (who sends)                          
+      to: 'agregat@bankitruck.com', // list of receivers (who receives)                                     
+      subject: 'Commande', // Subject line                                                                  
+      text: 'Bonjour Bankitruck vous avez re&ccedil;u une nouvelle commande '+ marque + ' '+type // plaintext body 
+  };                                                                                                        
+                                                                                                            
+  // send mail with defined transport object                                                                
+  transporter.sendMail(mailOptions, function(error, info){                                                  
+      if(error){                                                                                            
+          return console.log(error);                                                                        
+      }                                                                                                     
+                                                                                                            
+      console.log('Message sent: ' + info.response);                                                        
+  });                  
+             
+            return res.status(200).json(commande[0]);
+
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.livraisonCommandes = async function(req, res){
+    let id = req.body.id;
+    let commentaire = req.body.commentaire;
+    let id_user=req.body.id_user;
+    console.log(&quot;id&quot;,id);
+   console.log(&quot;user&quot;,id_user);
+
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id}).populate('produit_id').populate('client_id').populate('zone_id').populate('product_id');
+        let commandes = await Mise.find({&quot;client_id&quot;: id_user});
+        let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        let today  = new Date();
+       let da=today.toLocaleDateString(&quot;fr-FR&quot;, options);
+
+       let fournisseur = await User.find({&quot;_id&quot;: commandes[0].client_id});
+        fournisseur[0].quantite = fournisseur[0].quantite + commande[0].quantite;
+        fournisseur[0].montant_total = fournisseur[0].montant_total + commande[0].montant_fournisseur;
+        fournisseur[0].save();
+       commande[0].date = da;
+        commande[0].status = 7;
+        commande[0].commentaire = commentaire;
+        commande[0].valider = 2;
+        commande[0].save();
+        commandes[0].valider = 1;
+        commandes[0].save();
+      
+         if (commande[0]) {
+        if(commande[0].product_id){
+            
+            let nom=commande[0].nom;
+            let telephone=commande[0].telephone;
+            const options = {
+                authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                sender_number: telephone, // Number; The number to which you are sending a message without area code
+                sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                sms_body: &quot;Bonjour Mr/Mme &quot; + nom + &quot; &quot; + &quot; BANKITRUCK vous remercie pour la confiance.\n&quot; + &quot;Vous pouvez toujours contunier a commander via le &quot; + &quot; www.bankitruck.com, 627153434 ou dans un point de distribution.&quot;  // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+              };
+              const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                    orangeSms(options)
+                    .then((responseOrangeSms)=&gt;{
+                      console.log(responseOrangeSms); 
+                    
+                    }).catch((error)=&gt;{
+                      console.log(error);
+                    });
+            return res.status(200).json(commandes[0]);  
+         }else{
+            let prenom=commande[0].prenom;
+        
+            let nom=commande[0].nom;
+            
+            let name=commande[0].client_id.name;
+           
+            let telephone=commande[0].telephone;
+            let tel=commande[0].client_id.tel;
+             options = {
+                authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                sender_number: telephone, // Number; The number to which you are sending a message without area code
+                sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                sms_body: &quot;Bonjour Mr/Mme &quot; + nom + &quot; &quot; + prenom + &quot; &quot; + &quot; BANKITRUCK vous remercie pour la confiance.\n&quot; + &quot;Vous pouvez toujours contunier a commander via le &quot; + &quot; www.bankitruck.com, 627153434 ou dans un point de distribution.&quot;  // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+              };
+               orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                    orangeSms(options)
+                    .then((responseOrangeSms)=&gt;{
+                      console.log(responseOrangeSms); 
+                    
+                    }).catch((error)=&gt;{
+                      console.log(error);
+                    });
+                     options = {
+                        authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                        area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                        sender_number: tel, // Number; The number to which you are sending a message without area code
+                        sender_phone: tel, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                        sms_body: &quot;Bonjour Mr/Mme &quot; + name + &quot; &quot; + &quot; la commande de &quot; + nom + &quot; &quot; + prenom +&quot; a &eacute;t&eacute; livre(e) avec succes&quot;    // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                      };
+                     orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                            orangeSms(options)
+                            .then((responseOrangeSms)=&gt;{
+                              console.log(responseOrangeSms); 
+                            
+                            }).catch((error)=&gt;{
+                              console.log(error);
+                            });
+            return res.status(200).json(commandes[0]);
+            
+         }
+         
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+module.exports.livraisonCommandeFournisseur = async function(req, res){
+    //let id = req.params.id;
+    let id_user=req.body.id_user;
+    let id = req.body.id;
+    
+   // let id_user = req.body.id_user;
+    let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+ let today  = new Date();
+let da=today.toLocaleDateString(&quot;fr-FR&quot;, options);
+
+  //let date=Date.now;
+
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id_user}).populate('produit_id').populate('client_id').populate('zone_id').populate('product_id');
+        let commandes = await Mise.find({&quot;_id&quot;:id});
+        
+        
+        // let name=commande[0].client_id.name;
+        // let tel=commande[0].client_id.tel;
+        let quantite=commande[0].quantite;
+        commandes[0].status = 6;
+        commandes[0].livrer = 5;
+        commandes[0].date = da;
+        //commande[0].date = Date.now;
+        commandes[0].save();
+      commande[0].livrer = 4;
+commande[0].status = 5;
+commande[0].status_relation = 2;
+      commande[0].date = da;
+      commande[0].status_livrer = 1;
+      //commande[0].status = 8;
+      //commande[0].date = Date.now;
+       commandes[0].date = da;
+      commande[0].save();
+         if (commandes[0]) {
+             if(commande[0].product_id){
+               
+                let marques=commande[0].product_id.categorie_id?.nom;
+                let telephone_chuaffeur= req.body.telephone;
+                let telephone=commande[0].telephone;
+                let nom=commande[0].nom;
+                const options = {
+                    authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                    area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                    sender_number: telephone, // Number; The number to which you are sending a message without area code
+                    sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                    sms_body: &quot;Bonjour Mr/Mme&quot; + nom + &quot; &quot; + &quot; &quot; + &quot; votre commande &quot; + marques + &quot; est encours de livraison le &quot; + telephone_chuaffeur + &quot; est le contact du livreur\n&quot; +&quot;Bankitruck,votre E-commerce d'agregat.\n&quot;+ &quot;www.bankitruck.com&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                  };
+                  const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                        orangeSms(options)
+                        .then((responseOrangeSms)=&gt;{
+                          console.log(responseOrangeSms); 
+                        
+                        }).catch((error)=&gt;{
+                          console.log(error);
+                        });
+                        const optionss = {
+                            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                            sender_number:telephone_chuaffeur, // Number; The number to which you are sending a message without area code
+                            sender_phone: telephone_chuaffeur, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; le &quot; + telephone + &quot; est le contact du client (&quot;+ nom + &quot;)&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                          };
+                          const orangeSmss = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                                orangeSms(optionss)
+                                .then((responseOrangeSms)=&gt;{
+                                  console.log(responseOrangeSms); 
+                                
+                                }).catch((error)=&gt;{
+                                  console.log(error);
+                                });
+                return res.status(200).json(commandes[0]);  
+             }else{
+                let prenom=commande[0].prenom;
+                let type=commande[0].produit_id.type;
+                let marque=commande[0].produit_id.categorie_id?.nom;
+                let nom=commande[0].nom;
+                let telephone_chuaffeur= req.body.telephone;
+                let telephone=commande[0].telephone;
+                const options = {
+                    authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                    area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                    sender_number: telephone, // Number; The number to which you are sending a message without area code
+                    sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                    sms_body: &quot;Bonjour Mr/Mme&quot; + nom + &quot; &quot; + prenom + &quot; &quot; + &quot; votre commande &quot; + marque + &quot; est encours de livraison le &quot; + telephone_chuaffeur + &quot; est le contact du livreur\n&quot; +&quot;Bankitruck,votre E-commerce d'agregat.\n&quot;+&quot;www.bankitruck.com&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                  };
+                  const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                        orangeSms(options)
+                        .then((responseOrangeSms)=&gt;{
+                          console.log(responseOrangeSms); 
+                        
+                        }).catch((error)=&gt;{
+                          console.log(error);
+                        });
+                        const optionss = {
+                            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                            sender_number:telephone_chuaffeur, // Number; The number to which you are sending a message without area code
+                            sender_phone: telephone_chuaffeur, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; le &quot; + telephone + &quot; est le contact du client (&quot;+ prenom + &quot; &quot;+ nom + &quot;)&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                          };
+                          const orangeSmss = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                                orangeSms(optionss)
+                                .then((responseOrangeSms)=&gt;{
+                                  console.log(responseOrangeSms); 
+                                
+                                }).catch((error)=&gt;{
+                                  console.log(error);
+                                });
+                return res.status(200).json(commandes[0]);
+             }
+           
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.livraisonCommandeFournisseurs = async function(req, res){
+    //let id = req.params.id;
+    let id_user=req.body.id_user;
+    let id = req.body.id;
+    
+   // let id_user = req.body.id_user;
+    let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+ let today  = new Date();
+let da=today.toLocaleDateString(&quot;fr-FR&quot;, options);
+
+  //let date=Date.now;
+
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id_user}).populate('client_id').populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+        let commandes = await Mise.find({&quot;_id&quot;:id});
+        
+        
+        // let name=commande[0].client_id.name;
+        // let tel=commande[0].client_id.tel;
+        let quantite=commande[0].quantite;
+        commandes[0].status = 6;
+        commandes[0].livrer = 5;
+       // commandes[0].date = da;
+        //commande[0].date = Date.now;
+        commandes[0].save();
+      commande[0].livrer = 2;
+      commande[0].valider = 2;
+      commande[0].date = da;
+      commande[0].status_livrer = 1;
+       commande[0].status_relation = 2;
+       commande[0].status = 7;
+      //commande[0].date = Date.now;
+       commande[0].date = da;
+      commande[0].save();
+         if (commandes[0]) {
+             if(commande[0].user_id){
+               
+                let marques=commande[0].produit_id.categorie_id?.nom;
+                let telephone_chuaffeur= req.body.telephone;
+                let telephone=commande[0].telephone;
+                let nom=commande[0].nom;
+                const options = {
+                    authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                    area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                    sender_number: telephone, // Number; The number to which you are sending a message without area code
+                    sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                    sms_body: &quot;Bonjour Mr/Mme&quot; + nom + &quot; &quot; + &quot; &quot; + &quot; votre commande &quot; + marques + &quot; est encours de livraison le &quot; + telephone_chuaffeur + &quot; est le contact du livreur\n&quot; +&quot;Bankitruck,votre E-commerce d'agregat.\n&quot;+ &quot;www.bankitruck.com&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                  };
+                  const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                        orangeSms(options)
+                        .then((responseOrangeSms)=&gt;{
+                          console.log(responseOrangeSms); 
+                        
+                        }).catch((error)=&gt;{
+                          console.log(error);
+                        });
+                        const optionss = {
+                            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                            sender_number:telephone_chuaffeur, // Number; The number to which you are sending a message without area code
+                            sender_phone: telephone_chuaffeur, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; le &quot; + telephone + &quot; est le contact du client (&quot;+ nom + &quot;)&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                          };
+                          const orangeSmss = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                                orangeSms(optionss)
+                                .then((responseOrangeSms)=&gt;{
+                                  console.log(responseOrangeSms); 
+                                
+                                }).catch((error)=&gt;{
+                                  console.log(error);
+                                });
+                return res.status(200).json(commandes[0]);  
+             }else{
+                let prenom=commande[0].prenom;
+                let type=commande[0].produit_id.type;
+                let marque=commande[0].produit_id.categorie_id?.nom;
+                let nom=commande[0].nom;
+                let telephone_chuaffeur= req.body.telephone;
+                let telephone=commande[0].telephone;
+                const options = {
+                    authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                    area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                    sender_number: telephone, // Number; The number to which you are sending a message without area code
+                    sender_phone: telephone, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                    sms_body: &quot;Bonjour Mr/Mme&quot; + nom + &quot; &quot; + prenom + &quot; &quot; + &quot; votre commande &quot; + marque + &quot; est encours de livraison le &quot; + telephone_chuaffeur + &quot; est le contact du livreur\n&quot; +&quot;Bankitruck,votre E-commerce d'agregat.\n&quot;+&quot;www.bankitruck.com&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                  };
+                  const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                        orangeSms(options)
+                        .then((responseOrangeSms)=&gt;{
+                          console.log(responseOrangeSms); 
+                        
+                        }).catch((error)=&gt;{
+                          console.log(error);
+                        });
+                        const optionss = {
+                            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+                            area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+                            sender_number:telephone_chuaffeur, // Number; The number to which you are sending a message without area code
+                            sender_phone: telephone_chuaffeur, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+                            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; le &quot; + telephone + &quot; est le contact du client (&quot;+ prenom + &quot; &quot;+ nom + &quot;)&quot;     // String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+                          };
+                          const orangeSmss = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                                orangeSms(optionss)
+                                .then((responseOrangeSms)=&gt;{
+                                  console.log(responseOrangeSms); 
+                                
+                                }).catch((error)=&gt;{
+                                  console.log(error);
+                                });
+                return res.status(200).json(commandes[0]);
+             }
+           
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.paypal = async function(req, res){
+    let id = req.params.id;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id});
+      
+         if (commande) {
+            return res.status(200).json(commande);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.livraisonCommande = async function(req, res){
+    id = req.params.id;
+    try{
+        let commande = await Commande.find({&quot;_id&quot;: id});
+        commande[0].status = 9;
+
+        commande[0].save();
+
+         if (commande[0]) {
+            return res.status(200).json(commande[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.livraisonCommande = async function(req, res){
+    id = req.params.id;
+    try{
+        const result = await Commande.aggregate([{$group: {
+            _id: '1',
+            viewsTotal: {$sum: '$views'}
+          }}]);
+          let viewsTotal = 0;
+          if(result.length &gt; 0) {
+            viewsTotal += result[0].viewsTotal;
+          }
+          return viewsTotal;
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

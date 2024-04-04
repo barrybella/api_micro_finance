@@ -1,0 +1,128 @@
+<html>
+<head>
+    <title>controllers/orangeOmApi.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/orangeOmApi.js (<b>76</b> lines of code) (<a href="orangeOmApi.js">raw</a>):</h3>
+<div id="editor">module.exports = (orangeApiOptions)=&gt;{
+  return new Promise((resolve)=&gt;{
+
+       const request = require('request');
+const Commande = require('../models/Commande');
+     const getToken = require('./TokenOM.js')(orangeApiOptions.authorization_header);
+           getToken.then((response)=&gt;{
+             const headers = {
+               'Authorization': `Bearer ${response}`,
+               'Content-Type': 'application/json',
+               'Accept': 'application/json'};
+           const body = { 
+              merchant_key : `${orangeApiOptions.merchant_key}`, 
+                currency : `${orangeApiOptions.currency}`,
+                order_id:`${orangeApiOptions.order_id}`,
+                amount:`${orangeApiOptions.amount}`,
+                return_url:`${orangeApiOptions.return_url}`,
+                cancel_url:`${orangeApiOptions.cancel_url}`,
+                notif_url:`${orangeApiOptions.notif_url}`,
+                lang:`${orangeApiOptions.lang}`,
+               reference:`${orangeApiOptions.reference}`
+         
+          }; 
+          
+              const options = {
+             //   uri: `https://api.orange.com/orange-money-webpay/cm/v1/webpayment/${orangeApiOptions.marchant_key}&amp;${orangeApiOptions.currency}&amp;${orangeApiOptions.order_id}&amp;${orangeApiOptions.amount}&amp;${orangeApiOptions.currency}&amp;${orangeApiOptions.return_url}&amp;${orangeApiOptions.cancel_url}&amp;${orangeApiOptions.notif_url}&amp;${orangeApiOptions.lang}&amp;${orangeApiOptions.reference}`,
+                uri: 'https://api.orange.com/orange-money-webpay/gn/v1/webpayment',
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(body)};
+                
+                
+             const sendSmsRequest = request(options, (error, response, body)=&gt; {
+
+              
+              var pai=body;
+              var parsed = JSON.parse(pai);
+              var user=parsed['pay_token'];
+             
+              const bod = { 
+                  order_id:`${orangeApiOptions.order_id}`,
+                  amount:`${orangeApiOptions.amount}`,
+                  pay_token:`${user}`
+                }; 
+            const option = {
+              //   uri: `https://api.orange.com/orange-money-webpay/cm/v1/webpayment/${orangeApiOptions.marchant_key}&amp;${orangeApiOptions.currency}&amp;${orangeApiOptions.order_id}&amp;${orangeApiOptions.amount}&amp;${orangeApiOptions.currency}&amp;${orangeApiOptions.return_url}&amp;${orangeApiOptions.cancel_url}&amp;${orangeApiOptions.notif_url}&amp;${orangeApiOptions.lang}&amp;${orangeApiOptions.reference}`,
+                 uri: 'https://api.orange.com/orange-money-webpay/gn/v1/transactionstatus',
+                 method: 'POST',
+                 headers: headers,
+                 body: JSON.stringify(bod)
+                };
+                 const sendSmSRequest = request(option, (error, respons, body)=&gt;{
+                  console.log(&quot;bella barry&quot;,body);
+                 
+                 });
+             
+             
+              var pai=body;
+                var parsed = JSON.parse(pai);
+                var notif_token=parsed['notif_token'];
+                var pay_token=parsed['pay_token'];
+                var status_pay = &quot;INITIATED&quot;;
+               // console.log(&quot;token&quot;,user);
+              Commande.find({ &quot;_id&quot; : `${orangeApiOptions.order_id}` }).exec()
+                  .then(items =&gt;[
+                   items[0].commission = items[0].quantite*2000,
+                    items[0].notif_token = notif_token,
+                    items[0].pay_token = pay_token,
+                    items[0].status = 1,
+                    items[0].status_relation = 2,
+                    items[0].status_pay = status_pay,
+                    items[0].save(),
+                    console.log(items[0].notif_token)]
+                   
+                    ).catch(err =&gt; {  });
+              
+               if (!error &amp;&amp; response.statusCode == 201) {
+
+                
+               
+               // var bella=&quot;bonjour&quot;;
+                var pai=body;
+                var parsed = JSON.parse(pai);
+                var user=parsed['pay_token'];
+                console.log(&quot;bella barry&quot;,user);
+                
+                resolve(body);
+
+              
+               }else {
+                 resolve({payement:response.statusCode});
+                 console.log(body);
+               }
+             });
+
+
+
+           }).catch((error)=&gt;{ 
+             console.log(error.body);
+           });
+  });
+}
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

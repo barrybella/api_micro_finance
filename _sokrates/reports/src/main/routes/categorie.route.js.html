@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>routes/categorie.route.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">routes/categorie.route.js (<b>45</b> lines of code) (<a href="categorie.route.js">raw</a>):</h3>
+<div id="editor">const express = require('express');
+var jwt = require('express-jwt');
+ const categorieRoutes = express.Router();
+
+var auth = jwt({
+  secret: 'MY_SECRET',
+  userProperty: 'payload',
+  algorithms: ['HS256']
+});
+
+
+const multer = require('multer');
+const mkdirp = require('mkdirp');
+const bodyParser= require('body-parser');
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) =&gt; {
+      const dir = './boutiques';
+      mkdirp(dir, err =&gt; cb(err, dir))
+  },
+  filename: (req, file, cb) =&gt; {
+      cb(null, new Date().getTime()+ &quot;-&quot; + file.originalname)
+  }
+});
+const upload = multer({ storage: storage })
+
+categorieCotrollers = require('../controllers/categorieControllers');
+
+categorieRoutes.route('/getBlogById/:id').get(categorieCotrollers.getBlogById);
+
+categorieRoutes.route('/addBlog').post(auth, categorieCotrollers.addBlog);
+
+categorieRoutes.route('/updateBlog/:id').put(categorieCotrollers.updateBlog);
+categorieRoutes.route('/getBlog').get(categorieCotrollers.getBlog);
+categorieRoutes.route('/deleteBlog/:id').get(categorieCotrollers.deleteBlog);
+categorieRoutes.route('/getPaginatedCategorie/:page').get(categorieCotrollers.getPaginatedCategorie);
+
+categorieRoutes.route('/addCategorie').post(auth, categorieCotrollers.addCategorie);
+categorieRoutes.route('/addPassport').post(auth, categorieCotrollers.addPassport);
+categorieRoutes.route('/getPaginatedPassport/:page').get(categorieCotrollers.getPaginatedPassport);
+
+categorieRoutes.route('/updateCategorie/:id').put(categorieCotrollers.updateCategorie);
+categorieRoutes.route('/getCategories/:id').get(categorieCotrollers.getCategories);
+categorieRoutes.route('/getCategorie').get(categorieCotrollers.getCategorie);
+categorieRoutes.route('/deleteCategorie/:id').get(categorieCotrollers.deleteCategorie);
+
+
+//UPLOAD IMAGE AVATAR
+categorieRoutes.route('/image').post(upload.single('file'), (req, res) =&gt; {
+  const file = req.file;
+
+  if (!file) {
+    const error = new Error('No File');
+    error.httpStatusCode = 500;
+
+    return next(error);
+        // return res.json(`${req.file.path}`);
+  }
+  res.send(file);
+  // else{
+  //     return res.json(``);
+  // } 
+});
+
+module.exports = categorieRoutes;
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

@@ -1,0 +1,92 @@
+<html>
+<head>
+    <title>routes/sms.route.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">routes/sms.route.js (<b>52</b> lines of code) (<a href="sms.route.js">raw</a>):</h3>
+<div id="editor">const express = require('express')
+const router = express.Router()
+const got = require('got')
+const token = require('../common/token.js')
+const retry = require('../common/retry.js')
+
+/* POST sms to a given phone number. */
+router.get('/', async function (req, res, next) {
+  // need to pass 2 parameters, phone_number and message
+  // phone number format without the 0 at the begening
+  // e.g : 612345678 and not 0612345678 or +33612345678
+  try {
+    let phone_number = 620284907
+    let message = 'hello'
+    const body = JSON.stringify({ &quot;outboundSMSMessageRequest&quot;: { &quot;address&quot;: &quot;tel:+224&quot; + phone_number, &quot;senderAddress&quot;: &quot;tel:+224&quot; + phone_number, &quot;outboundSMSTextMessage&quot;: { &quot;message&quot;: message }, &quot;senderName&quot;: &quot;Orange&quot; } })
+    const response = await retry.retryOnce(() =&gt; {
+      return token.getAccessToken()
+        .then(accessToken =&gt; {
+          // Use the return accessToken in the request Header
+          const options = {
+            hostname: process.env.API_HOSTNAME,
+            path: '/smsmessaging/dev/outbound/tel%3A%2B224' + phone_number + '/requests',
+            protocol: 'https:',
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': Buffer.byteLength(body),
+              'Authorization': 'Bearer ' + accessToken
+            },
+            method: 'post',
+            body: body
+          }
+          return sendRequest(options)
+        })
+        .catch(error =&gt; {
+          return Promise.reject(error)
+        })
+    }, refreshTokenOnUnauthorizedError)
+
+    // If no error is thrown, send back the response body
+    res.render('sms', {title: 'SMS sent with success', message:response.body})
+
+  } catch (error) {
+    next(error)
+  }
+})
+
+function refreshTokenOnUnauthorizedError(error) {
+  if (error.response &amp;&amp; error.response.statusCode === 401) {
+    // remove existing token
+    token.cleanAccessToken()
+    // retrieve a new token
+    return token.getAccessToken()
+  } else {
+    // Not a token error
+    return Promise.reject(error)
+  }
+}
+
+function sendRequest(options) {
+  return got(options).then(response =&gt; {
+    return Promise.resolve(response)
+  }, error =&gt; {
+    return Promise.reject(error)
+  })
+}
+
+module.exports = router</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

@@ -1,0 +1,131 @@
+<html>
+<head>
+    <title>controllers/controllersProjet.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/controllersProjet.js (<b>73</b> lines of code) (<a href="controllersProjet.js">raw</a>):</h3>
+<div id="editor">//const MyConst = require(&quot;../helpers/constant.helper&quot;)
+const Chantier  = require(&quot;../models/Projet&quot;)
+
+
+
+
+
+module.exports.getProjet = async function(req, res){
+    try{
+        
+        let chantier = await Chantier.find().sort({&quot;createdAt&quot;: -1}).populate('user_id');
+
+       
+       // console.log('bella',stock);
+         if (chantier ) {
+          
+            return res.status(200).json(chantier);
+            
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.addProjet = (req, res) =&gt; {
+
+        const chantier = new Chantier(req.body)
+        chantier.save((err, chantier) =&gt; {
+            if (err) {
+                res.status(500).send(err)
+            } else {
+                res.status(200).json('Success')
+            }
+	})
+
+}
+
+
+module.exports.updateImage = async function(req, res){
+   let id =req.params.id;   
+ try{
+        let user = await Chantier.find({&quot;_id&quot;:id});
+        
+        if(!user){
+            return res.status(404).send(new Error('Utilisateur not found 404'));
+        }else{
+            var object = {
+        images: req.file.path}; 
+            user[0].image.push(object);
+            user[0].save();
+            return res.status(200).json({&quot;message&quot;: 'Image modifi&eacute;e'});
+        }
+
+    }catch(err){
+        return res.status(500).send(new Error('Erreur de server 500...'));
+    }
+}
+
+
+module.exports.updateProjet = async function(req, res){
+    let id = req.params.id;
+    try{
+       
+            let projet  = await Chantier.find({&quot;_id&quot;: id});
+        
+            if(!projet){
+                    return res.status(404).send(new Error('Pas de donn�es '));
+                }else{
+                    projet[0].name = req.body.name;
+                    projet[0].pays = req.body.pays;
+                    projet[0].description = req.body.description;
+                    projet[0].ville = req.body.ville;
+                    projet[0].longitude = req.body.longitude;
+                    projet[0].latitude= req.body.latitude;
+                    projet[0].quartier = req.body.quartier;
+                    projet[0].user_id = req.body.user_id;
+                   projet[0].images = req.body.images;
+                   
+                   
+                
+                    projet[0].save();
+                    return res.status(200).json('Modification effectu�e');
+                }
+       
+    }catch(err){
+        return res.status(500).send(new Error('Erreur de server 500...'));
+    }
+}
+
+
+module.exports.deleteProjet = (req, res) =&gt; {
+    const id = req.params.id
+
+        Chantier.findByIdAndRemove(id, (err, chantier) =&gt; {
+            if (err) {
+                res.status(500).send(err)
+            } else {
+                res.status(200).json(&quot;Supression effectu&eacute;e&quot;);
+            }
+	})
+
+}
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

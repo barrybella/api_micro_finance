@@ -1,0 +1,4 @@
+Path	Lines of Code
+find_query.json	36
+package-lock.json	6386
+package.json	39

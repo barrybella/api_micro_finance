@@ -1,0 +1,122 @@
+
+
+const express = require('express');
+var jwt = require('express-jwt');
+ const produitRoutes = express.Router();
+ var globalVariable = require("../controllers/globalVariable")
+
+var auth = jwt({
+  secret: 'MY_SECRET',
+  userProperty: 'payload',
+  algorithms: ['HS256']
+});
+
+
+const multer = require('multer');
+const mkdirp = require('mkdirp');
+const bodyParser= require('body-parser');
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      const dir = './';
+      mkdirp(dir, err => cb(err, dir))
+  },
+  filename: (req, file, cb) => {
+      cb(null, new Date().getTime()+ "-" + file.originalname)
+  }
+});
+const upload = multer({ storage: storage })
+
+produitCotrollers = require('../controllers/produitControllers');
+passportCotrollers = require('../controllers/produitControllers');
+
+
+
+//passport route 
+produitRoutes.route('/addPartenaire').post(produitCotrollers.addPartenaire);
+//
+produitRoutes.route('/DeleteTerrain/:id').get(produitCotrollers.DeleteTerrain);
+produitRoutes.route('/deletePartenaire').get(produitCotrollers.deletePartenaire);
+
+
+
+produitRoutes.route('/getPassport').get(produitCotrollers.getPassport);
+produitRoutes.route('/getPassportById/:id').get(produitCotrollers.getPassportById);
+
+produitRoutes.route('/addPartenaire').post(produitCotrollers.addPartenaire);
+produitRoutes.route('/getPartenaire').get(produitCotrollers.getPartenaire);
+produitRoutes.route('/AllTerrainById/:id').get(produitCotrollers.AllTerrainById);
+produitRoutes.route('/AllTerrain').get(produitCotrollers.AllTerrain);
+produitRoutes.route('/update/:type').put(produitCotrollers.update);
+produitRoutes.route('/get/:type').get(produitCotrollers.get);
+produitRoutes.route('/add').post(produitCotrollers.add); 
+
+produitRoutes.route('/getPaginatedProduits/:user_id/:page').get(produitCotrollers.getPaginatedProduits);
+produitRoutes.route('/getAllProduitByDistributeur/:page').get(produitCotrollers.getAllProduitByDistributeur);
+
+produitRoutes.route('/getAllProduits/:user_id').get(produitCotrollers.getAllProduits);
+produitRoutes.route('/countProduit/:user_id').get(produitCotrollers.countProduit);
+produitRoutes.route('/deleteSlider/:id').get(produitCotrollers.deleteSlider);
+produitRoutes.route('/getSliderById/:id').get(produitCotrollers.getSliderById);
+produitRoutes.route('/updateSlider/:id').put(produitCotrollers.updateSlider);
+produitRoutes.route('/addProduits').post(auth, produitCotrollers.addProduits);
+produitRoutes.route('/addSlider').post(auth, produitCotrollers.addSlider);
+produitRoutes.route('/getSlider').get(produitCotrollers.getSlider);
+produitRoutes.route('/rejeterProduit').post(auth, produitCotrollers.rejeterProduit);
+produitRoutes.route('/addFavori/:user_id/:produit_id').get(produitCotrollers.addFavori);
+//produitRoutes.route('/addFavori/:user_id/:produit_id').get(produitCotrollers.addFavori);
+produitRoutes.route('/getValider/:id').get(produitCotrollers.getValider);
+produitRoutes.route('/getInvalider/:id').get(produitCotrollers.getInvalider);
+produitRoutes.route('/getProduitsF/:id').get(produitCotrollers.getProduitsF);
+produitRoutes.route('/getFavorie/:id').get(produitCotrollers.getFavorie);
+produitRoutes.route('/deleteFavorie/:id').get(produitCotrollers.deleteFavorie);
+produitRoutes.route('/getProduitsByOneSociete').get(produitCotrollers.getProduitsByOneSociete);
+produitRoutes.route('/getProduitsBySocieteAndPaysAndCategorie/:societe/:pays/:categorie_id').get(produitCotrollers.getProduitsBySocieteAndPaysAndCategorie);
+produitRoutes.route('/getProduitsByPays').get(produitCotrollers.getProduitsByPays);
+produitRoutes.route('/AllProduitsByFournisseur').get(produitCotrollers.AllProduitsByFournisseur);
+produitRoutes.route('/getProduitsByPromo').get(produitCotrollers.getProduitsByPromo);
+produitRoutes.route('/getProduitsByFlash').get(produitCotrollers.getProduitsByFlashe);
+produitRoutes.route('/AllProduitsByCategorie/:id').get(produitCotrollers.AllProduitsByCategorie);
+produitRoutes.route('/getAllProduitsByCategorie/:pays/:size/:skip').get(produitCotrollers.getAllProduitsByCategorie);
+produitRoutes.route('/getSocieteByCategorie/:societe').get(produitCotrollers.getSocieteByCategorie);
+produitRoutes.route('/FilterProduitsBySocieteAndCategorie/:societe/:categorie_id').get(produitCotrollers.FilterProduitsBySocieteAndCategorie);
+produitRoutes.route('/getProduitsByCategories/:size/:skip').get(produitCotrollers.getProduitsByCategories);
+produitRoutes.route('/allAgregatByFilter/:societe').get(produitCotrollers.allAgregatByFilter);
+produitRoutes.route('/all/:size/:skip').get(produitCotrollers.all);
+produitRoutes.route('/getDesactive/:id').get(auth,produitCotrollers.Desactive);
+produitRoutes.route('/getActive/:id').get(auth,produitCotrollers.Active);
+produitRoutes.route('/getProduitsBySociete/:id').get(produitCotrollers.getProduitsBySociete);
+produitRoutes.route('/getProduitsByCategorie').get(produitCotrollers.getProduitsByCategorie);
+produitRoutes.route('/getEchantillon/:id').get(produitCotrollers.echantillon);
+produitRoutes.route('/getActivechantillon/:id').get(produitCotrollers.Activechantillon);
+produitRoutes.route('/addProduit').post(auth, produitCotrollers.addProduit);
+produitRoutes.route('/addVaccination').post(produitCotrollers.addVaccination);
+produitRoutes.route('/getProduits').get(produitCotrollers.getProduits);
+produitRoutes.route('/getVaccination').get(produitCotrollers.getVaccination);
+produitRoutes.route('/getProduit/:id').get(produitCotrollers.getProduit);
+produitRoutes.route('/updateProduit/:id').put(produitCotrollers.updateProduit);
+
+produitRoutes.route('/deleteProduit/:id').get(produitCotrollers.deleteProduit);
+
+
+//UPLOAD IMAGE AVATAR
+produitRoutes.route('/image').post(upload.single('file'), (req, res, next) => {
+  const file = req.file;
+  if(file){
+    globalVariable.filename= file.path || ''
+  }
+  if (!file) {
+    const error = new Error('No File');
+    error.httpStatusCode = 500;
+    /* il faudrait que avec ou sans commentaire qu'on ajoute quand meme une observation */
+    next()
+    // return next(error);
+    // return res.json(`${req.file.path}`);
+  }
+  res.send(file);
+  // else{
+  //     return res.json(``);
+  // } 
+});
+
+module.exports = produitRoutes;

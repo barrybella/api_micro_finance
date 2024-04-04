@@ -1,0 +1,178 @@
+<html>
+<head>
+    <title>controllers/statutProduitCommande.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/statutProduitCommande.js (<b>83</b> lines of code) (<a href="statutProduitCommande.js">raw</a>):</h3>
+<div id="editor">const Commande = require(&quot;../models/Commande&quot;)
+const Position = require(&quot;../models/Position&quot;)
+const StatutCommand= require(&quot;../models/statutProduitCommande&quot;)
+
+module.exports.addStatutCommande = async  function(req, res){
+      const  statutCommand= new StatutCommand()
+      statutCommand.produit_panier_Id= req.body.produit_panier_Id
+      statutCommand.statutId= req.body.statutId
+      statutCommand.quantite= req.body.quantite
+      statutCommand.position_id= req.body.position_id
+      statutCommand.dateRenseigne= req.body.dateRenseigne
+      statutCommand.heure= req.body.heure
+      statutCommand.observations= req.body.observations
+      statutCommand.save()
+      .then(()=&gt; res.status(201).json({message: &quot;le statut a &eacute;t&eacute; renseign&eacute; avec succes&quot;}))
+      .catch(error=&gt; res.status(400).json(error))
+
+      let commande =  await Commande.find({&quot;_id&quot;:req.body.commandeId})
+      let position =  await Position.find({&quot;_id&quot;:req.body.position_id});
+      position[0].quantite_masquer = position[0].quantite_masquer - req.body.quantite;
+      position[0].quantite_livrer = position[0].quantite_masquer;
+      position[0].save(({ suppressWarning: true }));
+      let StatusPosition =  await StatutCommand.find({&quot;position_id&quot;:req.body.position_id})
+     if(StatusPosition.length == 3)  
+     {
+      let positions =  await Position.find({&quot;_id&quot;:req.body.position_id});
+      positions[0].status = 1;
+      positions[0].save();
+
+      setTimeout(async () =&gt; {
+        let allPositionsForAPanier =  await Position.find({&quot;panier&quot;: req.body.produit_panier_Id})
+        let filtredTab = allPositionsForAPanier.filter(data=&gt;data.status==1)
+        let qteTotaleLivrer = 0
+        // la somme totale des quantit&eacute;s postionn&eacute;es
+        for(let j=0; j&lt; filtredTab.length; j++){
+          qteTotaleLivrer += filtredTab[j].quantite_livrer;
+        }
+        if(allPositionsForAPanier.length == filtredTab.length){
+          
+          commande[0].panier.forEach(resulte =&gt; {
+              if(resulte._id == req.body.produit_panier_Id){ 
+                resulte.quantite_livrer = qteTotaleLivrer;
+                if( qteTotaleLivrer == resulte.quantite_positionner ){
+                  resulte.status = 1;
+                  resulte.save();
+                 }
+                 resulte.save();
+              }
+          })
+          commande[0].save(({ suppressWarning: true }))  
+        }
+
+       
+
+      }, 3500);
+     
+
+      setTimeout(async () =&gt; {
+        let laligneCommande =  await Commande.find({&quot;_id&quot;:req.body.commandeId});
+        let lePanier=  laligneCommande[0].panier
+        let panierFiltreParStatut= lePanier.filter(data=&gt; data.status==1)
+       
+        if(lePanier.length == panierFiltreParStatut.length){
+              laligneCommande[0].status = 1
+              laligneCommande[0].save()
+        }
+      }, 4000);
+    
+      }
+     
+      
+    
+
+     
+ 
+}
+
+
+
+
+
+module.exports.getStatutByProduitId = async  function(req, res){
+  StatutCommand.find({&quot;produit_panier_Id&quot;: req.params.id}).populate('statutId')
+  .then(statut=&gt; res.status(200).json(statut))
+  .catch(error=&gt; res.status(400).json(error))
+}
+
+module.exports.getStatutByProduitIds = async function(req, res){
+  StatutCommand.find({&quot;position_id&quot;: req.params.id}).populate('statutId')
+  .then(statut=&gt; res.status(200).json(statut))
+  .catch(error=&gt; res.status(400).json(error))
+}
+
+module.exports.updateStatutCommande = function(req, res){
+  StatutCommand.updateOne({_id: req.body.id}, {...req.body}, {_id: req.body.id})
+  .then(()=&gt; res.status(200).json({message: &quot;Le statut a &eacute;t&eacute; modifi&eacute; avec succes&quot;}))
+  .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+
+
+module.exports.deleteStatutCommade = async function(req, res){
+  let ligneAsupprimer= req.body.ligneAsupprimer
+
+  try{
+    StatutCommand.deleteOne({_id: ligneAsupprimer})
+           .then(()=&gt; res.status(200).json({succes: &quot;Suppression bien reussie&quot;}))
+           .catch(error=&gt; res.status(400).json(error))
+  // StatutCommand.find({&quot;_id&quot;: ligneAsupprimer}).populate('statutId')
+  //   .then(data=&gt;{
+  //      Statut.find({ordre: data[0].statutId.ordre - 1})
+  //        .then(statut=&gt;{
+  //        Commande.find({&quot;_id&quot;: idCommande})
+  //         .then(commande=&gt;{
+
+  //           commande[0].panier.forEach(result =&gt; {
+  //             console.log()
+  //             if(result._id == panierId){
+                
+  //                 result.etape= statut[0]._id
+  //                 result.save();
+  //             }
+  //          });
+  //          commande[0].save();
+  //          StatutCommand.deleteOne({_id: ligneAsupprimer})
+  //          .then(()=&gt; res.status(200).json({succes: &quot;Suppression bien reussie&quot;}))
+  //          .catch(error=&gt; res.status(400).json(error))
+  //         })
+           
+          
+          
+  //        })
+  //   })
+      // let commande = Commande.insertMany(req.body);
+        //let user=req.payload._id;
+  
+//         if (commande) {
+         
+//            return res.status(200).json(commande);
+           
+//        } else {
+//            return res.status(404).send(new Error('Erreur 404...'))
+//        }
+   } catch (error) {
+       return res.status(500).send(new Error('Server Error...'))
+   }
+  // StatutCommand.deleteOne({_id: req.params.id})
+  // .then(()=&gt; res.status(200).json({succes: &quot;Suppression bien reussie&quot;}))
+  // .catch(error=&gt; res.status(400).json(error))
+}
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

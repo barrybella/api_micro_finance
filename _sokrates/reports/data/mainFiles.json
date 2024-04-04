@@ -1,0 +1,694 @@
+[ {
+  "relativePath" : "config/passport.js",
+  "extension" : "js",
+  "linesOfCode" : 24,
+  "unitsCount" : 1,
+  "unitsMcCabeIndexSum" : 4,
+  "linesOfCodeInUnits" : 16
+}, {
+  "relativePath" : "server.js",
+  "extension" : "js",
+  "linesOfCode" : 73,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "DB.js",
+  "extension" : "js",
+  "linesOfCode" : 3,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/client.js",
+  "extension" : "js",
+  "linesOfCode" : 34,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Notification.js",
+  "extension" : "js",
+  "linesOfCode" : 18,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/region.js",
+  "extension" : "js",
+  "linesOfCode" : 22,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/statutProduitCommande.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Conversation.js",
+  "extension" : "js",
+  "linesOfCode" : 23,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Stock.js",
+  "extension" : "js",
+  "linesOfCode" : 29,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Chantier.js",
+  "extension" : "js",
+  "linesOfCode" : 49,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Garde.js",
+  "extension" : "js",
+  "linesOfCode" : 64,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Produit.js",
+  "extension" : "js",
+  "linesOfCode" : 30,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Terrain.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Activiter.js",
+  "extension" : "js",
+  "linesOfCode" : 151,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Service.js",
+  "extension" : "js",
+  "linesOfCode" : 44,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/User.js",
+  "extension" : "js",
+  "linesOfCode" : 246,
+  "unitsCount" : 3,
+  "unitsMcCabeIndexSum" : 3,
+  "linesOfCodeInUnits" : 31
+}, {
+  "relativePath" : "models/Relation.js",
+  "extension" : "js",
+  "linesOfCode" : 83,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/statut.js",
+  "extension" : "js",
+  "linesOfCode" : 21,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Passport.js",
+  "extension" : "js",
+  "linesOfCode" : 25,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Vente.js",
+  "extension" : "js",
+  "linesOfCode" : 72,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Utilisateur.js",
+  "extension" : "js",
+  "linesOfCode" : 90,
+  "unitsCount" : 2,
+  "unitsMcCabeIndexSum" : 2,
+  "linesOfCodeInUnits" : 8
+}, {
+  "relativePath" : "models/Camion.js",
+  "extension" : "js",
+  "linesOfCode" : 29,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Carte.js",
+  "extension" : "js",
+  "linesOfCode" : 105,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Version.js",
+  "extension" : "js",
+  "linesOfCode" : 25,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Categorie.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/commune.js",
+  "extension" : "js",
+  "linesOfCode" : 22,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/problemeProduitCommande.js",
+  "extension" : "js",
+  "linesOfCode" : 15,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Affaire.js",
+  "extension" : "js",
+  "linesOfCode" : 22,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Mise.js",
+  "extension" : "js",
+  "linesOfCode" : 30,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Partenaire.js",
+  "extension" : "js",
+  "linesOfCode" : 23,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/probleme.js",
+  "extension" : "js",
+  "linesOfCode" : 18,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Demande.js",
+  "extension" : "js",
+  "linesOfCode" : 86,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Prospection.js",
+  "extension" : "js",
+  "linesOfCode" : 44,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/pays.js",
+  "extension" : "js",
+  "linesOfCode" : 21,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Pointage.js",
+  "extension" : "js",
+  "linesOfCode" : 49,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Chauffeure.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Active.js",
+  "extension" : "js",
+  "linesOfCode" : 30,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Transporte.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Levele.js",
+  "extension" : "js",
+  "linesOfCode" : 42,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Agrega.js",
+  "extension" : "js",
+  "linesOfCode" : 101,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Distributeur.js",
+  "extension" : "js",
+  "linesOfCode" : 105,
+  "unitsCount" : 2,
+  "unitsMcCabeIndexSum" : 2,
+  "linesOfCodeInUnits" : 8
+}, {
+  "relativePath" : "models/Slider.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Favorie.js",
+  "extension" : "js",
+  "linesOfCode" : 14,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Vaccination.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Commande.js",
+  "extension" : "js",
+  "linesOfCode" : 118,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/commentaire.js",
+  "extension" : "js",
+  "linesOfCode" : 25,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Projet.js",
+  "extension" : "js",
+  "linesOfCode" : 61,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Zone.js",
+  "extension" : "js",
+  "linesOfCode" : 59,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Position.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "models/Bloge.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/client.js",
+  "extension" : "js",
+  "linesOfCode" : 74,
+  "unitsCount" : 5,
+  "unitsMcCabeIndexSum" : 5,
+  "linesOfCodeInUnits" : 51
+}, {
+  "relativePath" : "controllers/profile.js",
+  "extension" : "js",
+  "linesOfCode" : 15,
+  "unitsCount" : 1,
+  "unitsMcCabeIndexSum" : 2,
+  "linesOfCodeInUnits" : 13
+}, {
+  "relativePath" : "controllers/regions.js",
+  "extension" : "js",
+  "linesOfCode" : 35,
+  "unitsCount" : 6,
+  "unitsMcCabeIndexSum" : 6,
+  "linesOfCodeInUnits" : 33
+}, {
+  "relativePath" : "controllers/getToken.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/statutProduitCommande.js",
+  "extension" : "js",
+  "linesOfCode" : 83,
+  "unitsCount" : 1,
+  "unitsMcCabeIndexSum" : 1,
+  "linesOfCodeInUnits" : 5
+}, {
+  "relativePath" : "controllers/orangeSmsApi.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/pointageControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 50,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/userControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 1208,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/TokenOM.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/orangeSms.js",
+  "extension" : "js",
+  "linesOfCode" : 26,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/commandeControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 2495,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/statut.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "unitsCount" : 5,
+  "unitsMcCabeIndexSum" : 5,
+  "linesOfCodeInUnits" : 29
+}, {
+  "relativePath" : "controllers/controllersChantier.js",
+  "extension" : "js",
+  "linesOfCode" : 40,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/orangeOM.js",
+  "extension" : "js",
+  "linesOfCode" : 27,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/userController.js",
+  "extension" : "js",
+  "linesOfCode" : 257,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/commune.js",
+  "extension" : "js",
+  "linesOfCode" : 48,
+  "unitsCount" : 8,
+  "unitsMcCabeIndexSum" : 8,
+  "linesOfCodeInUnits" : 45
+}, {
+  "relativePath" : "controllers/orangeOmApiStatus.js",
+  "extension" : "js",
+  "linesOfCode" : 44,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/orangeOmApi.js",
+  "extension" : "js",
+  "linesOfCode" : 76,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/prospectionControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 295,
+  "unitsCount" : 1,
+  "unitsMcCabeIndexSum" : 2,
+  "linesOfCodeInUnits" : 57
+}, {
+  "relativePath" : "controllers/relationControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 2,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/passportControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 1,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/globalVariable.js",
+  "extension" : "js",
+  "linesOfCode" : 4,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/probleme.js",
+  "extension" : "js",
+  "linesOfCode" : 36,
+  "unitsCount" : 6,
+  "unitsMcCabeIndexSum" : 6,
+  "linesOfCodeInUnits" : 34
+}, {
+  "relativePath" : "controllers/controllersLevele.js",
+  "extension" : "js",
+  "linesOfCode" : 58,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/pays.js",
+  "extension" : "js",
+  "linesOfCode" : 29,
+  "unitsCount" : 5,
+  "unitsMcCabeIndexSum" : 5,
+  "linesOfCodeInUnits" : 27
+}, {
+  "relativePath" : "controllers/profiles.js",
+  "extension" : "js",
+  "linesOfCode" : 15,
+  "unitsCount" : 1,
+  "unitsMcCabeIndexSum" : 2,
+  "linesOfCodeInUnits" : 13
+}, {
+  "relativePath" : "controllers/controllersProjet.js",
+  "extension" : "js",
+  "linesOfCode" : 73,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/getTokenSMS.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/authentification.js",
+  "extension" : "js",
+  "linesOfCode" : 125,
+  "unitsCount" : 2,
+  "unitsMcCabeIndexSum" : 7,
+  "linesOfCodeInUnits" : 81
+}, {
+  "relativePath" : "controllers/controllersActiviter.js",
+  "extension" : "js",
+  "linesOfCode" : 271,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/produitControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 945,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/payementCarteApi.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/categorieControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 240,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/commentaire.js",
+  "extension" : "js",
+  "linesOfCode" : 158,
+  "unitsCount" : 6,
+  "unitsMcCabeIndexSum" : 7,
+  "linesOfCodeInUnits" : 52
+}, {
+  "relativePath" : "controllers/controllersService.js",
+  "extension" : "js",
+  "linesOfCode" : 67,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/OM.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/getTokenCarte.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "controllers/authentication.js",
+  "extension" : "js",
+  "linesOfCode" : 250,
+  "unitsCount" : 1,
+  "unitsMcCabeIndexSum" : 5,
+  "linesOfCodeInUnits" : 27
+}, {
+  "relativePath" : "controllers/zoneControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 625,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/categorie.route.js",
+  "extension" : "js",
+  "linesOfCode" : 45,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/sms.route.js",
+  "extension" : "js",
+  "linesOfCode" : 52,
+  "unitsCount" : 2,
+  "unitsMcCabeIndexSum" : 4,
+  "linesOfCodeInUnits" : 15
+}, {
+  "relativePath" : "routes/pointage.route.js",
+  "extension" : "js",
+  "linesOfCode" : 10,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/produit.route.js",
+  "extension" : "js",
+  "linesOfCode" : 92,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/commande.route.js",
+  "extension" : "js",
+  "linesOfCode" : 109,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/user.route.js",
+  "extension" : "js",
+  "linesOfCode" : 136,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/projet.route.js",
+  "extension" : "js",
+  "linesOfCode" : 51,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/status.js",
+  "extension" : "js",
+  "linesOfCode" : 1,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/passport.route.js",
+  "extension" : "js",
+  "linesOfCode" : 1,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+}, {
+  "relativePath" : "routes/zone.route.js",
+  "extension" : "js",
+  "linesOfCode" : 102,
+  "unitsCount" : 0,
+  "unitsMcCabeIndexSum" : 0,
+  "linesOfCodeInUnits" : 0
+} ]

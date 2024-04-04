@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title>models/Demande.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">models/Demande.js (<b>86</b> lines of code) (<a href="Demande.js">raw</a>):</h3>
+<div id="editor">const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+var demandeSchema = new mongoose.Schema({
+    
+     echeance: {
+            type: String,
+            required: false,
+            default: '0'
+         },
+       quantite: {
+          type: Number,
+          required: false,
+          default: 0
+       },
+   valider: {
+          type: Number,
+          required: false,
+          default: 0
+       },
+    montant: {
+          type: Number,
+          required: false,
+          default: 0
+       },
+               payement: [{
+      
+        status: {
+            type: Number,
+            default: 0
+        },
+        montant: {
+          type: Number,
+          default: 0
+      },
+      date: {
+        type: String,
+        default: '0'
+    },
+        
+        
+    }],
+      montant_payer: {
+          type: Number,
+          required: false,
+          default: 0
+       },
+   reste_payer: {
+          type: Number,
+          required: false,
+          default: 0
+       },
+    date_debut: {
+            type: String,
+            required: false,
+            default: '0'
+          },
+      date_fin: {
+            type: String,
+            required: false,
+            default: '0'
+          },
+          delete: {
+            type: Number,
+            default: 0
+        }, 
+historique :[
+    {  
+             date: {
+            type: String,
+            required: false,
+            default: '0'
+          },
+           montant:  {
+            type: Number,
+            default: 0
+        },
+          delete:  {
+            type: Number,
+            default: 0
+        },
+    }
+    ],
+        produit_id: { type: Schema.Types.ObjectId, ref: 'Agrega' },
+        fournisseur_id: { type: Schema.Types.ObjectId, ref: 'User' }
+
+    },
+    
+    {
+    collection: 'demandes',
+    timestamps: true
+  });
+
+module.exports = mongoose.model('Demande', demandeSchema);
+
+
+
+
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

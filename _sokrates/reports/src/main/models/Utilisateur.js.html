@@ -1,0 +1,127 @@
+<html>
+<head>
+    <title>models/Utilisateur.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">models/Utilisateur.js (<b>90</b> lines of code) (<a href="Utilisateur.js">raw</a>):</h3>
+<div id="editor">var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
+const mongoose =  require('mongoose');
+const Schema = mongoose.Schema;
+
+var utilisateurSchema = new mongoose.Schema({
+    email: {
+      type: String,
+      unique: true,
+      required: true
+    },
+    tel: {
+      type: String,
+      unique: true,
+      required: false
+    },
+    name: {
+      type: String,
+      required: false
+    },
+    
+    user_id: {
+      type: String,
+      default:'0'
+  },
+    nameEntreprise: String,
+    ville: String,
+    commune: String,
+    quartier: String,
+    type: String,
+    logo: String,
+    role: {
+      type: String,
+      default: 'user'
+    },
+    codes: {
+      type: String,
+      default: '0'
+    },
+    valider: {
+      type:String,
+      default: 'valider'
+    },
+    valide: {
+      status: {
+        type: Number,
+        default: 0
+      },
+      besoin_id: { type: Schema.Types.ObjectId, ref: 'Besoin' }
+    },
+    zone: {
+      type: String,
+      default:'0',
+      required: false
+    },
+    active: {
+      type: Number,
+        default: 0
+    },
+    devise: {
+      type: Number,
+      default:0,
+      required: false
+    },
+    // relation_id: { type: Schema.Types.ObjectId, ref: 'Relation' },
+    hash: String,
+    salt: String
+  });
+
+  utilisateurSchema.methods.setPassword = function(password){
+    this.salt = crypto.randomBytes(16).toString('hex');
+    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
+  };
+
+  utilisateurSchema.methods.validPassword = function(password) {
+    var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
+    return this.hash === hash;
+  };
+
+  utilisateurSchema.methods.generateJwt = function() {
+    var expiry = new Date();
+    expiry.setDate(expiry.getDate() + 7);
+  
+    return jwt.sign({
+      _id: this._id,
+      email: this.email,
+      name: this.name,
+      tel: this.tel,
+      // relation_id: this.relation_id,
+      nameEntreprise: this.nameEntreprise,
+      ville: this.ville,
+      quartier: this.quartier,
+      type: this.type,
+      role: this.role,
+      valider: this.valider,
+      user_id: this.user_id,
+      exp: parseInt(expiry.getTime() / 1000),
+    }, &quot;MY_SECRET&quot;); // DO NOT KEEP YOUR SECRET IN THE CODE!
+  };
+
+  module.exports = mongoose.model('Utilisateur',utilisateurSchema);
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

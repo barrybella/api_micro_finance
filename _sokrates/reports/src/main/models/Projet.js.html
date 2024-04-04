@@ -1,0 +1,93 @@
+<html>
+<head>
+    <title>models/Projet.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">models/Projet.js (<b>61</b> lines of code) (<a href="Projet.js">raw</a>):</h3>
+<div id="editor">const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+
+
+var projetSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+   pourcentage: {
+        type: Number,
+        min:0,
+        max:100,
+        default: 0
+    },
+  
+    status: {
+        type: Number,
+        default: 0
+      },
+    description: {
+        type: String,
+        trim: true,
+        required: true
+    },
+  image: [{
+  images:{
+	type:String,
+        default:'0'
+    } }],
+    pays:{
+        type: String,
+        trim: true,
+        default:null
+    },
+    ville:{
+        type: String,
+        trim: true,
+        default:null
+    },
+    quartier:{
+        type: String,
+        trim: true,
+        default:null
+    },
+    latitude: {
+        type: String,
+        trim: true,
+     default:null
+    },
+    longitude: {
+        type: String,
+        trim: true,
+       default:null
+    },
+    user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+  // levele_id: { type: Schema.Types.ObjectId, ref: 'Levele' }
+
+},
+{
+    collection: 'projets',
+    timestamps: true
+  }
+)
+module.exports = mongoose.model('Projet', projetSchema);
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

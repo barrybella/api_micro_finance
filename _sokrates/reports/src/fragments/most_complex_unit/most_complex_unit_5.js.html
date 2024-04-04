@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>module.exports.profileRead = function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">module.exports.profileRead = function()</h3>
+<p style="margin-top: 4px">in <i>controllers/profile.js [4:20]</i></p>
+<ul>
+    <li><b>13</b> lines of code</li>
+    <li><b>2</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+module.exports.profileRead = function(req, res) {
+
+  // If no user ID exists in the JWT return a 401
+  if (!req.payload._id) {
+    res.status(401).json({
+      &quot;message&quot; : &quot;UnauthorizedError: private profile&quot;
+    });
+  } else {
+    // Otherwise continue
+    User
+      .findById(req.payload._id)
+      .exec(function(err, user) {
+        return res.status(200).json(user);
+      });
+  }
+
+};  
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

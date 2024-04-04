@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>function refreshTokenOnUnauthorizedError()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">function refreshTokenOnUnauthorizedError()</h3>
+<p style="margin-top: 4px">in <i>routes/sms.route.js [47:57]</i></p>
+<ul>
+    <li><b>8</b> lines of code</li>
+    <li><b>3</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+function refreshTokenOnUnauthorizedError(error) {
+  if (error.response &amp;&amp; error.response.statusCode === 401) {
+    // remove existing token
+    token.cleanAccessToken()
+    // retrieve a new token
+    return token.getAccessToken()
+  } else {
+    // Not a token error
+    return Promise.reject(error)
+  }
+}
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
