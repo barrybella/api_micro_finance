@@ -1,0 +1,85 @@
+<html>
+<head>
+    <title>controllers/pointageControllers.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/pointageControllers.js (<b>50</b> lines of code) (<a href="pointageControllers.js">raw</a>):</h3>
+<div id="editor">var Pointage = require('../models/Pointage');
+
+module.exports.addPointage = async function (req, res) {
+    try {
+
+        let pointage = Pointage.insertMany(req.body);
+
+        if (pointage) {
+            return res.status(200).json(pointage);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.allPointage = async function (req, res) {
+    try {
+        // let pointages = await Pointage.find({}).populate('flotte_id');
+        
+        let pointages = await Pointage.aggregate([
+            {$unwind: &quot;$flotte_id&quot;},
+            { $match: {&quot;delete&quot;: 0}}, 
+            {$group : {&quot;_id&quot;: &quot;$flotte_id&quot;}},
+            {
+                $lookup: {
+                    from: &quot;flotes&quot;,
+                    localField: &quot;_id&quot;,
+                    foreignField: &quot;_id&quot;,
+                    as: &quot;flotte_doc&quot;
+                }
+            }
+        ]);
+        if (pointages) {
+            return res.status(200).json(pointages);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.getPointage = async function (req, res) {
+    idPointage = req.params.idPointage; 
+    try {
+        let pointage = await Pointage.find({'_id': idPointage}).populate('flotte_id');
+
+        if (pointage[0]) {
+            return res.status(200).json(pointage[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

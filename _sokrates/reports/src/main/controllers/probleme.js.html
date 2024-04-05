@@ -1,0 +1,82 @@
+<html>
+<head>
+    <title>controllers/probleme.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/probleme.js (<b>36</b> lines of code) (<a href="probleme.js">raw</a>):</h3>
+<div id="editor">const mongoose= require('mongoose')
+const Probleme= require('../models/probleme')
+
+
+module.exports.addProbleme = function(req, res){
+  const  probleme= new Probleme()
+     probleme.statutId= req.body.statutId
+     probleme.libelle= req.body.libelle
+     probleme.observations= req.body.observations
+
+     probleme.save()
+      .then(()=&gt; res.status(201).json({message: &quot;La probleme a &eacute;t&eacute; inser&eacute; avec succes&quot;}))
+      .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+module.exports.getAllProbleme = function(req, res){
+  Probleme.find({})
+  .then(probleme=&gt; res.status(200).json(probleme))
+  .catch(error=&gt; res.status(400).json(error))
+}
+
+module.exports.getProblemeById = function(req, res){
+  Probleme.find({_id: req.params.id})
+  .then(region=&gt; res.status(201).json(region))
+  .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+module.exports.updateProbleme = function(req, res){
+  Probleme.updateOne({_id: req.params.id}, {...req.body}, {_id: req.params.id})
+  .then(()=&gt; res.status(200).json({message: &quot;La probleme a &eacute;t&eacute; inser&eacute; avec succes&quot;}))
+  .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+
+
+module.exports.deleteProbleme = function(req, res){
+  Probleme.deleteOne({_id: req.params.id})
+  .then(()=&gt; res.status(200).json({succes: &quot;Suppression bien reussie&quot;}))
+  .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+
+module.exports.getProblemeByStatutId = function(req, res){
+  Probleme.find({statutId: req.params.id}).populate('statutId')
+  .then(regions=&gt; res.status(201).json(regions))
+  .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

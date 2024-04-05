@@ -1,0 +1,11 @@
+Path	Lines of Code
+routes/categorie.route.js	45
+routes/commande.route.js	109
+routes/passport.route.js	1
+routes/pointage.route.js	10
+routes/produit.route.js	92
+routes/projet.route.js	51
+routes/sms.route.js	52
+routes/status.js	1
+routes/user.route.js	136
+routes/zone.route.js	102

@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>models/Service.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">models/Service.js (<b>44</b> lines of code) (<a href="Service.js">raw</a>):</h3>
+<div id="editor">const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+
+
+var serviceModel = new mongoose.Schema({
+    name: {
+        type: String,
+        maxLength: 50,
+        required: true,
+        trim: true
+    },
+    unite: {
+	type: String,
+        maxLength: 50,
+        required: false,
+        trim: true
+    },
+   prix_unitaire: {
+	type: String,
+        maxLength: 50,
+        required: false,
+        trim: true
+    },
+    
+    
+    description: {
+        type: String,
+        trim: true,
+        max: 200,
+        default: null
+    }, 
+    cout: {
+        type:String, 
+        required: true,
+        trim:true,
+    },
+  images:{
+	type:String,
+        default:'0'
+    },
+   activiter_id: { type: Schema.Types.ObjectId, ref: 'Activiter' },
+
+},
+{
+    collection: 'services',
+    timestamps: true
+  }
+)
+
+
+module.exports = mongoose.model('Service', serviceModel);
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

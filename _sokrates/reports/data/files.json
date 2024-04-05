@@ -1,0 +1,595 @@
+[ {
+  "relativePath" : "config/passport.js",
+  "extension" : "js",
+  "linesOfCode" : 24,
+  "components" : [ "primary::config" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "server.js",
+  "extension" : "js",
+  "linesOfCode" : 73,
+  "components" : [ "primary::ROOT" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "DB.js",
+  "extension" : "js",
+  "linesOfCode" : 3,
+  "components" : [ "primary::ROOT" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/client.js",
+  "extension" : "js",
+  "linesOfCode" : 34,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Notification.js",
+  "extension" : "js",
+  "linesOfCode" : 18,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/region.js",
+  "extension" : "js",
+  "linesOfCode" : 22,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/statutProduitCommande.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Conversation.js",
+  "extension" : "js",
+  "linesOfCode" : 23,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Stock.js",
+  "extension" : "js",
+  "linesOfCode" : 29,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Chantier.js",
+  "extension" : "js",
+  "linesOfCode" : 49,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Garde.js",
+  "extension" : "js",
+  "linesOfCode" : 64,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Produit.js",
+  "extension" : "js",
+  "linesOfCode" : 30,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Terrain.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Activiter.js",
+  "extension" : "js",
+  "linesOfCode" : 151,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Service.js",
+  "extension" : "js",
+  "linesOfCode" : 44,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/User.js",
+  "extension" : "js",
+  "linesOfCode" : 246,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Relation.js",
+  "extension" : "js",
+  "linesOfCode" : 83,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/statut.js",
+  "extension" : "js",
+  "linesOfCode" : 21,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Passport.js",
+  "extension" : "js",
+  "linesOfCode" : 25,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Vente.js",
+  "extension" : "js",
+  "linesOfCode" : 72,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Utilisateur.js",
+  "extension" : "js",
+  "linesOfCode" : 90,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Camion.js",
+  "extension" : "js",
+  "linesOfCode" : 29,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Carte.js",
+  "extension" : "js",
+  "linesOfCode" : 105,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Version.js",
+  "extension" : "js",
+  "linesOfCode" : 25,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Categorie.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/commune.js",
+  "extension" : "js",
+  "linesOfCode" : 22,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/problemeProduitCommande.js",
+  "extension" : "js",
+  "linesOfCode" : 15,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Affaire.js",
+  "extension" : "js",
+  "linesOfCode" : 22,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Mise.js",
+  "extension" : "js",
+  "linesOfCode" : 30,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Partenaire.js",
+  "extension" : "js",
+  "linesOfCode" : 23,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/probleme.js",
+  "extension" : "js",
+  "linesOfCode" : 18,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Demande.js",
+  "extension" : "js",
+  "linesOfCode" : 86,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Prospection.js",
+  "extension" : "js",
+  "linesOfCode" : 44,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/pays.js",
+  "extension" : "js",
+  "linesOfCode" : 21,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Pointage.js",
+  "extension" : "js",
+  "linesOfCode" : 49,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Chauffeure.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Active.js",
+  "extension" : "js",
+  "linesOfCode" : 30,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Transporte.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Levele.js",
+  "extension" : "js",
+  "linesOfCode" : 42,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Agrega.js",
+  "extension" : "js",
+  "linesOfCode" : 101,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Distributeur.js",
+  "extension" : "js",
+  "linesOfCode" : 105,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Slider.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Favorie.js",
+  "extension" : "js",
+  "linesOfCode" : 14,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Vaccination.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Commande.js",
+  "extension" : "js",
+  "linesOfCode" : 118,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/commentaire.js",
+  "extension" : "js",
+  "linesOfCode" : 25,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Projet.js",
+  "extension" : "js",
+  "linesOfCode" : 61,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Zone.js",
+  "extension" : "js",
+  "linesOfCode" : 59,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Position.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "models/Bloge.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "components" : [ "primary::models" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/client.js",
+  "extension" : "js",
+  "linesOfCode" : 74,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/profile.js",
+  "extension" : "js",
+  "linesOfCode" : 15,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/regions.js",
+  "extension" : "js",
+  "linesOfCode" : 35,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/getToken.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/statutProduitCommande.js",
+  "extension" : "js",
+  "linesOfCode" : 83,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/orangeSmsApi.js",
+  "extension" : "js",
+  "linesOfCode" : 33,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/pointageControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 50,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/userControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 1208,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/TokenOM.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/orangeSms.js",
+  "extension" : "js",
+  "linesOfCode" : 26,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/commandeControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 2495,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/statut.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/controllersChantier.js",
+  "extension" : "js",
+  "linesOfCode" : 40,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/orangeOM.js",
+  "extension" : "js",
+  "linesOfCode" : 27,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/userController.js",
+  "extension" : "js",
+  "linesOfCode" : 257,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/commune.js",
+  "extension" : "js",
+  "linesOfCode" : 48,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/orangeOmApiStatus.js",
+  "extension" : "js",
+  "linesOfCode" : 44,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/orangeOmApi.js",
+  "extension" : "js",
+  "linesOfCode" : 76,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/prospectionControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 295,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/relationControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 2,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/passportControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 1,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/globalVariable.js",
+  "extension" : "js",
+  "linesOfCode" : 4,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/probleme.js",
+  "extension" : "js",
+  "linesOfCode" : 36,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/controllersLevele.js",
+  "extension" : "js",
+  "linesOfCode" : 58,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/pays.js",
+  "extension" : "js",
+  "linesOfCode" : 29,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/profiles.js",
+  "extension" : "js",
+  "linesOfCode" : 15,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/controllersProjet.js",
+  "extension" : "js",
+  "linesOfCode" : 73,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/getTokenSMS.js",
+  "extension" : "js",
+  "linesOfCode" : 31,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/authentification.js",
+  "extension" : "js",
+  "linesOfCode" : 125,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/controllersActiviter.js",
+  "extension" : "js",
+  "linesOfCode" : 271,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/produitControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 945,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/payementCarteApi.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/categorieControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 240,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/commentaire.js",
+  "extension" : "js",
+  "linesOfCode" : 158,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/controllersService.js",
+  "extension" : "js",
+  "linesOfCode" : 67,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/OM.js",
+  "extension" : "js",
+  "linesOfCode" : 39,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/getTokenCarte.js",
+  "extension" : "js",
+  "linesOfCode" : 28,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/authentication.js",
+  "extension" : "js",
+  "linesOfCode" : 250,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "controllers/zoneControllers.js",
+  "extension" : "js",
+  "linesOfCode" : 625,
+  "components" : [ "primary::controllers" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/categorie.route.js",
+  "extension" : "js",
+  "linesOfCode" : 45,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/sms.route.js",
+  "extension" : "js",
+  "linesOfCode" : 52,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/pointage.route.js",
+  "extension" : "js",
+  "linesOfCode" : 10,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/produit.route.js",
+  "extension" : "js",
+  "linesOfCode" : 92,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/commande.route.js",
+  "extension" : "js",
+  "linesOfCode" : 109,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/user.route.js",
+  "extension" : "js",
+  "linesOfCode" : 136,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/projet.route.js",
+  "extension" : "js",
+  "linesOfCode" : 51,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/status.js",
+  "extension" : "js",
+  "linesOfCode" : 1,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/passport.route.js",
+  "extension" : "js",
+  "linesOfCode" : 1,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+}, {
+  "relativePath" : "routes/zone.route.js",
+  "extension" : "js",
+  "linesOfCode" : 102,
+  "components" : [ "primary::routes" ],
+  "concerns" : [ "::Unclassified" ]
+} ]

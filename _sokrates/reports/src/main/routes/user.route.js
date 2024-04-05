@@ -1,0 +1,185 @@
+const express = require('express');                                     
+var jwt = require('express-jwt');                                       
+const userRoutes = express.Router();                                    
+var auth = jwt({                                                        
+  secret: 'MY_SECRET',                                                  
+  userProperty: 'payload',                                              
+  algorithms: ['HS256']                                                 
+});                                                                     
+                                                                        
+const multer = require('multer');                                       
+const mkdirp = require('mkdirp');                                       
+const bodyParser= require('body-parser');                               
+                                                                        
+var storage = multer.diskStorage({                                      
+    destination: (req, file, cb) => {                                   
+        const dir = './public/images/logo';                             
+        mkdirp(dir, err => cb(err, dir))                                
+    },                                                                  
+    filename: (req, file, cb) => {                                      
+        cb(null, new Date().getTime()+ "-" + file.originalname)         
+    }                                                                   
+});                                                                     
+const upload = multer({ storage })                                      
+ctrUserAutentifications = require('../controllers/authentification');                                                                    
+ctrUserAutentification = require('../controllers/authentication');      
+ctrUsers = require('../controllers/userController');                    
+ctrUser = require('../controllers/userControllers');                    
+ctrProfile = require('../controllers/profile');                         
+ctrProfiles = require('../controllers/profiles');                       
+
+ctrUserss = require('../controllers/userController');                    
+userRoutes.route('/addChauffeur').post(ctrUser.addChauffeur);
+
+userRoutes.route('/getUserByTel/:id').get(ctrUser.getUserByTel);
+userRoutes.route('/getUserByIds/:id').get(ctrUsers.getUserById);
+ userRoutes.route('/telExists/:tel').get(ctrUsers.telExist);
+ userRoutes.route('/Autorisers/:id').get(ctrUsers.Autoriser);
+ userRoutes.route('/RevoqueAutorisers/:id').get(ctrUsers.RevoqueAutoriser);
+ userRoutes.route('/updateUsers/:id').put(ctrUsers.updateUser);
+ userRoutes.route('/validations/:id').put(ctrUsers.updateUserValidation);
+userRoutes.route('/existEmails/:email').get(ctrUsers.emailExist);
+userRoutes.route('/emailOrTelExists/:value').get(ctrUsers.emailOrTelExist);
+
+userRoutes.route('/allUserss').get(ctrUsers.allUsers);
+userRoutes.route('/allUsersSs').get(ctrUsers.allUsersS);
+userRoutes.route('/allUsersDs').get(ctrUsers.allUsersD);
+
+
+
+// userRoutes.route('/allUsersCarte').get(ctrUsers.allUsersCarte);
+
+ userRoutes.route('/allUsersFis').get(ctrUsers.allUsersFi);
+ userRoutes.route('/allUsersFs').get(ctrUsers.allUsersF);
+ userRoutes.route('/updatePasswords/:id').put(ctrUsers.updatePassword);
+ userRoutes.route('/setRamdoms/:tel').get(ctrUsers.setRamdom);
+
+userRoutes.route('/getCartePayerAD').get(ctrUser.getCartePayerAD);
+
+userRoutes.route('/getCartePayer').get(ctrUser.getCartePayer);
+userRoutes.route('/getGardeById/:id').get(ctrUser.getGardeById);
+userRoutes.route('/paye').post(ctrUser.paye);
+
+userRoutes.route('/updateUserss/:id').put(ctrUser.updateUsers);                                                                        
+userRoutes.route('/logins').post(ctrUserAutentifications.login);        
+userRoutes.route('/addUsers').post(ctrUserAutentifications.register);   
+userRoutes.route('/resets').post(ctrUserAutentifications.reset);        
+userRoutes.route('/profiles').get( auth, ctrProfiles.profileRead);      
+userRoutes.route('/viewRole/:id').get(ctrUser.viewRole);
+userRoutes.route('/compte/:id').get(ctrUser.compte);
+userRoutes.route('/getUserVenteById/:id').get(ctrUser.getUserVenteById);
+userRoutes.route('/getVenteById/:id').get(ctrUser.getVenteById);
+userRoutes.route('/comptes/:id').get(ctrUser.comptes);
+userRoutes.route('/getCarteById/:id').get(ctrUser.getCarteById);
+userRoutes.route('/deleteRole/:id/:user_id').get(ctrUser.deleteRole);
+userRoutes.route('/viewProduit/:id').get(ctrUser.viewProduit);
+userRoutes.route('/viewProduitVente/:id').get(ctrUser.viewProduitVente);
+userRoutes.route('/deleteProdVente/:id/:carte_id').get(ctrUser.deleteProdVente);
+userRoutes.route('/deleteCarteVente/:id').get(ctrUser.deleteCarteVente);
+
+
+userRoutes.route('/deleteProd/:id/:carte_id').get(ctrUser.deleteProd);
+userRoutes.route('/deleteCarte/:id').get(ctrUser.deleteCarte);
+userRoutes.route('/viewCarte/:id').get(ctrUser.viewCarte);
+userRoutes.route('/addCarte').post(ctrUser.addCarte);
+userRoutes.route('/addRole').post(ctrUser.addRole);
+userRoutes.route('/addCartes').post(ctrUser.addCartes);
+userRoutes.route('/addVentes').post(ctrUser.addVentes);
+userRoutes.route('/carteExist/:carte').get(ctrUser.carteExist);
+userRoutes.route('/addGardes').post(ctrUser.addGardes);
+
+userRoutes.route('/viewProduitGarde/:id').get(ctrUser.viewProduitGarde);
+
+userRoutes.route('/venteExist/:carte').get(ctrUser.venteExist);
+userRoutes.route('/addActive').post(ctrUser.addActive);
+userRoutes.route('/activeExist/:carte').get(ctrUser.activeExist);
+userRoutes.route('/viewActive/:id').get(ctrUser.viewActive);
+
+
+userRoutes.route('/CarteActive').get(ctrUser.CarteActive);
+userRoutes.route('/CarteActiveAya').get(ctrUser.CarteActiveAya);
+userRoutes.route('/CarteAya').get(ctrUser.CarteAya);
+userRoutes.route('/activeCarte/:id').get(ctrUser.activeCarte);
+
+userRoutes.route('/desactiveCarte/:id').get(ctrUser.desactiveCarte);
+
+userRoutes.route('/addGarde').post(ctrUser.addGarde);
+userRoutes.route('/approGarde').post(ctrUser.approGarde);
+userRoutes.route('/addVente').post(ctrUser.addVente);
+userRoutes.route('/Vente').get(ctrUser.viewVente);
+userRoutes.route('/viewGarde').get(ctrUser.viewGarde);
+
+
+
+userRoutes.route('/login').post(ctrUserAutentification.login);
+
+userRoutes.route('/profile').get( auth, ctrProfile.profileRead);
+userRoutes.route('/getUserById/:id').get(ctrUser.getUserById);
+
+userRoutes.route('/payementFournisseur').post(ctrUser.payementFournisseur);
+
+userRoutes.route('/addDistributeur').post(ctrUserAutentification.addDistributeur);
+userRoutes.route('/addFournisseur').post(ctrUserAutentification.addFournisseur);
+userRoutes.route('/addUser').post(ctrUserAutentification.register);
+userRoutes.route('/reset').post(ctrUserAutentification.reset);
+userRoutes.route('/telExist/:tel').get(ctrUser.telExist);
+userRoutes.route('/Autoriser/:id').get(ctrUser.Autoriser);
+userRoutes.route('/RevoqueAutoriser/:id').get(ctrUser.RevoqueAutoriser);
+userRoutes.route('/updateUser/:id').put(ctrUser.updateUser);
+
+userRoutes.route('/validation/:id').put(ctrUser.updateUserValidation);
+userRoutes.route('/existEmail/:email').get(ctrUser.emailExist);
+
+ userRoutes.route('/allUsersCarte').get(ctrUser.allUsersCarte);
+userRoutes.route('/addPayement').post(ctrUser.addPayement);
+userRoutes.route('/validerDemande/:id').get(ctrUser.validerDemande);
+userRoutes.route('/rejeterDemande/:id').get(ctrUser.rejeterDemande);
+userRoutes.route('/deleteDemande/:id').get(ctrUser.deleteDemande);
+
+userRoutes.route('/recherche').post(ctrUser.recherche);
+
+userRoutes.route('/addDemande').post(ctrUser.addDemande);
+userRoutes.route('/getDemande/:id').get(ctrUser.getDemande);
+
+userRoutes.route('/emailOrTelExist/:value').get(ctrUser.emailOrTelExist);
+userRoutes.route('/CommandeByFournisseur').get(ctrUser.CommandeByFournisseur);
+userRoutes.route('/allUsersFi').get(ctrUser.allUsersFi);
+userRoutes.route('/allUsers').get(ctrUser.allUsers);
+
+userRoutes.route('/allUsersCT').get(ctrUser.allUsersCT);
+
+userRoutes.route('/RechercheUser/:id').get(ctrUser.RechercheUser);
+
+userRoutes.route('/allUsersDD').get(ctrUser.allUsersDD);
+
+userRoutes.route('/deleteUser/:id').get(ctrUser.deleteUser);
+
+userRoutes.route('/allUsersD/:page').get(ctrUser.allUsersD);
+userRoutes.route('/allUsersDAdmin/:page/:id').get(ctrUser.allUsersDAdmin);
+
+userRoutes.route('/allUsersA').get(ctrUser.allUsersA);
+
+
+userRoutes.route('/allUsersF').get(ctrUser.allUsersF);
+userRoutes.route('/allUsersFP').get(ctrUser.allUsersFP);
+userRoutes.route('/updatePassword/:id').put(ctrUser.updatePassword);
+userRoutes.route('/setRamdom/:tel').get(ctrUser.setRamdom);
+
+//UPLOAD IMAGE AVATAR
+userRoutes.route('/photo').post(upload.single('file'), (req, res) => {
+  const file = req.file;
+
+  if (!file) {
+    const error = new Error('No File');
+    error.httpStatusCode = 500;
+
+    return next(error);
+        // return res.json(`${req.file.path}`);
+  }
+  res.send(file);
+  // else{
+  //     return res.json(``);
+  // }
+});
+
+module.exports = userRoutes;

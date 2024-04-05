@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    .node {
+        cursor: pointer;
+    }
+
+    .node:hover {
+        stroke: #000;
+        stroke-width: 1.5px;
+    }
+
+    .node--leaf {
+        fill: white;
+    }
+
+    .label {
+        font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-anchor: middle;
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+    }
+
+    .label,
+    .node--root,
+    .node--leaf {
+        pointer-events: none;
+    }
+
+</style>
+<svg width="960" height="960"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+    var svg = d3.select("svg"),
+        margin = 20,
+        diameter = +svg.attr("width"),
+        g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+    var color = d3.scaleLinear()
+        .domain([-1, 5])
+        .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+        .interpolate(d3.interpolateHcl);
+
+    var pack = d3.pack()
+        .size([diameter - margin, diameter - margin])
+        .padding(2);
+
+
+    var root = {
+        "name": "cluster",
+        "children": [ {
+  "name" : "config",
+  "color" : "",
+  "size" : 0,
+  "children" : [ {
+    "name" : "passport.js",
+    "color" : "",
+    "size" : 24,
+    "children" : [ ]
+  } ]
+}, {
+  "name" : "server.js",
+  "color" : "",
+  "size" : 73,
+  "children" : [ ]
+}, {
+  "name" : "DB.js",
+  "color" : "",
+  "size" : 3,
+  "children" : [ ]
+}, {
+  "name" : "models",
+  "color" : "",
+  "size" : 0,
+  "children" : [ {
+    "name" : "client.js",
+    "color" : "",
+    "size" : 34,
+    "children" : [ ]
+  }, {
+    "name" : "Notification.js",
+    "color" : "",
+    "size" : 18,
+    "children" : [ ]
+  }, {
+    "name" : "region.js",
+    "color" : "",
+    "size" : 22,
+    "children" : [ ]
+  }, {
+    "name" : "statutProduitCommande.js",
+    "color" : "",
+    "size" : 28,
+    "children" : [ ]
+  }, {
+    "name" : "Conversation.js",
+    "color" : "",
+    "size" : 23,
+    "children" : [ ]
+  }, {
+    "name" : "Stock.js",
+    "color" : "",
+    "size" : 29,
+    "children" : [ ]
+  }, {
+    "name" : "Chantier.js",
+    "color" : "",
+    "size" : 49,
+    "children" : [ ]
+  }, {
+    "name" : "Garde.js",
+    "color" : "",
+    "size" : 64,
+    "children" : [ ]
+  }, {
+    "name" : "Produit.js",
+    "color" : "",
+    "size" : 30,
+    "children" : [ ]
+  }, {
+    "name" : "Terrain.js",
+    "color" : "",
+    "size" : 33,
+    "children" : [ ]
+  }, {
+    "name" : "Activiter.js",
+    "color" : "",
+    "size" : 151,
+    "children" : [ ]
+  }, {
+    "name" : "Service.js",
+    "color" : "",
+    "size" : 44,
+    "children" : [ ]
+  }, {
+    "name" : "User.js",
+    "color" : "",
+    "size" : 246,
+    "children" : [ ]
+  }, {
+    "name" : "Relation.js",
+    "color" : "",
+    "size" : 83,
+    "children" : [ ]
+  }, {
+    "name" : "statut.js",
+    "color" : "",
+    "size" : 21,
+    "children" : [ ]
+  }, {
+    "name" : "Passport.js",
+    "color" : "",
+    "size" : 25,
+    "children" : [ ]
+  }, {
+    "name" : "Vente.js",
+    "color" : "",
+    "size" : 72,
+    "children" : [ ]
+  }, {
+    "name" : "Utilisateur.js",
+    "color" : "",
+    "size" : 90,
+    "children" : [ ]
+  }, {
+    "name" : "Camion.js",
+    "color" : "",
+    "size" : 29,
+    "children" : [ ]
+  }, {
+    "name" : "Carte.js",
+    "color" : "",
+    "size" : 105,
+    "children" : [ ]
+  }, {
+    "name" : "Version.js",
+    "color" : "",
+    "size" : 25,
+    "children" : [ ]
+  }, {
+    "name" : "Categorie.js",
+    "color" : "",
+    "size" : 39,
+    "children" : [ ]
+  }, {
+    "name" : "commune.js",
+    "color" : "",
+    "size" : 22,
+    "children" : [ ]
+  }, {
+    "name" : "problemeProduitCommande.js",
+    "color" : "",
+    "size" : 15,
+    "children" : [ ]
+  }, {
+    "name" : "Affaire.js",
+    "color" : "",
+    "size" : 22,
+    "children" : [ ]
+  }, {
+    "name" : "Mise.js",
+    "color" : "",
+    "size" : 30,
+    "children" : [ ]
+  }, {
+    "name" : "Partenaire.js",
+    "color" : "",
+    "size" : 23,
+    "children" : [ ]
+  }, {
+    "name" : "probleme.js",
+    "color" : "",
+    "size" : 18,
+    "children" : [ ]
+  }, {
+    "name" : "Demande.js",
+    "color" : "",
+    "size" : 86,
+    "children" : [ ]
+  }, {
+    "name" : "Prospection.js",
+    "color" : "",
+    "size" : 44,
+    "children" : [ ]
+  }, {
+    "name" : "pays.js",
+    "color" : "",
+    "size" : 21,
+    "children" : [ ]
+  }, {
+    "name" : "Pointage.js",
+    "color" : "",
+    "size" : 49,
+    "children" : [ ]
+  }, {
+    "name" : "Chauffeure.js",
+    "color" : "",
+    "size" : 28,
+    "children" : [ ]
+  }, {
+    "name" : "Active.js",
+    "color" : "",
+    "size" : 30,
+    "children" : [ ]
+  }, {
+    "name" : "Transporte.js",
+    "color" : "",
+    "size" : 33,
+    "children" : [ ]
+  }, {
+    "name" : "Levele.js",
+    "color" : "",
+    "size" : 42,
+    "children" : [ ]
+  }, {
+    "name" : "Agrega.js",
+    "color" : "",
+    "size" : 101,
+    "children" : [ ]
+  }, {
+    "name" : "Distributeur.js",
+    "color" : "",
+    "size" : 105,
+    "children" : [ ]
+  }, {
+    "name" : "Slider.js",
+    "color" : "",
+    "size" : 28,
+    "children" : [ ]
+  }, {
+    "name" : "Favorie.js",
+    "color" : "",
+    "size" : 14,
+    "children" : [ ]
+  }, {
+    "name" : "Vaccination.js",
+    "color" : "",
+    "size" : 33,
+    "children" : [ ]
+  }, {
+    "name" : "Commande.js",
+    "color" : "",
+    "size" : 118,
+    "children" : [ ]
+  }, {
+    "name" : "commentaire.js",
+    "color" : "",
+    "size" : 25,
+    "children" : [ ]
+  }, {
+    "name" : "Projet.js",
+    "color" : "",
+    "size" : 61,
+    "children" : [ ]
+  }, {
+    "name" : "Zone.js",
+    "color" : "",
+    "size" : 59,
+    "children" : [ ]
+  }, {
+    "name" : "Position.js",
+    "color" : "",
+    "size" : 39,
+    "children" : [ ]
+  }, {
+    "name" : "Bloge.js",
+    "color" : "",
+    "size" : 28,
+    "children" : [ ]
+  } ]
+}, {
+  "name" : "controllers",
+  "color" : "",
+  "size" : 0,
+  "children" : [ {
+    "name" : "client.js",
+    "color" : "",
+    "size" : 74,
+    "children" : [ ]
+  }, {
+    "name" : "profile.js",
+    "color" : "",
+    "size" : 15,
+    "children" : [ ]
+  }, {
+    "name" : "regions.js",
+    "color" : "",
+    "size" : 35,
+    "children" : [ ]
+  }, {
+    "name" : "getToken.js",
+    "color" : "",
+    "size" : 31,
+    "children" : [ ]
+  }, {
+    "name" : "statutProduitCommande.js",
+    "color" : "",
+    "size" : 83,
+    "children" : [ ]
+  }, {
+    "name" : "orangeSmsApi.js",
+    "color" : "",
+    "size" : 33,
+    "children" : [ ]
+  }, {
+    "name" : "pointageControllers.js",
+    "color" : "",
+    "size" : 50,
+    "children" : [ ]
+  }, {
+    "name" : "userControllers.js",
+    "color" : "",
+    "size" : 1208,
+    "children" : [ ]
+  }, {
+    "name" : "TokenOM.js",
+    "color" : "",
+    "size" : 31,
+    "children" : [ ]
+  }, {
+    "name" : "orangeSms.js",
+    "color" : "",
+    "size" : 26,
+    "children" : [ ]
+  }, {
+    "name" : "commandeControllers.js",
+    "color" : "",
+    "size" : 2495,
+    "children" : [ ]
+  }, {
+    "name" : "statut.js",
+    "color" : "",
+    "size" : 31,
+    "children" : [ ]
+  }, {
+    "name" : "controllersChantier.js",
+    "color" : "",
+    "size" : 40,
+    "children" : [ ]
+  }, {
+    "name" : "orangeOM.js",
+    "color" : "",
+    "size" : 27,
+    "children" : [ ]
+  }, {
+    "name" : "userController.js",
+    "color" : "",
+    "size" : 257,
+    "children" : [ ]
+  }, {
+    "name" : "commune.js",
+    "color" : "",
+    "size" : 48,
+    "children" : [ ]
+  }, {
+    "name" : "orangeOmApiStatus.js",
+    "color" : "",
+    "size" : 44,
+    "children" : [ ]
+  }, {
+    "name" : "orangeOmApi.js",
+    "color" : "",
+    "size" : 76,
+    "children" : [ ]
+  }, {
+    "name" : "prospectionControllers.js",
+    "color" : "",
+    "size" : 295,
+    "children" : [ ]
+  }, {
+    "name" : "relationControllers.js",
+    "color" : "",
+    "size" : 2,
+    "children" : [ ]
+  }, {
+    "name" : "passportControllers.js",
+    "color" : "",
+    "size" : 1,
+    "children" : [ ]
+  }, {
+    "name" : "globalVariable.js",
+    "color" : "",
+    "size" : 4,
+    "children" : [ ]
+  }, {
+    "name" : "probleme.js",
+    "color" : "",
+    "size" : 36,
+    "children" : [ ]
+  }, {
+    "name" : "controllersLevele.js",
+    "color" : "",
+    "size" : 58,
+    "children" : [ ]
+  }, {
+    "name" : "pays.js",
+    "color" : "",
+    "size" : 29,
+    "children" : [ ]
+  }, {
+    "name" : "profiles.js",
+    "color" : "",
+    "size" : 15,
+    "children" : [ ]
+  }, {
+    "name" : "controllersProjet.js",
+    "color" : "",
+    "size" : 73,
+    "children" : [ ]
+  }, {
+    "name" : "getTokenSMS.js",
+    "color" : "",
+    "size" : 31,
+    "children" : [ ]
+  }, {
+    "name" : "authentification.js",
+    "color" : "",
+    "size" : 125,
+    "children" : [ ]
+  }, {
+    "name" : "controllersActiviter.js",
+    "color" : "",
+    "size" : 271,
+    "children" : [ ]
+  }, {
+    "name" : "produitControllers.js",
+    "color" : "",
+    "size" : 945,
+    "children" : [ ]
+  }, {
+    "name" : "payementCarteApi.js",
+    "color" : "",
+    "size" : 39,
+    "children" : [ ]
+  }, {
+    "name" : "categorieControllers.js",
+    "color" : "",
+    "size" : 240,
+    "children" : [ ]
+  }, {
+    "name" : "commentaire.js",
+    "color" : "",
+    "size" : 158,
+    "children" : [ ]
+  }, {
+    "name" : "controllersService.js",
+    "color" : "",
+    "size" : 67,
+    "children" : [ ]
+  }, {
+    "name" : "OM.js",
+    "color" : "",
+    "size" : 39,
+    "children" : [ ]
+  }, {
+    "name" : "getTokenCarte.js",
+    "color" : "",
+    "size" : 28,
+    "children" : [ ]
+  }, {
+    "name" : "authentication.js",
+    "color" : "",
+    "size" : 250,
+    "children" : [ ]
+  }, {
+    "name" : "zoneControllers.js",
+    "color" : "",
+    "size" : 625,
+    "children" : [ ]
+  } ]
+}, {
+  "name" : "routes",
+  "color" : "",
+  "size" : 0,
+  "children" : [ {
+    "name" : "categorie.route.js",
+    "color" : "",
+    "size" : 45,
+    "children" : [ ]
+  }, {
+    "name" : "sms.route.js",
+    "color" : "",
+    "size" : 52,
+    "children" : [ ]
+  }, {
+    "name" : "pointage.route.js",
+    "color" : "",
+    "size" : 10,
+    "children" : [ ]
+  }, {
+    "name" : "produit.route.js",
+    "color" : "",
+    "size" : 92,
+    "children" : [ ]
+  }, {
+    "name" : "commande.route.js",
+    "color" : "",
+    "size" : 109,
+    "children" : [ ]
+  }, {
+    "name" : "user.route.js",
+    "color" : "",
+    "size" : 136,
+    "children" : [ ]
+  }, {
+    "name" : "projet.route.js",
+    "color" : "",
+    "size" : 51,
+    "children" : [ ]
+  }, {
+    "name" : "status.js",
+    "color" : "",
+    "size" : 1,
+    "children" : [ ]
+  }, {
+    "name" : "passport.route.js",
+    "color" : "",
+    "size" : 1,
+    "children" : [ ]
+  }, {
+    "name" : "zone.route.js",
+    "color" : "",
+    "size" : 102,
+    "children" : [ ]
+  } ]
+} ]
+    }
+
+    root = d3.hierarchy(root)
+        .sum(function (d) {
+            return d.size;
+        })
+        .sort(function (a, b) {
+            return b.value - a.value;
+        });
+
+    var focus = root,
+        nodes = pack(root).descendants(),
+        view;
+
+    var circle = g.selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .attr("class", function (d) {
+            return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root";
+        })
+        .style("fill", function (d) {
+            return d.children ? color(d.depth) : (d.data.color ? d.data.color : null);
+        })
+        .on("click", function (d) {
+            if (focus !== d) zoom(d), d3.event.stopPropagation();
+        });
+
+    var text = g.selectAll("text")
+        .data(nodes)
+        .enter().append("text")
+        .attr("class", "label")
+        .style("fill-opacity", function (d) {
+            return d.parent === root ? 1 : 0;
+        })
+        .style("display", function (d) {
+            return d.parent === root ? "inline" : "none";
+        })
+        .text(function (d) {
+            return d.data.name.length > 33 ? (d.data.name.substr(0, 14) + "..." + d.data.name.substr(d.data.name.length - 14))  : d.data.name;
+        });
+
+    var node = g.selectAll("circle,text");
+
+    svg
+        .style("background", color(-1))
+        .on("click", function () {
+            zoom(root);
+        });
+
+    zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+    function zoom(d) {
+        var focus0 = focus;
+        focus = d;
+
+        var transition = d3.transition()
+            .duration(d3.event.altKey ? 7500 : 750)
+            .tween("zoom", function (d) {
+                var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+                return function (t) {
+                    zoomTo(i(t));
+                };
+            });
+
+        transition.selectAll("text")
+            .filter(function (d) {
+                return d.parent === focus || this.style.display === "inline";
+            })
+            .style("fill-opacity", function (d) {
+                return d.parent === focus ? 1 : 0;
+            })
+            .on("start", function (d) {
+                if (d.parent === focus) this.style.display = "inline";
+            })
+            .on("end", function (d) {
+                if (d.parent !== focus) this.style.display = "none";
+            });
+    }
+
+    function zoomTo(v) {
+        var k = diameter / v[2];
+        view = v;
+        node.attr("transform", function (d) {
+            return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+        });
+        circle.attr("r", function (d) {
+            return d.r * k;
+        });
+    }
+
+</script>

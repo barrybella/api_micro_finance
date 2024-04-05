@@ -1,0 +1,522 @@
+id: 1
+unit: module.exports.AutoriseProspections = function()
+file: controllers/prospectionControllers.js
+start line: 151
+end line: 217
+size: 57 LOC
+McCabe index: 2
+number of parameters: 2
+
+id: 2
+unit: module.exports.register = function()
+file: controllers/authentification.js
+start line: 8
+end line: 67
+size: 54 LOC
+McCabe index: 2
+number of parameters: 2
+
+id: 3
+unit: module.exports.login = function()
+file: controllers/authentification.js
+start line: 116
+end line: 150
+size: 27 LOC
+McCabe index: 5
+number of parameters: 2
+
+id: 4
+unit: module.exports.login = function()
+file: controllers/authentication.js
+start line: 299
+end line: 333
+size: 27 LOC
+McCabe index: 5
+number of parameters: 2
+
+id: 5
+unit: userSchema.methods.generateJwt = function()
+file: models/User.js
+start line: 239
+end line: 263
+size: 23 LOC
+McCabe index: 1
+number of parameters: 0
+
+id: 6
+unit: module.exports.getAllClient= function()
+file: controllers/client.js
+start line: 32
+end line: 57
+size: 23 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 7
+unit: module.exports.getAllCommentaire= function()
+file: controllers/commentaire.js
+start line: 152
+end line: 177
+size: 23 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 8
+unit: function()
+file: config/passport.js
+start line: 9
+end line: 27
+size: 16 LOC
+McCabe index: 4
+number of parameters: 3
+
+id: 9
+unit: module.exports.addClient=  function()
+file: controllers/client.js
+start line: 5
+end line: 21
+size: 13 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 10
+unit: module.exports.profileRead = function()
+file: controllers/profile.js
+start line: 4
+end line: 20
+size: 13 LOC
+McCabe index: 2
+number of parameters: 2
+
+id: 11
+unit: module.exports.profileRead = function()
+file: controllers/profiles.js
+start line: 5
+end line: 21
+size: 13 LOC
+McCabe index: 2
+number of parameters: 2
+
+id: 12
+unit: module.exports.addStatut = function()
+file: controllers/statut.js
+start line: 5
+end line: 16
+size: 9 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 13
+unit: module.exports.addProbleme = function()
+file: controllers/probleme.js
+start line: 5
+end line: 16
+size: 9 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 14
+unit: module.exports.getImageFile = function()
+file: controllers/commentaire.js
+start line: 12
+end line: 20
+size: 9 LOC
+McCabe index: 2
+number of parameters: 2
+
+id: 15
+unit: module.exports.addRegion = function()
+file: controllers/regions.js
+start line: 5
+end line: 15
+size: 8 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 16
+unit: module.exports.addCommune = function()
+file: controllers/commune.js
+start line: 26
+end line: 36
+size: 8 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 17
+unit: function refreshTokenOnUnauthorizedError()
+file: routes/sms.route.js
+start line: 47
+end line: 57
+size: 8 LOC
+McCabe index: 3
+number of parameters: 1
+
+id: 18
+unit: module.exports.addPays=  function()
+file: controllers/pays.js
+start line: 5
+end line: 13
+size: 7 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 19
+unit: function sendRequest()
+file: routes/sms.route.js
+start line: 59
+end line: 65
+size: 7 LOC
+McCabe index: 1
+number of parameters: 1
+
+id: 20
+unit: module.exports.getAllCommuneByRegion = function()
+file: controllers/commune.js
+start line: 6
+end line: 13
+size: 6 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 21
+unit: module.exports.getAllCommuneByZone = function()
+file: controllers/commune.js
+start line: 14
+end line: 21
+size: 6 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 22
+unit: module.exports.updateClient= function()
+file: controllers/client.js
+start line: 23
+end line: 27
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 23
+unit: module.exports.getClientById= function()
+file: controllers/client.js
+start line: 94
+end line: 98
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 24
+unit: module.exports.deleteClient= function()
+file: controllers/client.js
+start line: 100
+end line: 104
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 25
+unit: module.exports.getAllRegion= function()
+file: controllers/regions.js
+start line: 17
+end line: 21
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 26
+unit: module.exports.updateRegion = function()
+file: controllers/regions.js
+start line: 24
+end line: 30
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 27
+unit: module.exports.getRegionByPaysId = function()
+file: controllers/regions.js
+start line: 33
+end line: 39
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 28
+unit: module.exports.deleteRegion = function()
+file: controllers/regions.js
+start line: 41
+end line: 47
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 29
+unit: module.exports.getRegionById = function()
+file: controllers/regions.js
+start line: 50
+end line: 56
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 30
+unit: module.exports.updateStatutCommande = function()
+file: controllers/statutProduitCommande.js
+start line: 94
+end line: 100
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 31
+unit: module.exports.getAllStatut= function()
+file: controllers/statut.js
+start line: 18
+end line: 22
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 32
+unit: module.exports.getStatutById = function()
+file: controllers/statut.js
+start line: 24
+end line: 30
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 33
+unit: module.exports.updateStatut = function()
+file: controllers/statut.js
+start line: 31
+end line: 37
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 34
+unit: module.exports.deleteStatut = function()
+file: controllers/statut.js
+start line: 41
+end line: 47
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 35
+unit: module.exports.updateCommune = function()
+file: controllers/commune.js
+start line: 44
+end line: 49
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 36
+unit: module.exports.getCommuneByRegionId = function()
+file: controllers/commune.js
+start line: 51
+end line: 56
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 37
+unit: module.exports.deleteCommune = function()
+file: controllers/commune.js
+start line: 58
+end line: 62
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 38
+unit: module.exports.getCommuneById = function()
+file: controllers/commune.js
+start line: 65
+end line: 69
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 39
+unit: module.exports.getAllCommune= function()
+file: controllers/commune.js
+start line: 71
+end line: 75
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 40
+unit: module.exports.getAllProbleme = function()
+file: controllers/probleme.js
+start line: 18
+end line: 22
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 41
+unit: module.exports.getProblemeById = function()
+file: controllers/probleme.js
+start line: 24
+end line: 30
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 42
+unit: module.exports.updateProbleme = function()
+file: controllers/probleme.js
+start line: 31
+end line: 37
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 43
+unit: module.exports.deleteProbleme = function()
+file: controllers/probleme.js
+start line: 41
+end line: 47
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 44
+unit: module.exports.getProblemeByStatutId = function()
+file: controllers/probleme.js
+start line: 50
+end line: 56
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 45
+unit: module.exports.updatePays= function()
+file: controllers/pays.js
+start line: 15
+end line: 19
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 46
+unit: module.exports.getAllPays= function()
+file: controllers/pays.js
+start line: 24
+end line: 29
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 47
+unit: module.exports.getPaysById= function()
+file: controllers/pays.js
+start line: 32
+end line: 36
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 48
+unit: module.exports.deletePays= function()
+file: controllers/pays.js
+start line: 38
+end line: 42
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 49
+unit: module.exports.updateCommentaire= function()
+file: controllers/commentaire.js
+start line: 143
+end line: 147
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 50
+unit: module.exports.getCommentaireByProduitId= function()
+file: controllers/commentaire.js
+start line: 179
+end line: 186
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 51
+unit: module.exports.getCommentaireById= function()
+file: controllers/commentaire.js
+start line: 226
+end line: 230
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 52
+unit: module.exports.deleteCommentaire= function()
+file: controllers/commentaire.js
+start line: 232
+end line: 236
+size: 5 LOC
+McCabe index: 1
+number of parameters: 2
+
+id: 53
+unit: userSchema.methods.setPassword = function()
+file: models/User.js
+start line: 229
+end line: 232
+size: 4 LOC
+McCabe index: 1
+number of parameters: 1
+
+id: 54
+unit: userSchema.methods.validPassword = function()
+file: models/User.js
+start line: 234
+end line: 237
+size: 4 LOC
+McCabe index: 1
+number of parameters: 1
+
+id: 55
+unit: utilisateurSchema.methods.setPassword = function()
+file: models/Utilisateur.js
+start line: 70
+end line: 73
+size: 4 LOC
+McCabe index: 1
+number of parameters: 1
+
+id: 56
+unit: utilisateurSchema.methods.validPassword = function()
+file: models/Utilisateur.js
+start line: 75
+end line: 78
+size: 4 LOC
+McCabe index: 1
+number of parameters: 1
+
+id: 57
+unit: distributeurSchema.methods.setPassword = function()
+file: models/Distributeur.js
+start line: 83
+end line: 86
+size: 4 LOC
+McCabe index: 1
+number of parameters: 1
+
+id: 58
+unit: distributeurSchema.methods.validPassword = function()
+file: models/Distributeur.js
+start line: 88
+end line: 91
+size: 4 LOC
+McCabe index: 1
+number of parameters: 1
+

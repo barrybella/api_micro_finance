@@ -1,0 +1,1229 @@
+<html>
+<head>
+    <title>controllers/produitControllers.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/produitControllers.js (<b>945</b> lines of code) (<a href="produitControllers.js">raw</a>):</h3>
+<div id="editor">const Produit = require('../models/Agrega');
+const Vaccination = require('../models/Vaccination');
+const User = require('../models/User');
+const Favorie = require('../models/Favorie');
+const Categorie = require('../models/Categorie');
+const Slider = require('../models/Slider');
+const Version = require('../models/Version');
+const Terrain = require('../models/Terrain');
+const Partenaire = require('../models/Partenaire');
+const Produits = require('../models/Produit');
+const Passport = require('../models/Passport');
+
+
+module.exports.getPassport = async function(req, res){
+   
+    try{
+        
+        
+        let passport = await Passport.find({}).sort({&quot;createdAt&quot;: -1});
+       if (passport) {
+           
+      return res.status(200).json(passport);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.AllPassport = async function(req, res){
+   
+    try{
+        
+        
+        let passport = await Passport.find({}).sort({&quot;createdAt&quot;: -1});
+       if (passport) {
+           
+      return res.status(200).json(passport);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.addPassport = async function(req, res){
+   
+  try{
+         let passport = Passport.insertMany(req.body);
+   
+
+                  
+              
+          if (passport) {
+             return res.status(200).json(passport);
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+}
+
+
+module.exports.deletePartenaire = async function(req, res){
+    id = req.params.id;
+    try{
+        let partenaire = await Partenaire.remove({&quot;_id&quot;: id});
+
+      
+
+        if (partenaire) {
+            return res.status(200).json(partenaire);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.DeleteTerrain = async function(req, res){
+    id = req.params.id;
+    try{
+        let terrain = await Terrain.remove({&quot;_id&quot;: id});
+
+         if (terrain) {
+            return res.status(200).json(terrain);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.AllTerrainById = async function(req, res){
+let id = req.params.id;
+    try{
+
+
+        let terrain = await Terrain.find({&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1});
+       if (terrain) {
+
+      return res.status(200).json(terrain);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.AllTerrain = async function(req, res){
+   
+    try{
+        
+        
+        let terrain = await Terrain.find({}).sort({&quot;createdAt&quot;: -1});
+       if (terrain) {
+           
+      return res.status(200).json(terrain);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.addTerrain = async function(req, res){
+    try{
+        let terrain = Terrain.insertMany(req.body);
+
+         if (terrain) {
+            return res.status(200).json(terrain);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+
+}
+
+
+
+module.exports.add = async (req, res) =&gt; {
+    try {
+        
+
+      let _version  = Version.insertMany(req.body)
+
+        if(_version){
+            return res.status(201).json(_version)
+        }
+    } catch (err) {
+        return res.status(500).json({ error: 'Une erreur du serveur s\'est produite !!!' })
+    }
+}
+
+module.exports.get = async (req, res) =&gt; {
+    try {
+        await Version.findOne({'type_system': req.params.type}, (err, docs) =&gt; {
+            if (!err &amp;&amp; docs) 
+                return res.status(200).json(docs)
+            return res.status(500).json({error: 'system non trouv&eacute;'})
+        })
+    } catch (err) {
+        return res.status(500)
+    }
+}
+
+
+module.exports.update = async (req, res) =&gt; {
+    try {
+        const _version = await Version.findOne({'type_system': req.params.type});
+        if(_version){
+          _version.version = req.body.version;
+          _version.build = req.body.build;
+          _version.save();
+          return res.status(201).json(_version)
+        }
+    } catch (err) {
+        return res.status(500).json({ error: 'Une erreur du serveur s\'est produite !!!' })
+    }
+}
+
+
+
+
+
+
+
+module.exports.deleteSlider = async function(req, res){
+   let  id = req.params.id;
+    try{
+        let categorie = await Slider.remove({&quot;_id&quot;: id});
+
+
+       
+
+        if (categorie) {
+            return res.status(200).json(categorie);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getSliderById = async function(req, res){
+ let    id = req.params.id;
+    try{
+        let categorie = await Slider.find({&quot;_id&quot;: id});
+
+       
+
+        if (categorie) {
+            return res.status(200).json(categorie[0]);
+        } else {x
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+ module.exports.updateSlider = async function(req, res){
+    let id = req.params.id;
+     try{
+         let categorie = await Slider.find({&quot;_id&quot;: id});
+        
+         categorie[0].titre = req.body.titre;
+         categorie[0].description = req.body.description;
+
+         categorie[0].image = req.body.image;
+         
+         categorie[0].save();
+ 
+         if  (categorie[0]) {
+             return res.status(200).json(categorie[0]);
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+ }
+
+module.exports.addSlider = async function(req, res){
+    try{
+        let slider = Slider.insertMany(req.body);
+
+         if (slider) {
+            return res.status(200).json(slider);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getSlider = async function(req, res){
+
+    try{
+       	
+
+        let produits   = await Slider.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1});
+ 
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+
+ return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsByPromo = async function(req, res){
+  
+    try{
+        
+       
+        let produits = await Produit.find({&quot;delete&quot;: 0,&quot;promo&quot;:1,&quot;validation&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+      
+ return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.rejeterProduit = async function(req, res){
+     let id = req.body.id;
+     let commentaire = req.body.commentaire;
+    try{
+
+
+        let produits = await Produit.find({&quot;delete&quot;: 0,&quot;_id&quot;:id}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+         produits[0].commentaire = commentaire;
+           produits[0].validation = 2;
+           produits[0].delete = 1;      
+          produits[0].save();
+
+let user = await User.find({&quot;_id&quot;: produits[0].distributeur_id});
+ let marque = await Categorie.find({&quot;_id&quot;:produits[0].categorie_id});
+            options = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code: &quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: user[0].tel, // Number; The number to which you are sending a message without area code
+            sender_phone: user[0].tel, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; &quot;+ user[0].name + &quot; votre produit&quot; + marque[0].nom  + &quot; n'a pas &eacute;t�valider parce que &quot;+ commentaire + &quot; Veuillez enregistrer le produit &agrave; nouveau.\n&quot;  };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(options)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+         
+
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+
+ return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.deleteFavorie = async function(req, res){
+      let favorie_id = req.params.id
+    try{
+
+          
+
+        let produits = await Favorie.find({&quot;_id&quot;: favorie_id}).sort({&quot;createdAt&quot;: -1});
+         let produit = await Produit.find({&quot;_id&quot;: produits[0].produit_id}).sort({&quot;createdAt&quot;: -1})
+          produit[0].compte = produit[0].compte - 1;
+           produit[0].save();
+          produits[0].delete =  1;
+           produits[0].save();
+       if (produits) {
+      return res.status(200).json(produits[0]);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.getFavorie = async function(req, res){
+      let user_id = req.params.id
+    try{
+
+
+        let produits = await Favorie.find({&quot;user_id&quot;: user_id,&quot;delete&quot;:0}).sort({&quot;createdAt&quot;: -1}).populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+
+           let produit = await Produit.find({&quot;_id&quot;: produits[0].produit_id}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       if (produits) {
+          // console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             }else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.addFavori = async function(req, res){
+  let user_id = req.params.user_id;  
+  let produit_id = req.params.produit_id;
+//    let user_id = req.params.user_id;
+    try{
+               let compte = await Produit.find({&quot;_id&quot;:produit_id,&quot;delete&quot;:0 });
+          let produit = await Favorie.find({&quot;user_id&quot;:user_id,&quot;produit_id&quot;:produit_id,&quot;delete&quot;:0 });
+           if (produit[0]){
+              return res.status(400).json('error');
+             
+            }else{
+               
+               var object = {
+        user_id: user_id,
+       produit_id: produit_id
+    };            
+         let favorie = Favorie.insertMany(object);
+              compte[0].compte = compte[0].compte + 1;
+               compte[0].save();
+         if (favorie) {
+            return res.status(200).json(favorie);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+          }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsByFlashe = async function(req, res){
+    
+    try{
+        
+       
+        let produits = await Produit.find({&quot;delete&quot;: 0,&quot;flash&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getValider = async function(req, res){
+
+    try{
+
+
+        let produits = await Produit.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+            produits[0].validation = 1;
+            produits[0].save();
+
+let user = await User.find({&quot;_id&quot;: produits[0].distributeur_id});
+ let marque = await Categorie.find({&quot;_id&quot;:produits[0].categorie_id});
+            options = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code: &quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: user[0].tel, // Number; The number to which you are sending a message without area code
+            sender_phone: user[0].tel, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; &quot;+ user[0].name + &quot; votre produit&quot; + marque[0].nom  + &quot; �t� valider  &quot;+ &quot; Veuillez vous connecter sur votre compte pour contunier le processus de mise en ligne du produit.\n&quot;  };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(options)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+       if (produits[0]) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits[0]);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getInvalider = async function(req, res){
+
+    try{
+
+
+        let produits = await Produit.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+            produits[0].validation = 0;
+            produits[0].save();
+
+
+       if (produits[0]) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits[0]);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsBySocieteAndPaysAndCategorie = async function(req, res){
+    let societe = req.params.societe;
+    let pays = req.params.pays;
+    let categorie = req.params.categorie_id;
+    try{
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;societe&quot;:societe,&quot;pays&quot;:pays,&quot;categorie_id&quot;:categorie}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+   
+       if (produit) {
+           
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsByOneSociete = async function(req, res){
+    
+    try{
+        
+        let produit = await Produit.aggregate([
+        
+            { $match: {&quot;delete&quot;: 0}}, 
+               {$group :
+                   {&quot;_id&quot;: &quot;$societe&quot;
+                   }
+               }
+               
+           ]);
+       if (produit) {
+        const yourData = JSON.stringify(produit);
+        const your = JSON.parse(yourData);
+           console.log(&quot;produit&quot;,your);
+      return res.status(200).json(your);
+    
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsByPays = async function(req, res){
+    
+    try{
+        
+        let produit = await Produit.aggregate([
+        
+            { $match: {&quot;delete&quot;: 0}}, 
+               {$group :
+                   {&quot;_id&quot;: &quot;$pays&quot;
+                   }
+               }
+               
+           ]);
+       if (produit) {
+        const yourData = JSON.stringify(produit);
+        const your = JSON.parse(yourData);
+           console.log(&quot;produit&quot;,your);
+      return res.status(200).json(your);
+    
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getAllProduitsByCategorie = async function(req, res){
+     let size = parseInt(req.params.size);
+     let skip = parseInt(req.params.skip);
+    let pays = req.params.pays;
+    try{
+        
+        
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;pays&quot;:pays}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id').limit(size != 0 &amp;&amp; size).skip(skip != 0 &amp;&amp; skip);
+   
+    if (produit) {
+           console.log(&quot;produit&quot;,produit);
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getSocieteByCategorie= async function(req, res){
+    let societe = req.params.societe;
+    try{
+        let produit  = await Produit.find({ &quot;validation&quot;:1,&quot;societe&quot;: societe,&quot;delete&quot;:0}).populate({
+            path: &quot;produit_id&quot;, 
+            populate: {
+               path: &quot;categorie_id&quot; 
+            }
+           });
+       console.log(produit);
+         if (produit) {
+            return res.status(200).json(produit);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.FilterProduitsBySocieteAndCategorie = async function(req, res){
+    let categorie_id = req.params.categorie_id;
+    let societe = req.params.societe;
+    try{
+        
+       
+        let produits = await Produit.find({&quot;categorie_id&quot;:categorie_id,&quot;validation&quot;:1,&quot;societe&quot;:societe}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+        
+      
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getProduitsByCategories = async function(req, res){
+     let size = parseInt(req.params.size);
+     let skip = parseInt(req.params.skip);
+    try{
+        
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;active&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id') .limit(size != 0 &amp;&amp; size).skip(skip != 0 &amp;&amp; skip);
+       if (produit) {
+           console.log(&quot;produit&quot;,produit);
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.AllProduitsByCategorie = async function(req, res){
+    let id = req.params.id;
+    try{
+        
+        
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;categorie_id&quot;:id}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       if (produit) {
+           
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.AllProduitsByFournisseur = async function(req, res){
+    let id = req.payload._id;
+    try{
+
+
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;_id&quot;:id,&quot;validation&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       if (produit) {
+
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.AllProduitsByCategorie = async function(req, res){
+    let id = req.params.id;
+    try{
+
+
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;categorie_id&quot;:id,&quot;validation&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       if (produit) {
+
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.allAgregatByFilter = async (req, res) =&gt; {
+    let societe = req.params.societe;
+    //let marque = req.params.marque;
+    try {
+        const products = await Produit.find({&quot;societe&quot;:societe,&quot;validation&quot;:1}).populate('categorie_id');
+        if(products) 
+          return res.status(200).json(products)
+        return res.status(404).json({ error: &quot;Vous n'avez aucun produit enregistr&eacute;&quot; })
+    } catch (err) {
+        return res.status(500).json({ error: 'Une erreur du serveur s\'est produite !!!' })
+    }
+  }
+
+module.exports.all = async (req, res) =&gt; {
+    let size = parseInt(req.params.size);
+    let skip = parseInt(req.params.skip);
+    try {
+        let  products = await Produit.find({&quot;delete&quot;:0,&quot;validation&quot;:1}).limit(size != 0 &amp;&amp; size).skip(skip != 0 &amp;&amp; skip).populate('categorie_id');
+        if(products) 
+          return res.status(200).json(products)
+        return res.status(404).json({ error: &quot;Vous n'avez aucun produit enregistr&eacute;&quot; })
+    } catch (err) {
+        return res.status(500).json({ error: 'Une erreur du serveur s\'est produite !!!' })
+    }
+  }
+
+module.exports.Active = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0});
+          produit[0].active = 1;
+          produit[0].save();
+         if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.Desactive = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0});
+        produit[0].active = 0;
+        produit[0].save();
+         if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getProduitsBySociete = async function(req, res){
+    let id = req.params.id;
+    try{
+        
+       
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;_id&quot;:id,&quot;validation&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+        let societe = produit[0].societe;
+        let categorie_id = produit[0].categorie_id;
+        let produits = await Produit.find({&quot;delete&quot;: 0,&quot;categorie_id&quot;:categorie_id,&quot;societe&quot;:societe}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsByCategorie = async function(req, res){
+    
+    try{
+        
+        
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;active&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       if (produit) {
+           console.log(&quot;produit&quot;,produit);
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.echantillon = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0});
+          produit[0].echantillon = 1;
+          produit[0].save();
+         if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.Activechantillon = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0});
+        produit[0].echantillon = 0;
+        produit[0].save();
+         if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+module.exports.getPartenaire = async function(req, res){
+  
+    try{
+        
+       
+        let produits = await Partenaire.find({}).sort({&quot;createdAt&quot;: -1});
+       
+
+       if (produits) {
+           console.log(&quot;produit&quot;,produits);
+      return res.status(200).json(produits);
+             } else {
+      
+ return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.addPartenaire = async function(req, res){
+   
+ try{
+        let partenaire = Partenaire.insertMany(req.body);
+   
+
+                  
+              
+         if (partenaire) {
+            return res.status(200).json(partenaire);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.addProduit = async function(req, res){
+    let tel = req.payload.tel;     
+    let name = req.payload.name;
+    console.log(&quot;l'objet du front&quot;,req.body)
+  try{
+         let produit = Produit.insertMany(req.body);
+   
+
+                  
+              
+          if (produit) {
+             return res.status(200).json(produit);
+         } else {
+             return res.status(404).send(new Error('Erreur 404...'))
+         }
+     } catch (error) {
+         return res.status(500).send(new Error('Server Error...'))
+     }
+}
+
+
+
+
+
+module.exports.addProduits = async function(req, res){
+   // let tel = req.payload.tel;
+   // let name = req.payload.name;
+    let user_id = req.body.distributeur_id; 
+    let marques = req.body.categorie_id;
+ try{
+        let produit = Produit.insertMany(req.body);
+
+
+let user = await User.find({&quot;_id&quot;:user_id});
+ let marque = await Categorie.find({&quot;_id&quot;:marques});
+            options = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code: &quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: user[0].tel, // Number; The number to which you are sending a message without area code
+            sender_phone: user[0].tel, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; &quot;+ user[0].name + &quot; votre produit&quot; + marque[0].nom  + &quot; a ete enregistri&eacute; avec succes &quot;+&quot; Nous allons l'analyser et vous revenir dans un bref d&eacute;la.\n&quot; +&quot;Bankitruck, votre E-comerceagregat.\n&quot;+&quot;www.bankitruck.com.\n&quot;+&quot;infoline : 888&quot; // String; Your message text to send, not much than 160 characters otherwise Or$
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(options)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+
+
+         if (produit) {
+            
+          let marque = await Categorie.find({&quot;_id&quot;:marques});
+            options = {
+            authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+            area_code: &quot;+224&quot;, // String; Telephony code of your country Ex: +237
+            sender_number: 620284907, // Number; The number to which you are sending a message without area code
+            sender_phone: 620284907, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+            sms_body: &quot;Bonjour Mr/Mme&quot; +&quot; &quot; +req.body.societe + &quot; a ajouter du &quot; + marque[0].nom  + &quot; &quot;+&quot; Veuillez-vous connecter pour v&eacute;rifier les informations relatives au produit.a.&quot;
+          };
+          orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+                orangeSms(options)
+                .then((responseOrangeSms)=&gt;{
+                  console.log(responseOrangeSms);
+
+                }).catch((error)=&gt;{
+                  console.log(error);
+                });
+
+      
+         
+ 
+            return res.status(200).json(produit);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+
+
+
+module.exports.addVaccination = async function(req, res){
+    try{
+        let produit = Vaccination.insertMany(req.body);
+
+         if (produit) {
+            return res.status(200).json(produit);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.updateProduit = async function(req, res){
+    const io = req.app.get('io');
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id});
+         produit[0].unite = req.body.unite;
+   produit[0].etat = req.body.etat;
+        produit[0].societe = req.body.societe;
+        produit[0].categorie_id = req.body.categorie_id;
+        produit[0].prix_deuxieme = req.body.prix_deuxieme;
+        produit[0].type = req.body.type;
+        produit[0].pays = req.body.pays;
+        produit[0].devise = req.body.devise;
+        produit[0].prix = req.body.prix;
+        produit[0].flash = req.body.flash;
+        produit[0].ville = req.body.ville;
+        produit[0].zone = req.body.zone;
+        produit[0].promo= req.body.promo;
+        produit[0].image = req.body.image;
+        produit[0].description = req.body.description;
+        produit[0].distributeur_id = req.body.distributeur_id;
+       produit[0].status= req.body.status;
+        produit[0].save().then(() =&gt; {
+            io.emit('payement_construct_emit');
+        });
+
+        if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.deleteProduit = async function(req, res){
+    id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id});
+
+        produit[0].delete = 1;
+        produit[0].save();
+
+        if (produit[0]) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getProduitsF = async function(req, res){
+let  id = req.params.id;
+    try{
+
+
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;distributeur_id&quot;: id,&quot;validation&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+         if (produit) {
+
+           console.log(&quot;produit&quot;,produit);
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getPassportById = async function(req, res){
+    try{
+        
+       let passport = await Passport.find({_id: req.params.id});
+       if (passport) {
+           
+      return res.status(200).json(passport);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getProduits = async function(req, res){
+    try{
+        
+        
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;validation&quot;:1}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+         if (produit) {
+
+           console.log(&quot;produit&quot;,produit);
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+exports.allUsersD = async (req, res) =&gt; {
+    const { page = req.params.page, limit = 10 } = req.query;
+  
+    try {
+      const articles = await Users.paginate({}, { page, limit });
+
+      console.log(&quot;bella&quot;,articles);
+
+      res.status(200).json(articles);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+
+
+ 
+
+
+
+
+
+  
+module.exports.getAllProduitByDistributeur = async function(req, res){
+    const { page = req.params.page, limit = 10 } = req.query;
+    try{
+        const options = {
+            page: page,
+            limit: limit,
+            populate: {
+              path: 'categorie_id'
+            }
+          };
+        //let produit = await Produit.find({&quot;delete&quot;: 0}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+       const articles = await Produit.paginate({}, options);
+       
+    console.log(&quot;data&quot;,articles);
+      
+      if (articles) {
+
+      return res.status(200).json(articles);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+module.exports.getPaginatedProduits = async function(req, res){
+    const { page = req.params.page, limit = 5} = req.query;
+  
+    try{
+        const options={
+            page: page,
+            limit: limit,
+            populate:{
+                path: 'categorie_id'
+            }
+        }
+        console.log(options)
+        // let produit = await Produit.find({&quot;delete&quot;: 0, &quot;distributeur_id&quot;: req.params.user_id}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+        const produit = await Produit.paginate({&quot;distributeur_id&quot;: req.params.user_id,&quot;delete&quot;: 0}, options);
+        if (produit) {
+            return res.status(200).json(produit);
+             }
+            else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+
+module.exports.getAllProduits = async function(req, res){
+    try{
+        let produit = await Produit.find({&quot;delete&quot;: 0, &quot;distributeur_id&quot;: req.params.user_id}).sort({&quot;createdAt&quot;: -1}).populate('categorie_id');
+         if (produit) {
+
+      return res.status(200).json(produit);
+             } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.countProduit = async function(req, res){
+    let user_id= req.params.user_id
+    try{
+        let produit = await Produit.find({&quot;delete&quot;: 0,&quot;distributeur_id&quot;: user_id })
+        if (produit) {
+            let nombreProduit = produit.length
+                 return res.status(200).json(nombreProduit);
+            } 
+             else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getVaccination = async function(req, res){
+    try{
+        let produit = await Vaccination.find();
+
+         if (produit) {
+            return res.status(200).json(produit);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+
+module.exports.getProduit = async function(req, res){
+    let id = req.params.id;
+    try{
+        let produit = await Produit.find({&quot;_id&quot;: id, &quot;delete&quot;: 0}).populate('categorie_id');;
+
+         if (produit) {
+            return res.status(200).json(produit[0]);
+        } else {
+            return res.status(404).send(new Error('Erreur 404...'))
+        }
+    } catch (error) {
+        return res.status(500).send(new Error('Server Error...'))
+    }
+}
+</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

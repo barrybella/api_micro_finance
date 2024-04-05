@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title>module.exports.login = function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">module.exports.login = function()</h3>
+<p style="margin-top: 4px">in <i>controllers/authentication.js [299:333]</i></p>
+<ul>
+    <li><b>27</b> lines of code</li>
+    <li><b>5</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+module.exports.login = function (req, res) {
+  username = req.body.email;
+  password = req.body.password;
+
+  
+  Distributeur.findOne( { $or: [ { &quot;tel&quot;: username }, { &quot;email&quot;: { &quot;$eq&quot;: username} } ] }, function (err, user) {
+    if (err) {
+      res.status(404).json(err);
+      return;
+    }
+    // Return if user not found in database
+    if (!user) {
+      // return new Error('&uacute;ser not dound');
+      return res.json(false);
+    }
+    // Return if password is wrong
+    if (!user.validPassword(password)) {
+      return res.json(false);
+    }
+        // If credentials are correct, return the user object
+      if(user){
+        var token;
+        token = user.generateJwt();
+        // console.log('TOKEN:', token);
+        res.status(200);
+        res.json({
+          &quot;token&quot; : token
+        });
+        process.env.MY_SECRET = token;
+      }else{
+        return res.json(false);
+      }
+      //  return res.status(200).json(user)
+    });
+};
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

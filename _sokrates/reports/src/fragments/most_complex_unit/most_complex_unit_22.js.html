@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>module.exports.addRegion = function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">module.exports.addRegion = function()</h3>
+<p style="margin-top: 4px">in <i>controllers/regions.js [5:15]</i></p>
+<ul>
+    <li><b>8</b> lines of code</li>
+    <li><b>1</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+module.exports.addRegion = function(req, res){
+  const  region= new Region()
+     region.libelle= req.body.libelle
+     region.pays_id= req.body.pays_id
+
+     region.save()
+      .then(()=&gt; res.status(201).json({message: &quot;La region a &eacute;t&eacute; inser&eacute; avec succes&quot;}))
+      .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

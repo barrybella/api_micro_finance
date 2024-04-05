@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>module.exports.addProbleme = function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">module.exports.addProbleme = function()</h3>
+<p style="margin-top: 4px">in <i>controllers/probleme.js [5:16]</i></p>
+<ul>
+    <li><b>9</b> lines of code</li>
+    <li><b>1</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+module.exports.addProbleme = function(req, res){
+  const  probleme= new Probleme()
+     probleme.statutId= req.body.statutId
+     probleme.libelle= req.body.libelle
+     probleme.observations= req.body.observations
+
+     probleme.save()
+      .then(()=&gt; res.status(201).json({message: &quot;La probleme a &eacute;t&eacute; inser&eacute; avec succes&quot;}))
+      .catch(error=&gt; res.status(400).json(error))
+  
+  
+}
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

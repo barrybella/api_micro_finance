@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>module.exports.AutoriseProspections = function()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">module.exports.AutoriseProspections = function()</h3>
+<p style="margin-top: 4px">in <i>controllers/prospectionControllers.js [151:217]</i></p>
+<ul>
+    <li><b>57</b> lines of code</li>
+    <li><b>2</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+module.exports.AutoriseProspections = function (req, res) {
+   
+    let id =req.params.id;
+    let user_id =req.params.user_id;
+    let name =req.params.name;
+    let tel =req.params.tel;
+    let email =req.params.email;
+    let role =req.params.role;
+    var object = {
+        prospection_id: id,
+        user_id: user_id,  
+        statu: 1
+    };
+
+    Ingenieur.insertMany(object);
+   Prospection.find({ &quot;_id&quot; : id }).exec()
+    .then(items =&gt;[
+   
+      items[0].statu = 1,
+      items[0].save(),
+      ]
+     
+      ).catch(err =&gt; {  });
+
+    var user = new Distributeur();
+    var generator = require('generate-password');
+    user.name = req.params.name;
+    user.role = req.params.role;
+    user.user_id = req.params.user_id;
+    user.email = req.params.email;
+    user.tel = req.params.tel;
+    var password = generator.generate({
+      length: 7,
+      numbers: true
+    });
+    user.setPassword(password);
+    user.save();
+    console.log(&quot;pass&quot;,password);
+    if (user) {
+   
+    let name=req.params.name;
+    let tel=req.params.tel;
+    let pass=password;
+    
+    const options = {
+      authorization_header:&quot;Basic S2h2UVJ4OU9DSWtmeG1hdUpOQzg1RUhYMmRSRm0zc3Q6THJQNTNBaFBpSzNmWDFLMQ==&quot;, // String; Must be in this form Basic xxxxxxxxxxxxxxxx take it on your Orange Application
+      area_code:&quot;+224&quot;, // String; Telephony code of your country Ex: +237
+      sender_number: tel, // Number; The number to which you are sending a message without area code
+      sender_phone: tel, // Number; Your number without the area code, this number must be the same that you entered for your registration on Orange website
+      sms_body: &quot;Bonjour Mr/Mme &quot; + name + &quot; vous avez un client a prospecter veillez vous connecter dans votre compte prospection pour plus d'infromation &quot; + &quot;\nIdentifant: &quot;+ tel + &quot;\nMot de passe: &quot;+ pass +&quot;\n&quot;// String; Your message text to send, not much than 160 characters otherwise Orange will cut it
+    };
+    const orangeSms = require('./orangeSms.js') // The path inside require() depends on how your app folder structure is;
+          orangeSms(options)
+          .then((responseOrangeSms)=&gt;{
+            console.log(responseOrangeSms); 
+          
+          }).catch((error)=&gt;{
+            console.log(error);
+          });
+    return res.status(200).json(user);
+   
+  }
+ else{
+      return res.status(404).send(new Error('Erreur 404...'))
+    }
+   
+  }
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>

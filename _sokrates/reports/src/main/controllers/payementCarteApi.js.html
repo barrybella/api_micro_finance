@@ -1,0 +1,68 @@
+<html>
+<head>
+    <title>controllers/payementCarteApi.js</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">controllers/payementCarteApi.js (<b>39</b> lines of code) (<a href="payementCarteApi.js">raw</a>):</h3>
+<div id="editor">module.exports = (orangeApiOptions)=&gt;{
+    return new Promise((resolve)=&gt;{
+         const request = require('request');
+       const getToken = require('./getTokenCarte.js')(orangeApiOptions.authorization_header);
+             getToken.then((response)=&gt;{
+               const headers = {
+                 'Authorization': `Bearer ${response}`,
+                 'Content-Type': 'application/vnd.ni-payment.v2+json',
+                 'Accept': 'application/vnd.ni-payment.v2+json'};
+                 const body = { 
+                    action : `${orangeApiOptions.action}`, 
+                      //currency : `${orangeApiOptions.currency}`,
+                     // order_id:`${orangeApiOptions.order_id}`,
+                     // billingAddress.firstName
+                     amount: {
+                        currencyCode: `${orangeApiOptions.currencyCode}`,
+                        value: `${orangeApiOptions.value}`
+                      },
+                      emailAddress: `${orangeApiOptions.emailAddress}`, 
+                      billingAddress: {
+                        firstName: `${orangeApiOptions.firstName}`,
+                        lastName: `${orangeApiOptions.lastName}`
+                      },
+               
+                };   
+               const options = {
+                  uri: `https://api-gateway.sandbox.ngenius-payments.com/transactions/outlets/8b6d8f8b-870a-4877-a2fa-343f67aabb9f`,
+                  method: 'POST',
+                  headers: headers,
+                  body: JSON.stringify(body)};
+               const sendSmsRequest = request(options, (error, response, body)=&gt; {
+                 if (!error &amp;&amp; response.statusCode == 201) {
+                   resolve({message:body});
+                   console.log(options);
+                 }else {
+                   resolve({message:response.statusCode});
+                 }
+               });
+             }).catch((error)=&gt;{ 
+               console.log(error.body);
+             });
+    });
+  }</div>
+<script src="https://www.zeljkoobrenovic.com/tools/common/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setTheme("ace/theme/xcode");
+    editor.setReadOnly(true);
+    editor.setOption("wrap", true);
+    editor.setPrintMarginColumn(120);
+</script>
+</body>

@@ -1,0 +1,217 @@
+[ {
+  "key" : "primary",
+  "components" : [ {
+    "name" : "config",
+    "filesCount" : 1,
+    "linesOfCode" : 24,
+    "numberOfRegexLineMatches" : 0,
+    "fileCountPerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 1,
+      "description" : [ ]
+    } ],
+    "linesOfCodePerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 24,
+      "description" : [ ]
+    } ]
+  }, {
+    "name" : "ROOT",
+    "filesCount" : 2,
+    "linesOfCode" : 76,
+    "numberOfRegexLineMatches" : 0,
+    "fileCountPerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 2,
+      "description" : [ ]
+    } ],
+    "linesOfCodePerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 76,
+      "description" : [ ]
+    } ]
+  }, {
+    "name" : "models",
+    "filesCount" : 47,
+    "linesOfCode" : 2334,
+    "numberOfRegexLineMatches" : 0,
+    "fileCountPerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 47,
+      "description" : [ ]
+    } ],
+    "linesOfCodePerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 2334,
+      "description" : [ ]
+    } ]
+  }, {
+    "name" : "controllers",
+    "filesCount" : 39,
+    "linesOfCode" : 7935,
+    "numberOfRegexLineMatches" : 0,
+    "fileCountPerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 39,
+      "description" : [ ]
+    } ],
+    "linesOfCodePerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 7935,
+      "description" : [ ]
+    } ]
+  }, {
+    "name" : "routes",
+    "filesCount" : 10,
+    "linesOfCode" : 599,
+    "numberOfRegexLineMatches" : 0,
+    "fileCountPerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 10,
+      "description" : [ ]
+    } ],
+    "linesOfCodePerExtension" : [ {
+      "name" : "  *.js",
+      "value" : 599,
+      "description" : [ ]
+    } ]
+  } ],
+  "componentDependencies" : [ ],
+  "componentDependenciesErrors" : [ ],
+  "logicalDecomposition" : {
+    "name" : "primary",
+    "scope" : "main",
+    "filters" : [ ],
+    "componentsFolderDepth" : 1,
+    "minComponentsCount" : 0,
+    "components" : [ {
+      "name" : "config",
+      "sourceFileFilters" : [ {
+        "pathPattern" : "./config/.*",
+        "contentPattern" : "",
+        "exception" : false,
+        "note" : ""
+      } ],
+      "files" : [ ]
+    }, {
+      "name" : "ROOT",
+      "sourceFileFilters" : [ {
+        "pathPattern" : "./.*",
+        "contentPattern" : "",
+        "exception" : false,
+        "note" : ""
+      }, {
+        "pathPattern" : "./config/.*",
+        "contentPattern" : "",
+        "exception" : true,
+        "note" : ""
+      }, {
+        "pathPattern" : "./models/.*",
+        "contentPattern" : "",
+        "exception" : true,
+        "note" : ""
+      }, {
+        "pathPattern" : "./controllers/.*",
+        "contentPattern" : "",
+        "exception" : true,
+        "note" : ""
+      }, {
+        "pathPattern" : "./routes/.*",
+        "contentPattern" : "",
+        "exception" : true,
+        "note" : ""
+      } ],
+      "files" : [ ]
+    }, {
+      "name" : "models",
+      "sourceFileFilters" : [ {
+        "pathPattern" : "./models/.*",
+        "contentPattern" : "",
+        "exception" : false,
+        "note" : ""
+      } ],
+      "files" : [ ]
+    }, {
+      "name" : "controllers",
+      "sourceFileFilters" : [ {
+        "pathPattern" : "./controllers/.*",
+        "contentPattern" : "",
+        "exception" : false,
+        "note" : ""
+      } ],
+      "files" : [ ]
+    }, {
+      "name" : "routes",
+      "sourceFileFilters" : [ {
+        "pathPattern" : "./routes/.*",
+        "contentPattern" : "",
+        "exception" : false,
+        "note" : ""
+      } ],
+      "files" : [ ]
+    } ],
+    "metaComponents" : [ ],
+    "groups" : [ ],
+    "includeRemainingFiles" : true,
+    "dependenciesFinder" : {
+      "useBuiltInDependencyFinders" : true,
+      "rules" : [ ],
+      "metaRules" : [ ]
+    },
+    "renderingOptions" : {
+      "orientation" : "TB",
+      "maxNumberOfDependencies" : 100,
+      "renderComponentsWithoutDependencies" : true,
+      "renderIndirectDependencies" : false,
+      "renderInternalIndirectDependencies" : false,
+      "reverseDirection" : false
+    },
+    "includeExternalComponents" : true,
+    "dependencyLinkThreshold" : 1,
+    "duplicationLinkThreshold" : 50,
+    "temporalLinkThreshold" : 1,
+    "maxSearchDepthLines" : 200
+  },
+  "linesOfCodePerComponent" : [ {
+    "name" : "config",
+    "value" : 24,
+    "description" : [ ]
+  }, {
+    "name" : "ROOT",
+    "value" : 76,
+    "description" : [ ]
+  }, {
+    "name" : "models",
+    "value" : 2334,
+    "description" : [ ]
+  }, {
+    "name" : "controllers",
+    "value" : 7935,
+    "description" : [ ]
+  }, {
+    "name" : "routes",
+    "value" : 599,
+    "description" : [ ]
+  } ],
+  "fileCountPerComponent" : [ {
+    "name" : "config",
+    "value" : 1,
+    "description" : [ ]
+  }, {
+    "name" : "ROOT",
+    "value" : 2,
+    "description" : [ ]
+  }, {
+    "name" : "models",
+    "value" : 47,
+    "description" : [ ]
+  }, {
+    "name" : "controllers",
+    "value" : 39,
+    "description" : [ ]
+  }, {
+    "name" : "routes",
+    "value" : 10,
+    "description" : [ ]
+  } ]
+} ]

@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>function sendRequest()</title>
+    <link rel="stylesheet" charset="UTF-8" href="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/styles/docco.min.css">
+    <script charset="UTF-8" type="application/javascript" src="https://d2bb1mtyn3kglb.cloudfront.net/lib/highlight/highlight.min.js"></script>
+</head>
+<body style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+<h3 style="margin-bottom: 0">function sendRequest()</h3>
+<p style="margin-top: 4px">in <i>routes/sms.route.js [59:65]</i></p>
+<ul>
+    <li><b>7</b> lines of code</li>
+    <li><b>1</b> McCabe index (conditional complexity)</li>
+</ul>
+<pre>
+<code class="js">
+function sendRequest(options) {
+  return got(options).then(response =&gt; {
+    return Promise.resolve(response)
+  }, error =&gt; {
+    return Promise.reject(error)
+  })
+}
+
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
